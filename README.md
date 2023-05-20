@@ -1,2 +1,2 @@
-# rent_wheels_renter
+# Rent Wheels Renter
 This is the rent wheels renter application
