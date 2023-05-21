@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_wheels_renter/core/widgets/auth_textfields.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -8,14 +9,19 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Text('Login'),
-        ),
-      ),
+          child: Column(
+        children: [
+          buildAuthTextFields(
+            label: 'Email',
+            controller: emailController,
+          )
+        ],
+      )),
     );
   }
 }

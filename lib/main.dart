@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
-import 'package:rent_wheels_renter/firebase/auth/auth_service.dart';
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
+import 'package:rent_wheels_renter/core/firebase/auth/auth_service.dart';
 
 void main() {
   runApp(const MyApp());
