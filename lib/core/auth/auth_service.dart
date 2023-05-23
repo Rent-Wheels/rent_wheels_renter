@@ -36,7 +36,7 @@ class AuthService implements FirebaseAuthProvider {
       );
 
   @override
-  Future signInWithEmailAndPassword({
+  Future<UserCredential> signInWithEmailAndPassword({
     required email,
     required password,
   }) =>

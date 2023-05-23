@@ -59,9 +59,13 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   }
 
   @override
-  Future signInWithEmailAndPassword({required email, required password}) async {
+  Future<UserCredential> signInWithEmailAndPassword({
+    required email,
+    required password,
+  }) async {
+    dynamic credential;
     try {
-      return await FirebaseAuth.instance.signInWithEmailAndPassword(
+      credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -72,6 +76,8 @@ class FirebaseAuthService implements FirebaseAuthProvider {
         throw InvalidPasswordAuthException();
       }
     }
+
+    return credential;
   }
 
   Future<void> verifyEmail({required user}) async {
@@ -103,8 +109,10 @@ class FirebaseAuthService implements FirebaseAuthProvider {
 
   @override
   Future<void> reauthenticateUser({required email, required password}) async {
-    final UserCredential userCredential =
-        await signInWithEmailAndPassword(email: email, password: password);
+    final userCredential = await signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
     await userCredential.user
         ?.reauthenticateWithCredential(userCredential.credential!);

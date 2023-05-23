@@ -15,7 +15,7 @@ abstract class FirebaseAuthProvider {
     required String residence,
   });
 
-  Future signInWithEmailAndPassword({
+  Future<UserCredential> signInWithEmailAndPassword({
     required email,
     required password,
   });
