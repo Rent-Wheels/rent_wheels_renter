@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:rent_wheels_renter/firebase_options.dart';
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
-import 'package:rent_wheels_renter/core/models/enums/auth.enum.dart';
 import 'package:rent_wheels_renter/core/auth/backend/backend_auth_service.dart';
 import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
 
@@ -46,7 +45,6 @@ class FirebaseAuthService implements FirebaseAuthProvider {
           email: email,
           dob: dob,
           residence: residence,
-          role: Roles.renter,
         );
       }
     } on FirebaseAuthException catch (e) {

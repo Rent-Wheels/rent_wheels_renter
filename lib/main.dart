@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rent_wheels_renter/core/auth/auth_service.dart';
-import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
+import 'package:rent_wheels_renter/core/auth/auth_service.dart';
+import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
+import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +41,10 @@ class _ConnectionPageState extends State<ConnectionPage> {
     await AuthService.firebase().initialize();
 
     final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      global.accessToken = await user.getIdToken();
+    }
 
     appUser.add(user);
 
