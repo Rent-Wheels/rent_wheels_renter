@@ -22,14 +22,12 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future createUserWithEmailAndPassword({
     required String avatar,
-    required String userId,
     required String name,
     required String phoneNumber,
     required String email,
     required String password,
     required DateTime dob,
     required String residence,
-    required Roles role,
   }) async {
     try {
       final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -37,18 +35,20 @@ class FirebaseAuthService implements FirebaseAuthProvider {
         password: password,
       );
 
-      await verifyEmail(user: user.user!);
+      if (user.user != null) {
+        await verifyEmail(user: user.user!);
 
-      await BackendAuthService().createUser(
-        avatar: avatar,
-        userId: userId,
-        name: name,
-        phoneNumber: phoneNumber,
-        email: email,
-        dob: dob,
-        residence: residence,
-        role: role,
-      );
+        await BackendAuthService().createUser(
+          avatar: avatar,
+          userId: user.user!.uid,
+          name: name,
+          phoneNumber: phoneNumber,
+          email: email,
+          dob: dob,
+          residence: residence,
+          role: Roles.renter,
+        );
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw WeakPasswordAuthException();
