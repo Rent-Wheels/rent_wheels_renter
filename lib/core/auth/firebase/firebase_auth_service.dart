@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:rent_wheels_renter/firebase_options.dart';
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
+import 'package:rent_wheels_renter/core/models/enums/auth.enum.dart';
+import 'package:rent_wheels_renter/core/auth/backend/backend_auth_service.dart';
 import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
 
 class FirebaseAuthService implements FirebaseAuthProvider {
@@ -18,7 +20,17 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   }
 
   @override
-  Future createUserWithEmailAndPassword({required email, password}) async {
+  Future createUserWithEmailAndPassword({
+    required String avatar,
+    required String userId,
+    required String name,
+    required String phoneNumber,
+    required String email,
+    required String password,
+    required DateTime dob,
+    required String residence,
+    required Roles role,
+  }) async {
     try {
       final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -26,6 +38,17 @@ class FirebaseAuthService implements FirebaseAuthProvider {
       );
 
       await verifyEmail(user: user.user!);
+
+      await BackendAuthService().createUser(
+        avatar: avatar,
+        userId: userId,
+        name: name,
+        phoneNumber: phoneNumber,
+        email: email,
+        dob: dob,
+        residence: residence,
+        role: role,
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw WeakPasswordAuthException();
@@ -69,6 +92,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future<void> deleteUser({required User user}) async {
     try {
+      await BackendAuthService().deleteUser(userId: user.uid);
       await user.delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {

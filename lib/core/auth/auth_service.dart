@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
+import 'package:rent_wheels_renter/core/models/enums/auth.enum.dart';
 import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_service.dart';
+import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
 
 class AuthService implements FirebaseAuthProvider {
   final FirebaseAuthProvider provider;
@@ -17,10 +18,27 @@ class AuthService implements FirebaseAuthProvider {
 
   @override
   Future createUserWithEmailAndPassword({
-    required email,
-    required password,
+    required String avatar,
+    required String userId,
+    required String name,
+    required String phoneNumber,
+    required String email,
+    required String password,
+    required DateTime dob,
+    required String residence,
+    required Roles role,
   }) =>
-      provider.createUserWithEmailAndPassword(email: email, password: password);
+      provider.createUserWithEmailAndPassword(
+        avatar: avatar,
+        userId: userId,
+        name: name,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: password,
+        dob: dob,
+        residence: residence,
+        role: role,
+      );
 
   @override
   Future signInWithEmailAndPassword({

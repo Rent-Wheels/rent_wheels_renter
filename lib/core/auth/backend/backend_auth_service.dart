@@ -23,15 +23,20 @@ class BackendAuthService implements BackendAuthProvider {
     required String residence,
     required Roles role,
   }) async {
-    var request =
-        MultipartRequest('POST', Uri.parse('https://rent-wheels.braalex.me'));
+    var request = MultipartRequest(
+        'POST', Uri.parse('https://rent-wheels.braalex.me/renters/'));
 
     request.fields['userId'] = userId;
     request.files.add(
-      MultipartFile('avatar', File(avatar).readAsBytes().asStream(),
-          File(avatar).lengthSync(),
-          filename: 'avatar-$userId',
-          contentType: MediaType.parse(lookupMimeType(avatar) ?? 'image/jpeg')),
+      MultipartFile(
+        'avatar',
+        File(avatar).readAsBytes().asStream(),
+        File(avatar).lengthSync(),
+        filename: 'avatar-$userId',
+        contentType: MediaType.parse(
+          lookupMimeType(avatar) ?? 'image/jpeg',
+        ),
+      ),
     );
 
     final response = await request.send();
@@ -48,8 +53,9 @@ class BackendAuthService implements BackendAuthProvider {
   deleteUser({required String userId}) async {
     final headers = {'Authorization': 'Bearer ${global.accessToken}'};
     final response = await delete(
-        Uri.parse('https://rent-wheels.braalex.me/users/$userId'),
-        headers: headers);
+      Uri.parse('https://rent-wheels.braalex.me/users/$userId'),
+      headers: headers,
+    );
 
     if (response.statusCode != 200) throw GenericAuthException();
   }
