@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class AuthProvider {
+abstract class FirebaseAuthProvider {
   Future<void> logout();
 
   Future<void> initialize();

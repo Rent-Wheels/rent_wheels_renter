@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:rent_wheels_renter/core/firebase/auth/auth_provider.dart';
-import 'package:rent_wheels_renter/core/firebase/auth/firebase_auth_provider.dart';
+import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
+import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_service.dart';
 
-class AuthService implements AuthProvider {
-  final AuthProvider provider;
+class AuthService implements FirebaseAuthProvider {
+  final FirebaseAuthProvider provider;
   const AuthService(this.provider);
 
-  factory AuthService.firebase() => AuthService(FirebaseAuthProvider());
+  factory AuthService.firebase() => AuthService(FirebaseAuthService());
 
   @override
   Future<void> initialize() => provider.initialize();

@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:rent_wheels_renter/firebase_options.dart';
-import 'package:rent_wheels_renter/core/firebase/auth/auth_provider.dart';
-import 'package:rent_wheels_renter/core/firebase/auth/auth_exceptions.dart';
+import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
+import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
 
-class FirebaseAuthProvider implements AuthProvider {
+class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
