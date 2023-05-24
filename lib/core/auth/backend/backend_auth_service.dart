@@ -57,7 +57,7 @@ class BackendAuthService implements BackendAuthProvider {
   deleteUser({required String userId}) async {
     final headers = {'Authorization': 'Bearer ${global.accessToken}'};
     final response = await delete(
-      Uri.parse('https://rent-wheels.braalex.me/users/$userId'),
+      Uri.parse('http://10.0.2.2:3000/users/$userId'),
       headers: headers,
     );
 

@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:rent_wheels_renter/core/auth/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:rent_wheels_renter/core/auth/auth_service.dart';
+import 'package:rent_wheels_renter/src/home/presentation/home.dart';
+import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 
 class SignUp extends StatefulWidget {
@@ -107,7 +110,8 @@ class _SignUpState extends State<SignUp> {
           buildGenericButtonWidget(
               buttonName: 'Sign Up',
               onPressed: () async {
-                await AuthService.firebase().createUserWithEmailAndPassword(
+                UserCredential userCredential =
+                    await AuthService.firebase().createUserWithEmailAndPassword(
                   avatar: avatar!.path,
                   name: name.text,
                   phoneNumber: phoneNumber.text,
@@ -115,6 +119,13 @@ class _SignUpState extends State<SignUp> {
                   password: password.text,
                   dob: dob!,
                   residence: residence.text,
+                );
+
+                global.accessToken = await userCredential.user!.getIdToken();
+                if (!mounted) return;
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const Home()),
+                  (route) => false,
                 );
               })
         ],

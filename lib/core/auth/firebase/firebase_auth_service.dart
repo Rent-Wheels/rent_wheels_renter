@@ -19,7 +19,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   }
 
   @override
-  Future createUserWithEmailAndPassword({
+  Future<UserCredential> createUserWithEmailAndPassword({
     required String avatar,
     required String name,
     required String phoneNumber,
@@ -28,18 +28,19 @@ class FirebaseAuthService implements FirebaseAuthProvider {
     required DateTime dob,
     required String residence,
   }) async {
+    dynamic credential;
     try {
-      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if (user.user != null) {
-        await verifyEmail(user: user.user!);
+      if (credential.user != null) {
+        await verifyEmail(user: credential.user!);
 
         await BackendAuthService().createUser(
           avatar: avatar,
-          userId: user.user!.uid,
+          userId: credential.user!.uid,
           name: name,
           phoneNumber: phoneNumber,
           email: email,
@@ -54,6 +55,8 @@ class FirebaseAuthService implements FirebaseAuthProvider {
         throw InvalidEmailException();
       }
     }
+
+    return credential;
   }
 
   @override
@@ -96,8 +99,8 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future<void> deleteUser({required User user}) async {
     try {
-      await BackendAuthService().deleteUser(userId: user.uid);
       await user.delete();
+      await BackendAuthService().deleteUser(userId: user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
         throw GenericAuthException();
