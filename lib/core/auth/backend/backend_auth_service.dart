@@ -21,8 +21,8 @@ class BackendAuthService implements BackendAuthProvider {
     required DateTime dob,
     required String residence,
   }) async {
-    var request =
-        MultipartRequest('POST', Uri.parse('http://10.0.2.2:3000/renters/'));
+    var request = MultipartRequest(
+        'POST', Uri.parse('https://rent-wheels.braalex.me/renters/'));
 
     final ext = avatar.split('.').last;
     request.fields['userId'] = userId;
@@ -57,7 +57,7 @@ class BackendAuthService implements BackendAuthProvider {
   deleteUser({required String userId}) async {
     final headers = {'Authorization': 'Bearer ${global.accessToken}'};
     final response = await delete(
-      Uri.parse('http://10.0.2.2:3000/users/$userId'),
+      Uri.parse('https://rent-wheels.braalex.me/users/$userId'),
       headers: headers,
     );
 
