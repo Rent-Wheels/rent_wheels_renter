@@ -81,6 +81,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
     return credential;
   }
 
+  @override
   Future<void> verifyEmail({required user}) async {
     await user.sendEmailVerification();
   }

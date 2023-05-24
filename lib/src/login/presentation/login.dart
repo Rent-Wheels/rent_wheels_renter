@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
-import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/src/signup/presentation/signup.dart';
+import 'package:rent_wheels_renter/src/verify/presentation/verify_email.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -41,14 +42,21 @@ class _LoginState extends State<Login> {
               );
 
               global.accessToken = await credential.user!.getIdToken();
+              global.user = credential.user;
 
-              debugPrint(global.accessToken);
               if (!mounted) return;
-              Navigator.of(context).pushAndRemoveUntil(
+
+              if (!global.user!.emailVerified) {
+                Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const Home(),
+                    builder: (context) => const VerifyEmail(),
                   ),
-                  (route) => false);
+                );
+              } else {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const Home()),
+                    (route) => false);
+              }
             },
           ),
           buildGenericButtonWidget(
