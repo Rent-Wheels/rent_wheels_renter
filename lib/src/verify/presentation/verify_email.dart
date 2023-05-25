@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
+import 'package:rent_wheels_renter/core/backend/users/methods/user_methods.dart';
+import 'package:rent_wheels_renter/core/models/enums/auth.enum.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
@@ -23,21 +25,24 @@ class _VerifyEmailState extends State<VerifyEmail> {
         children: [
           Text('A verification email has been sent to ${global.user!.email} '),
           buildGenericButtonWidget(
-            buttonName: 'Confirm Verification',
-            onPressed: () async {
-              await FirebaseAuth.instance.currentUser!.reload();
+              buttonName: 'Confirm Verification',
+              onPressed: () async {
+                await FirebaseAuth.instance.currentUser!.reload();
 
-              global.user = FirebaseAuth.instance.currentUser;
+                global.user = FirebaseAuth.instance.currentUser;
 
-              if (!global.user!.emailVerified) return;
+                if (!global.user!.emailVerified) return;
 
-              if (!mounted) return;
+                final user = await RentWheelsUserMethods()
+                    .getUserDetails(userId: global.user!.uid);
+                if (!mounted) return;
 
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Home()),
-                  (route) => false);
-            },
-          ),
+                if (user.role == Roles.renter.id) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const Home()),
+                      (route) => false);
+                }
+              }),
           buildGenericButtonWidget(
             buttonName: 'Resend Verification',
             onPressed: () async {

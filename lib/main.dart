@@ -4,9 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rent_wheels_renter/tester.dart';
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
+import 'package:rent_wheels_renter/core/models/enums/auth.enum.dart';
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
+import 'package:rent_wheels_renter/src/verify/presentation/verify_user.dart';
 import 'package:rent_wheels_renter/src/verify/presentation/verify_email.dart';
+import 'package:rent_wheels_renter/core/backend/users/methods/user_methods.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +39,7 @@ class ConnectionPage extends StatefulWidget {
 }
 
 class _ConnectionPageState extends State<ConnectionPage> {
+  bool isRenter = false;
   userStatus() async {
     await AuthService.firebase().initialize();
 
@@ -44,7 +48,16 @@ class _ConnectionPageState extends State<ConnectionPage> {
     if (user != null) {
       global.accessToken = await user.getIdToken();
       global.user = user;
+      global.headers = {'Authorization': 'Bearer ${global.accessToken}'};
+
+      final userDetails = await RentWheelsUserMethods()
+          .getUserDetails(userId: global.user!.uid);
+      if (userDetails.role == Roles.renter.id) {
+        isRenter = true;
+      }
     }
+
+    return isRenter;
   }
 
   @override
@@ -55,6 +68,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
             if (global.user != null) {
+              if (!isRenter) return const VerifyUser();
               if (global.user!.emailVerified) {
                 return const Home();
               }

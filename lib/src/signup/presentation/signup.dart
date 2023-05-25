@@ -123,6 +123,9 @@ class _SignUpState extends State<SignUp> {
 
               global.accessToken = await userCredential.user!.getIdToken();
               global.user = userCredential.user;
+              global.headers = {
+                'Authorization': 'Bearer ${global.accessToken}'
+              };
 
               if (!mounted) return;
               Navigator.of(context).push(
