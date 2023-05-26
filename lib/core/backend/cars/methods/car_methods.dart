@@ -10,13 +10,14 @@ import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/cars/endpoints/car_endpoints.dart';
 
-class RentWheelsUserMethods implements RentWheelsCarEndpoints {
+class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   @override
   Future<Car> addNewCar({required Car carDetails}) async {
     const uuid = Uuid();
     final request =
         MultipartRequest('POST', Uri.parse('${global.baseURL}/cars/'));
 
+    request.headers.addAll(global.headers);
     request.fields['owner'] = carDetails.owner;
     request.fields['make'] = carDetails.make;
     request.fields['model'] = carDetails.model;
@@ -27,11 +28,12 @@ class RentWheelsUserMethods implements RentWheelsCarEndpoints {
     request.fields['rate'] = carDetails.rate.toString();
     request.fields['plan'] = carDetails.plan;
     request.fields['type'] = carDetails.type;
-    request.fields['availability'] = carDetails.availability.toString();
+    request.fields['availability'] = carDetails.availability ? '1' : '0';
     request.fields['location'] = carDetails.location;
     request.fields['maxDuration'] = carDetails.maxDuration.toString();
     request.fields['description'] = carDetails.description;
     request.fields['terms'] = carDetails.terms;
+
     request.files.addAll(carDetails.media.map(
       (media) {
         final ext = media.mediaURL.split('.').last;
@@ -48,6 +50,7 @@ class RentWheelsUserMethods implements RentWheelsCarEndpoints {
     final response = await request.send();
     final responseBody = await response.stream.bytesToString();
 
+    print(responseBody);
     if (response.statusCode == 201) {
       return Car.fromJSON(jsonDecode(responseBody));
     }

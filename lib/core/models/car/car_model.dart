@@ -1,5 +1,5 @@
 class Car {
-  String carId;
+  String? carId;
   String owner;
   String make;
   String model;
@@ -18,7 +18,7 @@ class Car {
   List<Media> media;
 
   Car({
-    required this.carId,
+    this.carId,
     required this.owner,
     required this.make,
     required this.model,
