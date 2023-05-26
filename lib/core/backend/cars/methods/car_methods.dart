@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:mime/mime.dart';
@@ -50,9 +50,20 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     final response = await request.send();
     final responseBody = await response.stream.bytesToString();
 
-    print(responseBody);
     if (response.statusCode == 201) {
       return Car.fromJSON(jsonDecode(responseBody));
+    }
+    throw Exception();
+  }
+
+  @override
+  Future<List<Car>> getAllCars() async {
+    final response = await get(
+        Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'));
+
+    if (response.statusCode == 200) {
+      List results = jsonDecode(response.body);
+      return List<Car>.from(results.map((car) => Car.fromJSON(car)));
     }
     throw Exception();
   }
