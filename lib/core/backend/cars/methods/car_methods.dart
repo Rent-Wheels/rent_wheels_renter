@@ -59,7 +59,9 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   @override
   Future<List<Car>> getAllCars() async {
     final response = await get(
-        Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'));
+      Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'),
+      headers: global.headers,
+    );
 
     if (response.statusCode == 200) {
       List results = jsonDecode(response.body);
