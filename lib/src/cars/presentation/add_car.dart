@@ -124,20 +124,20 @@ class _AddCarState extends State<AddCar> {
                 onPressed: () async {
                   Car carDetails = Car(
                       owner: global.userDetails!.id,
-                      make: 'make.text',
-                      model: 'model.text',
+                      make: 'Mercedes Benz',
+                      model: 'Cruze',
                       capacity: 5,
-                      yearOfManufacture: 'yearOfManufacture.text',
-                      registrationNumber: 'registrationNumber.text',
+                      yearOfManufacture: '2055',
+                      registrationNumber: 'AW 3345-99',
                       condition: 'Excellent',
                       rate: 15,
                       plan: '/day',
                       type: 'Bus',
                       availability: true,
-                      location: 'location.text',
+                      location: 'Kumasi',
                       maxDuration: 25,
-                      description: 'description.text',
-                      terms: 'terms.text',
+                      description: 'Desc',
+                      terms: 'terms',
                       media: media);
                   // Car carDetails = Car(
                   //     owner: global.userDetails!.id,

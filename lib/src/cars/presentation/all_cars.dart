@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/car_details.dart';
 
 class AllCars extends StatefulWidget {
   const AllCars({super.key});
@@ -52,11 +53,16 @@ class _CarsState extends State<Cars> {
     return ListView.builder(
       itemCount: cars.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: Image.network(
-              '${global.baseURL}/${cars[index].media[0].mediaURL}'),
-          title: Text(
-              '${cars[index].yearOfManufacture} ${cars[index].make} ${cars[index].model}'),
+        return InkWell(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CarDetails(car: cars[index]),
+          )),
+          child: ListTile(
+            leading: Image.network(
+                '${global.baseURL}/${cars[index].media[0].mediaURL}'),
+            title: Text(
+                '${cars[index].yearOfManufacture} ${cars[index].make} ${cars[index].model}'),
+          ),
         );
       },
     );
