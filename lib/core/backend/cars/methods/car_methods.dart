@@ -69,4 +69,50 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     }
     throw Exception();
   }
+
+  @override
+  Future<Car> updateCarDetails({required Car carDetails}) async {
+    const uuid = Uuid();
+    final request = MultipartRequest(
+        'PATCH', Uri.parse('${global.baseURL}/cars/${carDetails.carId}'));
+
+    request.headers.addAll(global.headers);
+    request.fields['carId'] = carDetails.carId!;
+    request.fields['owner'] = carDetails.owner;
+    request.fields['make'] = carDetails.make;
+    request.fields['model'] = carDetails.model;
+    request.fields['capacity'] = carDetails.capacity.toString();
+    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture;
+    request.fields['registrationNumber'] = carDetails.registrationNumber;
+    request.fields['condition'] = carDetails.condition;
+    request.fields['rate'] = carDetails.rate.toString();
+    request.fields['plan'] = carDetails.plan;
+    request.fields['type'] = carDetails.type;
+    request.fields['availability'] = carDetails.availability ? '1' : '0';
+    request.fields['location'] = carDetails.location;
+    request.fields['maxDuration'] = carDetails.maxDuration.toString();
+    request.fields['description'] = carDetails.description;
+    request.fields['terms'] = carDetails.terms;
+
+    request.files.addAll(carDetails.media.map(
+      (media) {
+        final ext = media.mediaURL.split('.').last;
+        return MultipartFile(
+          'media',
+          File(media.mediaURL).readAsBytes().asStream(),
+          File(media.mediaURL).lengthSync(),
+          filename: '${uuid.v1()}.$ext',
+          contentType: MediaType.parse(lookupMimeType(media.mediaURL)!),
+        );
+      },
+    ).toList());
+
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+
+    if (response.statusCode == 201) {
+      return Car.fromJSON(jsonDecode(responseBody));
+    }
+    throw Exception();
+  }
 }
