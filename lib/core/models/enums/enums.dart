@@ -7,3 +7,5 @@ enum Roles {
 
   final int id;
 }
+
+enum Status { success, failed }

@@ -6,6 +6,7 @@ import 'package:mime/mime.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http_parser/http_parser.dart';
 
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/cars/endpoints/car_endpoints.dart';
@@ -113,6 +114,29 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     if (response.statusCode == 201) {
       return Car.fromJSON(jsonDecode(responseBody));
     }
+    throw Exception();
+  }
+
+  @override
+  Future deleteCar({required String carId}) async {
+    final response = await delete(Uri.parse('${global.baseURL}/cars/$carId'),
+        headers: global.headers);
+
+    if (response.statusCode == 200) return Status.success;
+
+    return Status.failed;
+  }
+
+  @override
+  Future<Car> changeCarAvailability({required String carId}) async {
+    final response = await patch(
+        Uri.parse('${global.baseURL}/cars/$carId/availability'),
+        headers: global.headers);
+
+    if (response.statusCode == 200) {
+      return Car.fromJSON(jsonDecode(response.body));
+    }
+
     throw Exception();
   }
 }
