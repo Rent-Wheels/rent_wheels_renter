@@ -111,9 +111,10 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     final response = await request.send();
     final responseBody = await response.stream.bytesToString();
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return Car.fromJSON(jsonDecode(responseBody));
     }
+
     throw Exception();
   }
 
