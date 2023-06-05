@@ -13,6 +13,20 @@ import 'package:rent_wheels_renter/core/backend/cars/endpoints/car_endpoints.dar
 
 class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   @override
+  Future<List<Car>> getAllCars() async {
+    final response = await get(
+      Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'),
+      headers: global.headers,
+    );
+
+    if (response.statusCode == 200) {
+      List results = jsonDecode(response.body);
+      return List<Car>.from(results.map((car) => Car.fromJSON(car)));
+    }
+    throw Exception();
+  }
+
+  @override
   Future<Car> addNewCar({required Car carDetails}) async {
     const uuid = Uuid();
     final request =
@@ -58,24 +72,10 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   }
 
   @override
-  Future<List<Car>> getAllCars() async {
-    final response = await get(
-      Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'),
-      headers: global.headers,
-    );
-
-    if (response.statusCode == 200) {
-      List results = jsonDecode(response.body);
-      return List<Car>.from(results.map((car) => Car.fromJSON(car)));
-    }
-    throw Exception();
-  }
-
-  @override
   Future<Car> updateCarDetails({required Car carDetails}) async {
     const uuid = Uuid();
     final request = MultipartRequest(
-        'PATCH', Uri.parse('${global.baseURL}/cars/${carDetails.carId}'));
+        'PUT', Uri.parse('${global.baseURL}/cars/${carDetails.carId}'));
 
     request.headers.addAll(global.headers);
     request.fields['carId'] = carDetails.carId!;
@@ -119,16 +119,6 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   }
 
   @override
-  Future deleteCar({required String carId}) async {
-    final response = await delete(Uri.parse('${global.baseURL}/cars/$carId'),
-        headers: global.headers);
-
-    if (response.statusCode == 200) return Status.success;
-
-    return Status.failed;
-  }
-
-  @override
   Future<Car> changeCarAvailability({required String carId}) async {
     final response = await patch(
         Uri.parse('${global.baseURL}/cars/$carId/availability'),
@@ -139,5 +129,26 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     }
 
     throw Exception();
+  }
+
+  @override
+  Future deleteCarMedia({required String carId}) async {
+    final response = await delete(
+        Uri.parse('${global.baseURL}/cars/$carId/media'),
+        headers: global.headers);
+
+    if (response.statusCode == 200) return Status.success;
+
+    return Status.failed;
+  }
+
+  @override
+  Future deleteCar({required String carId}) async {
+    final response = await delete(Uri.parse('${global.baseURL}/cars/$carId'),
+        headers: global.headers);
+
+    if (response.statusCode == 200) return Status.success;
+
+    return Status.failed;
   }
 }
