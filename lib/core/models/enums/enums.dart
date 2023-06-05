@@ -9,3 +9,14 @@ enum Roles {
 }
 
 enum Status { success, failed }
+
+enum ReservationStatus {
+  accepted(status: 'Accepted'),
+  pending(status: 'Pending'),
+  rejected(status: 'Rejected'),
+  cancelled(status: 'Cancelled');
+
+  const ReservationStatus({required this.status});
+
+  final String status;
+}
