@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:mime/mime.dart';
+import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -22,6 +23,21 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     if (response.statusCode == 200) {
       List results = jsonDecode(response.body);
       return List<Car>.from(results.map((car) => Car.fromJSON(car)));
+    }
+    throw Exception();
+  }
+
+  @override
+  Future<List<Reservation>> getCarRentalHistory({required String carId}) async {
+    final response = await get(
+      Uri.parse('${global.baseURL}/cars/$carId/history'),
+      headers: global.headers,
+    );
+
+    if (response.statusCode == 200) {
+      List results = jsonDecode(response.body);
+      return List<Reservation>.from(
+          results.map((reservation) => Reservation.fromJSON(reservation)));
     }
     throw Exception();
   }
