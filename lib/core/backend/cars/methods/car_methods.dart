@@ -148,10 +148,14 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   }
 
   @override
-  Future deleteCarMedia({required String carId}) async {
-    final response = await delete(
+  Future deleteCarMedia({
+    required String carId,
+    required String mediaURL,
+  }) async {
+    final response = await patch(
         Uri.parse('${global.baseURL}/cars/$carId/media'),
-        headers: global.headers);
+        headers: global.headers,
+        body: {'mediaURL': mediaURL});
 
     if (response.statusCode == 200) return Status.success;
 

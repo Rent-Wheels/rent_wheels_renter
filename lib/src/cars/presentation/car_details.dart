@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 
 class CarDetails extends StatefulWidget {
@@ -130,12 +131,44 @@ class _CarDetailsState extends State<CarDetails> {
               controller: terms,
               decoration: const InputDecoration(hintText: 'terms'),
             ),
-            ...widget.car.media
-                .map((media) => Image.network(
+            ...widget.car.media.map(
+              (media) {
+                return Stack(
+                  children: [
+                    Image.network(
                       '${global.baseURL}/${media.mediaURL}',
                       fit: BoxFit.cover,
-                    ))
-                .toList(),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        color: Colors.white,
+                        child: GestureDetector(
+                          onTap: () async {
+                            final response = await RentWheelsCarMethods()
+                                .deleteCarMedia(
+                                    carId: widget.car.carId!,
+                                    mediaURL: media.mediaURL);
+
+                            if (response == Status.success) {
+                              setState(() {
+                                widget.car.media.removeWhere(
+                                    (m) => m.mediaURL == media.mediaURL);
+                              });
+                            }
+                          },
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ).toList(),
             ...media
                 .map((media) => Image.file(
                       File(media.mediaURL),
@@ -171,6 +204,17 @@ class _CarDetailsState extends State<CarDetails> {
 
                 await RentWheelsCarMethods()
                     .updateCarDetails(carDetails: carDetails);
+              },
+            ),
+            buildGenericButtonWidget(
+              buttonName: 'Delete Car',
+              onPressed: () async {
+                final response = await RentWheelsCarMethods()
+                    .deleteCar(carId: widget.car.carId!);
+                if (response == Status.success) {
+                  if (!mounted) return;
+                  Navigator.of(context).pop();
+                }
               },
             ),
           ],
