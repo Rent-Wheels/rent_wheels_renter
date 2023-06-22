@@ -17,20 +17,18 @@ class _AllCarsState extends State<AllCars> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: FutureBuilder(
-          future: RentWheelsCarMethods().getAllCars(),
+        child: StreamBuilder(
+          stream: RentWheelsCarMethods().getAllCars(),
           builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const CircularProgressIndicator();
-
-              case ConnectionState.done:
-                return snapshot.hasData
-                    ? Cars(cars: snapshot.data!)
-                    : Text(snapshot.error.toString());
-              default:
-                return const Text('data');
+            if (snapshot.hasData) {
+              return Cars(cars: snapshot.data!);
             }
+
+            if (snapshot.hasError) {
+              Text(snapshot.error.toString());
+            }
+
+            return const CircularProgressIndicator();
           },
         ),
       ),

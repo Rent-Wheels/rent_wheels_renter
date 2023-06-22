@@ -14,17 +14,19 @@ import 'package:rent_wheels_renter/core/backend/cars/endpoints/car_endpoints.dar
 
 class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   @override
-  Future<List<Car>> getAllCars() async {
-    final response = await get(
-      Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'),
-      headers: global.headers,
-    );
-
-    if (response.statusCode == 200) {
-      List results = jsonDecode(response.body);
-      return List<Car>.from(results.map((car) => Car.fromJSON(car)));
-    }
-    throw Exception();
+  Stream<List<Car>> getAllCars() async* {
+    yield* Stream.periodic(const Duration(milliseconds: 30), (_) {
+      return get(
+        Uri.parse('${global.baseURL}/renters/${global.userDetails!.id}/cars'),
+        headers: global.headers,
+      ).then((response) {
+        if (response.statusCode == 200) {
+          List results = jsonDecode(response.body);
+          return List<Car>.from(results.map((car) => Car.fromJSON(car)));
+        }
+        throw Exception();
+      });
+    }).asyncMap((event) async => await event);
   }
 
   @override

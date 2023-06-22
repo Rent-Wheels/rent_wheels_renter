@@ -46,14 +46,13 @@ class _ConnectionPageState extends State<ConnectionPage> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      global.accessToken = await user.getIdToken();
-      global.user = user;
-      global.headers = {'Authorization': 'Bearer ${global.accessToken}'};
+      await global.setGlobals(currentUser: user);
 
       final userDetails = await RentWheelsUserMethods()
           .getUserDetails(userId: global.user!.uid);
 
-      global.userDetails = userDetails;
+      await global.setGlobals(fetchedUserDetails: userDetails);
+
       if (userDetails.role == Roles.renter.id) {
         isRenter = true;
       }
