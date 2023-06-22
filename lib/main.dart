@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rent_wheels_renter/screen_implementer.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ConnectionPage(),
+      home: const AddCarMock(),
     );
   }
 }
