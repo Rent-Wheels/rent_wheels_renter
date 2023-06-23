@@ -119,6 +119,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     context: context,
                     hint: 'Year of Manufacture',
                     controller: yearOfManufacture,
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
                       if (value.length == 4 && isNumeric(value)) {
                         setState(() {
@@ -151,7 +152,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                   ),
                 ],
               ),
-              Space().height(context, 0.15),
+              Space().height(context, 0.05),
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),

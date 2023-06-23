@@ -44,6 +44,8 @@ dependencies:
   uuid: ^3.0.7
   flutter_google_places: ^0.3.0
   string_validator: ^1.0.0
+  google_maps_webservice: ^0.0.19
+  google_api_headers: ^1.0.0
 
 dev_dependencies:
   flutter_test:

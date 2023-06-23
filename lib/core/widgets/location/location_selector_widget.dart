@@ -4,12 +4,11 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
-buildDropDownInputField({
+buildLocationSelector({
+  required String hint,
   required BuildContext context,
-  dynamic value,
-  required items,
-  required onChanged,
-  String? hintText,
+  required TextEditingController controller,
+  required void Function() onTap,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,16 +16,12 @@ buildDropDownInputField({
       Padding(
         padding: EdgeInsets.only(bottom: Sizes().width(context, 0.02)),
         child: Text(
-          hintText!,
+          hint,
           style: heading5Information,
         ),
       ),
       Container(
         width: Sizes().width(context, 0.85),
-        padding: EdgeInsets.only(
-          left: Sizes().width(context, 0.04),
-          right: Sizes().width(context, 0.02),
-        ),
         decoration: BoxDecoration(
           border: Border.all(
             color: rentWheelsNeutralLight200,
@@ -35,22 +30,19 @@ buildDropDownInputField({
             Sizes().width(context, 0.035),
           ),
         ),
-        child: DropdownButtonFormField(
-          value: value,
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: rentWheelsNeutral,
-            size: Sizes().height(context, 0.03),
+        padding: EdgeInsets.only(left: Sizes().width(context, 0.04)),
+        child: GestureDetector(
+          onTap: onTap,
+          child: TextField(
+            enabled: false,
+            controller: controller,
+            style: heading6Neutral900,
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: heading6Neutral500,
+              border: InputBorder.none,
+            ),
           ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hintText,
-            hintStyle: heading6Neutral500,
-          ),
-          style: heading6Neutral900,
-          dropdownColor: rentWheelsNeutralLight0,
-          items: items,
-          onChanged: onChanged,
         ),
       ),
     ],

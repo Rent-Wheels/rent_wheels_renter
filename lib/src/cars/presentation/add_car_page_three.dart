@@ -9,14 +9,14 @@ import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.da
 import 'package:rent_wheels_renter/core/widgets/location/location_selector_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
-class AddCarMock extends StatefulWidget {
-  const AddCarMock({super.key});
+class AddCarPageThree extends StatefulWidget {
+  const AddCarPageThree({super.key});
 
   @override
-  State<AddCarMock> createState() => _AddCarMockState();
+  State<AddCarPageThree> createState() => _AddCarPageThreeState();
 }
 
-class _AddCarMockState extends State<AddCarMock> {
+class _AddCarPageThreeState extends State<AddCarPageThree> {
   bool isTermsValid = false;
   bool isLocationValid = false;
   bool isDescriptionValid = false;

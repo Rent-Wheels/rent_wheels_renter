@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/dropdown_input_field.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_three.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/rate_input_field_widget.dart';
 import 'package:string_validator/string_validator.dart';
@@ -19,10 +20,10 @@ class AddCarPageTwo extends StatefulWidget {
 
 class _AddCarPageTwoState extends State<AddCarPageTwo> {
   bool isRateValid = false;
-  bool isPlanValid = false;
+  bool isPlanValid = true;
   bool isTypeValid = false;
   bool isColorValid = false;
-  bool isDurationValid = false;
+  bool isDurationValid = true;
   bool isCapacityValid = false;
   bool isConditionValid = false;
   bool isMaxDurationValid = false;
@@ -270,13 +271,20 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                   ),
                 ],
               ),
-              Space().height(context, 0.14),
+              Space().height(context, 0.05),
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),
                 isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddCarPageThree(),
+                    ),
+                  );
+                },
               )
             ],
           ),
