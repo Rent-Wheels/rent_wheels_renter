@@ -12,7 +12,7 @@ GestureDetector buildGenericButtonWidget({
   required void Function() onPressed,
 }) {
   return GestureDetector(
-    onTap: onPressed,
+    onTap: isActive ? onPressed : null,
     child: Container(
       width: width,
       height: Sizes().height(context, 0.06),

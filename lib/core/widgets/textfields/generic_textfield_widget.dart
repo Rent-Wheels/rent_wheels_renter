@@ -4,10 +4,11 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
 buildGenericTextfield({
-  required BuildContext context,
   required String hint,
+  required BuildContext context,
   required TextEditingController controller,
   required void Function(String) onChanged,
+  TextInputType? keyboardType,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,6 +40,7 @@ buildGenericTextfield({
             border: InputBorder.none,
           ),
           onChanged: onChanged,
+          keyboardType: keyboardType,
         ),
       ),
     ],

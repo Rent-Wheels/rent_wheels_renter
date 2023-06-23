@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/dropdown_input_field.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/rate_input_field_widget.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
-import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
@@ -17,37 +18,37 @@ class AddCarMock extends StatefulWidget {
 }
 
 class _AddCarMockState extends State<AddCarMock> {
-  bool isMakeValid = false;
-  bool isYearValid = false;
+  bool isRateValid = false;
+  bool isPlanValid = false;
   bool isTypeValid = false;
-  bool isModelValid = false;
   bool isColorValid = false;
+  bool isDurationValid = false;
+  bool isCapacityValid = false;
+  bool isConditionValid = false;
+  bool isMaxDurationValid = false;
   bool isRegistrationValid = false;
 
-  TextEditingController make = TextEditingController();
   TextEditingController type = TextEditingController();
-  TextEditingController model = TextEditingController();
-  TextEditingController color = TextEditingController();
-  TextEditingController yearOfManufacture = TextEditingController();
-  TextEditingController registrationNumber = TextEditingController();
-
   TextEditingController rate = TextEditingController();
-  TextEditingController plan = TextEditingController();
-  TextEditingController terms = TextEditingController();
-  TextEditingController location = TextEditingController();
   TextEditingController capacity = TextEditingController();
   TextEditingController condition = TextEditingController();
   TextEditingController maxDuration = TextEditingController();
+  TextEditingController plan = TextEditingController(text: '/hr');
+  TextEditingController duration = TextEditingController(text: 'days');
+
+  TextEditingController terms = TextEditingController();
+  TextEditingController location = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController availability = TextEditingController();
 
   bool isActive() {
-    return isMakeValid &&
-        isModelValid &&
-        isColorValid &&
+    return isRateValid &&
         isTypeValid &&
-        isYearValid &&
-        isRegistrationValid;
+        isPlanValid &&
+        isDurationValid &&
+        isCapacityValid &&
+        isMaxDurationValid &&
+        isConditionValid;
   }
 
   @override
@@ -72,107 +73,45 @@ class _AddCarMockState extends State<AddCarMock> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Add car',
-                    style: heading2Information,
-                  ),
-                  Space().height(context, 0.01),
-                  const Text(
-                    'STEP 1 OF 4',
-                    style: heading6Neutral500,
-                  ),
+                  buildAddCarTop(context: context, page: 2),
                   Space().height(context, 0.03),
-                  buildGenericTextfield(
-                    context: context,
-                    hint: 'Car Make',
-                    controller: make,
-                    onChanged: (value) {
-                      final noSpaceValue = value.replaceAll(" ", "");
-                      if (noSpaceValue.length >= 3 && isAlpha(noSpaceValue)) {
-                        setState(() {
-                          isMakeValid = true;
-                        });
-                      } else {
-                        setState(() {
-                          isMakeValid = false;
-                        });
-                      }
-                    },
-                  ),
-                  Space().height(context, 0.02),
-                  buildGenericTextfield(
-                    context: context,
-                    hint: 'Car Model',
-                    controller: model,
-                    onChanged: (value) {
-                      final noSpaceValue = value.replaceAll(" ", "");
-                      if (noSpaceValue.length >= 2) {
-                        setState(() {
-                          isModelValid = true;
-                        });
-                      } else {
-                        setState(() {
-                          isModelValid = false;
-                        });
-                      }
-                    },
-                  ),
-                  Space().height(context, 0.02),
-                  buildGenericTextfield(
-                    context: context,
-                    hint: 'Car Color',
-                    controller: color,
-                    onChanged: (value) {
-                      final noSpaceValue = value.replaceAll(" ", "");
-                      if (noSpaceValue.length >= 3 && isAlpha(noSpaceValue)) {
-                        setState(() {
-                          isColorValid = true;
-                        });
-                      } else {
-                        setState(() {
-                          isColorValid = false;
-                        });
-                      }
-                    },
-                  ),
-                  Space().height(context, 0.02),
                   buildDropDownInputField(
                     context: context,
                     hintText: 'Car Type',
-                    items: [
-                      const DropdownMenuItem(
+                    items: const [
+                      DropdownMenuItem(
                         value: 'Bus',
                         child: Text('Bus'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'SUV',
                         child: Text('SUV'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Van',
                         child: Text('Van'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Sedan',
                         child: Text('Sedan'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Pickup',
                         child: Text('Pickup'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Minivan',
                         child: Text('Minivan'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Offroad',
                         child: Text('Offroad'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Hatchback',
                         child: Text('Hatchback'),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Crossover',
                         child: Text('Crossover'),
                       ),
@@ -189,46 +128,154 @@ class _AddCarMockState extends State<AddCarMock> {
                         });
                       }
                     },
-                    prefixIcon: null,
                   ),
                   Space().height(context, 0.02),
                   buildGenericTextfield(
                     context: context,
-                    hint: 'Year of Manufacture',
-                    controller: yearOfManufacture,
+                    hint: 'No. of Seats',
+                    controller: capacity,
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
-                      if (value.length == 4 && isNumeric(value)) {
+                      if (value.isNotEmpty &&
+                          value.length <= 2 &&
+                          int.parse(value) != 0 &&
+                          isNumeric(value)) {
                         setState(() {
-                          isYearValid = true;
+                          isCapacityValid = true;
                         });
                       } else {
                         setState(() {
-                          isYearValid = false;
+                          isCapacityValid = false;
                         });
                       }
                     },
                   ),
                   Space().height(context, 0.02),
-                  buildGenericTextfield(
+                  buildDropDownInputField(
                     context: context,
-                    hint: 'Car Registration Number',
-                    controller: registrationNumber,
+                    hintText: 'Car Condition',
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Excellent',
+                        child: Text('Excellent'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Good',
+                        child: Text('Good'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Fair',
+                        child: Text('Fair'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Poor',
+                        child: Text('Poor'),
+                      ),
+                    ],
                     onChanged: (value) {
-                      final noSpaceValue = value.replaceAll(" ", "");
-                      if (noSpaceValue.length >= 3 && isAscii(noSpaceValue)) {
+                      if (value.isNotEmpty) {
                         setState(() {
-                          isRegistrationValid = true;
+                          condition.text = value;
+                          isConditionValid = true;
                         });
                       } else {
                         setState(() {
-                          isRegistrationValid = false;
+                          isConditionValid = false;
+                        });
+                      }
+                    },
+                  ),
+                  Space().height(context, 0.02),
+                  buildRateInputField(
+                    textFlex: 4,
+                    dropFlex: 1,
+                    items: const [
+                      DropdownMenuItem(
+                        value: '/hr',
+                        child: Text('/hr'),
+                      ),
+                      DropdownMenuItem(
+                        value: '/day',
+                        child: Text('/day'),
+                      ),
+                    ],
+                    value: plan.text,
+                    hintText: 'Rental Rate',
+                    context: context,
+                    controller: rate,
+                    planChanged: (value) {
+                      if (value.isNotEmpty) {
+                        setState(() {
+                          plan.text = value;
+                          isPlanValid = true;
+                        });
+                      } else {
+                        setState(() {
+                          isPlanValid = false;
+                        });
+                      }
+                    },
+                    rateChanged: (value) {
+                      if (isNumeric(value)) {
+                        setState(() {
+                          isRateValid = true;
+                        });
+                      } else {
+                        setState(() {
+                          isRateValid = false;
+                        });
+                      }
+                    },
+                  ),
+                  Space().height(context, 0.02),
+                  buildRateInputField(
+                    textFlex: 6,
+                    dropFlex: 2,
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'days',
+                        child: Text('days'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'weeks',
+                        child: Text('weeks'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'months',
+                        child: Text('months'),
+                      ),
+                    ],
+                    value: duration.text,
+                    hintText: 'Maximum Duration of Rental',
+                    context: context,
+                    controller: maxDuration,
+                    planChanged: (value) {
+                      if (value.isNotEmpty) {
+                        setState(() {
+                          duration.text = value;
+                          isDurationValid = true;
+                        });
+                      } else {
+                        setState(() {
+                          isDurationValid = false;
+                        });
+                      }
+                    },
+                    rateChanged: (value) {
+                      if (isNumeric(value)) {
+                        setState(() {
+                          isMaxDurationValid = true;
+                        });
+                      } else {
+                        setState(() {
+                          isMaxDurationValid = false;
                         });
                       }
                     },
                   ),
                 ],
               ),
-              Space().height(context, 0.06),
+              Space().height(context, 0.14),
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),

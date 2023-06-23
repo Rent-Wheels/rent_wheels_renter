@@ -9,9 +9,7 @@ buildDropDownInputField({
   dynamic value,
   required items,
   required onChanged,
-  required Icon? prefixIcon,
   String? hintText,
-  Color? borderColor,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +45,6 @@ buildDropDownInputField({
             size: Sizes().height(context, 0.03),
           ),
           decoration: InputDecoration(
-            prefixIcon: prefixIcon,
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: heading6Neutral500,

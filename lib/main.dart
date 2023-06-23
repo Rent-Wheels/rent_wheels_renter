@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rent_wheels_renter/screen_implementer.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_one.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'RentWheels Renter',
-      home: AddCarMock(),
+      home: AddCarPageOne(),
     );
   }
 }

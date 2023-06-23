@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/core/widgets/textfields/dropdown_input_field.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_two.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
-import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
-class AddCarMock extends StatefulWidget {
-  const AddCarMock({super.key});
+class AddCarPageOne extends StatefulWidget {
+  const AddCarPageOne({super.key});
 
   @override
-  State<AddCarMock> createState() => _AddCarMockState();
+  State<AddCarPageOne> createState() => _AddCarPageOneState();
 }
 
-class _AddCarMockState extends State<AddCarMock> {
+class _AddCarPageOneState extends State<AddCarPageOne> {
   bool isMakeValid = false;
   bool isYearValid = false;
-  bool isTypeValid = false;
   bool isModelValid = false;
   bool isColorValid = false;
   bool isRegistrationValid = false;
 
   TextEditingController make = TextEditingController();
-  TextEditingController type = TextEditingController();
   TextEditingController model = TextEditingController();
   TextEditingController color = TextEditingController();
   TextEditingController yearOfManufacture = TextEditingController();
@@ -35,7 +33,6 @@ class _AddCarMockState extends State<AddCarMock> {
     return isMakeValid &&
         isModelValid &&
         isColorValid &&
-        isTypeValid &&
         isYearValid &&
         isRegistrationValid;
   }
@@ -62,15 +59,7 @@ class _AddCarMockState extends State<AddCarMock> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Add car',
-                    style: heading2Information,
-                  ),
-                  Space().height(context, 0.01),
-                  const Text(
-                    'STEP 1 OF 4',
-                    style: heading6Neutral500,
-                  ),
+                  buildAddCarTop(context: context, page: 1),
                   Space().height(context, 0.03),
                   buildGenericTextfield(
                     context: context,
@@ -126,62 +115,6 @@ class _AddCarMockState extends State<AddCarMock> {
                     },
                   ),
                   Space().height(context, 0.02),
-                  buildDropDownInputField(
-                    context: context,
-                    hintText: 'Car Type',
-                    items: [
-                      const DropdownMenuItem(
-                        value: 'Bus',
-                        child: Text('Bus'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'SUV',
-                        child: Text('SUV'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Van',
-                        child: Text('Van'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Sedan',
-                        child: Text('Sedan'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Pickup',
-                        child: Text('Pickup'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Minivan',
-                        child: Text('Minivan'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Offroad',
-                        child: Text('Offroad'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Hatchback',
-                        child: Text('Hatchback'),
-                      ),
-                      const DropdownMenuItem(
-                        value: 'Crossover',
-                        child: Text('Crossover'),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        setState(() {
-                          type.text = value;
-                          isTypeValid = true;
-                        });
-                      } else {
-                        setState(() {
-                          isTypeValid = false;
-                        });
-                      }
-                    },
-                    prefixIcon: null,
-                  ),
-                  Space().height(context, 0.02),
                   buildGenericTextfield(
                     context: context,
                     hint: 'Year of Manufacture',
@@ -218,13 +151,20 @@ class _AddCarMockState extends State<AddCarMock> {
                   ),
                 ],
               ),
-              Space().height(context, 0.06),
+              Space().height(context, 0.15),
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),
                 isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddCarPageTwo(),
+                    ),
+                  );
+                },
               )
             ],
           ),
