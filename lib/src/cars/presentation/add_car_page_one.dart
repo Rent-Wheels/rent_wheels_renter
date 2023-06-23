@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_two.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_two.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
 class AddCarPageOne extends StatefulWidget {
@@ -45,9 +46,8 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
         elevation: 0,
         foregroundColor: rentWheelsBrandDark900,
         backgroundColor: rentWheelsNeutralLight0,
-        leading: IconButton(
+        leading: buildAdaptiveBackButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: SingleChildScrollView(
@@ -156,7 +156,8 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),
-                isActive: isActive(),
+                isActive: true,
+                // isActive: isActive(),
                 buttonName: "Continue",
                 onPressed: () {
                   Navigator.push(

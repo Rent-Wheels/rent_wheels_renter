@@ -7,6 +7,7 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 buildGenericTextfield({
   required String hint,
   TextInputType? keyboardType,
+  TextInputAction? textInput,
   int? minLines,
   int? maxLines,
   required BuildContext context,
@@ -39,7 +40,7 @@ buildGenericTextfield({
           style: heading6Neutral900,
           keyboardType: keyboardType,
           textCapitalization: TextCapitalization.sentences,
-          textInputAction: TextInputAction.next,
+          textInputAction: textInput ?? TextInputAction.next,
           minLines: minLines,
           maxLines: maxLines,
           cursorColor: rentWheelsBrandDark900,

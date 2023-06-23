@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/dropdown_input_field.dart';
 import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_three.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
@@ -55,9 +56,8 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
         elevation: 0,
         foregroundColor: rentWheelsBrandDark900,
         backgroundColor: rentWheelsNeutralLight0,
-        leading: IconButton(
+        leading: buildAdaptiveBackButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: SingleChildScrollView(
@@ -275,7 +275,8 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),
-                isActive: isActive(),
+                isActive: true,
+                // isActive: isActive(),
                 buttonName: "Continue",
                 onPressed: () {
                   Navigator.push(

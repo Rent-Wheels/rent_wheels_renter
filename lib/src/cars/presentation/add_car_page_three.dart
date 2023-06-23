@@ -8,6 +8,7 @@ import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/location/location_selector_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class AddCarPageThree extends StatefulWidget {
   const AddCarPageThree({super.key});
@@ -37,9 +38,8 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
         elevation: 0,
         foregroundColor: rentWheelsBrandDark900,
         backgroundColor: rentWheelsNeutralLight0,
-        leading: IconButton(
+        leading: buildAdaptiveBackButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: SingleChildScrollView(
@@ -79,6 +79,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                     hint: 'Car Description',
                     controller: description,
                     keyboardType: TextInputType.multiline,
+                    textInput: TextInputAction.newline,
                     minLines: 4,
                     maxLines: null,
                     onChanged: (value) {
@@ -100,6 +101,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                     context: context,
                     controller: terms,
                     keyboardType: TextInputType.multiline,
+                    textInput: TextInputAction.newline,
                     minLines: 4,
                     maxLines: null,
                     onChanged: (value) {
