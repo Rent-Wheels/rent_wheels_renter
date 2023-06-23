@@ -182,28 +182,28 @@ class _CarDetailsState extends State<CarDetails> {
             buildGenericButtonWidget(
               buttonName: 'Update Car',
               onPressed: () async {
-                Car carDetails = Car(
-                  carId: widget.car.carId,
-                  owner: global.userDetails!.id,
-                  make: make.text,
-                  model: model.text,
-                  capacity: int.parse(capacity.text),
-                  yearOfManufacture: yearOfManufacture.text,
-                  registrationNumber: registrationNumber.text,
-                  condition: condition.text,
-                  rate: int.parse(rate.text),
-                  plan: plan.text,
-                  type: type.text,
-                  availability: bool.parse(availability.text),
-                  location: location.text,
-                  maxDuration: int.parse(maxDuration.text),
-                  description: description.text,
-                  terms: terms.text,
-                  media: media,
-                );
+                // Car carDetails = Car(
+                //   carId: widget.car.carId,
+                //   owner: global.userDetails!.id,
+                //   make: make.text,
+                //   model: model.text,
+                //   capacity: int.parse(capacity.text),
+                //   yearOfManufacture: yearOfManufacture.text,
+                //   registrationNumber: registrationNumber.text,
+                //   condition: condition.text,
+                //   rate: int.parse(rate.text),
+                //   plan: plan.text,
+                //   type: type.text,
+                //   availability: bool.parse(availability.text),
+                //   location: location.text,
+                //   maxDuration: int.parse(maxDuration.text),
+                //   description: description.text,
+                //   terms: terms.text,
+                //   media: media,
+                // );
 
-                await RentWheelsCarMethods()
-                    .updateCarDetails(carDetails: carDetails);
+                // await RentWheelsCarMethods()
+                //     .updateCarDetails(carDetails: carDetails);
               },
             ),
             buildGenericButtonWidget(

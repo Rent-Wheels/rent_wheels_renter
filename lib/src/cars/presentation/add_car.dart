@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
-import 'package:rent_wheels_renter/core/global/globals.dart' as global;
-import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 
 class AddCar extends StatefulWidget {
@@ -122,43 +120,43 @@ class _AddCarState extends State<AddCar> {
               buildGenericButtonWidget(
                 buttonName: 'Add Car',
                 onPressed: () async {
-                  Car carDetails = Car(
-                      owner: global.userDetails!.id,
-                      make: 'Mercedes Benz',
-                      model: 'Cruze',
-                      capacity: 5,
-                      yearOfManufacture: '2055',
-                      registrationNumber: 'AW 3345-99',
-                      condition: 'Excellent',
-                      rate: 15,
-                      plan: '/day',
-                      type: 'Bus',
-                      availability: true,
-                      location: 'Kumasi',
-                      maxDuration: 25,
-                      description: 'Desc',
-                      terms: 'terms',
-                      media: media);
                   // Car carDetails = Car(
                   //     owner: global.userDetails!.id,
-                  //     make: make.text,
-                  //     model: model.text,
-                  //     capacity: int.parse(capacity.text),
-                  //     yearOfManufacture: yearOfManufacture.text,
-                  //     registrationNumber: registrationNumber.text,
-                  //     condition: condition.text,
-                  //     rate: int.parse(rate.text),
-                  //     plan: plan.text,
-                  //     type: type.text,
-                  //     availability: bool.parse(availability.text),
-                  //     location: location.text,
-                  //     maxDuration: int.parse(maxDuration.text),
-                  //     description: description.text,
-                  //     terms: terms.text,
+                  //     make: 'Mercedes Benz',
+                  //     model: 'Cruze',
+                  //     capacity: 5,
+                  //     yearOfManufacture: '2055',
+                  //     registrationNumber: 'AW 3345-99',
+                  //     condition: 'Excellent',
+                  //     rate: 15,
+                  //     plan: '/day',
+                  //     type: 'Bus',
+                  //     availability: true,
+                  //     location: 'Kumasi',
+                  //     maxDuration: 25,
+                  //     description: 'Desc',
+                  //     terms: 'terms',
                   //     media: media);
+                  // // Car carDetails = Car(
+                  // //     owner: global.userDetails!.id,
+                  // //     make: make.text,
+                  // //     model: model.text,
+                  // //     capacity: int.parse(capacity.text),
+                  // //     yearOfManufacture: yearOfManufacture.text,
+                  // //     registrationNumber: registrationNumber.text,
+                  // //     condition: condition.text,
+                  // //     rate: int.parse(rate.text),
+                  // //     plan: plan.text,
+                  // //     type: type.text,
+                  // //     availability: bool.parse(availability.text),
+                  // //     location: location.text,
+                  // //     maxDuration: int.parse(maxDuration.text),
+                  // //     description: description.text,
+                  // //     terms: terms.text,
+                  // //     media: media);
 
-                  await RentWheelsCarMethods()
-                      .addNewCar(carDetails: carDetails);
+                  // await RentWheelsCarMethods()
+                  //     .addNewCar(carDetails: carDetails);
                 },
               ),
             ],
