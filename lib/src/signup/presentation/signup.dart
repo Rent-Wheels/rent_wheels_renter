@@ -101,36 +101,36 @@ class _SignUpState extends State<SignUp> {
                       : 'No Date Chosen!',
                 ),
               ),
-              buildGenericButtonWidget(
-                buttonName: 'Choose Date',
-                onPressed: presentDatePicker,
-              )
+              // buildGenericButtonWidget(
+              //   buttonName: 'Choose Date',
+              //   onPressed: presentDatePicker,
+              // )
             ],
           ),
-          buildGenericButtonWidget(
-            buttonName: 'Sign Up',
-            onPressed: () async {
-              UserCredential userCredential =
-                  await AuthService.firebase().createUserWithEmailAndPassword(
-                avatar: avatar!.path,
-                name: name.text,
-                phoneNumber: phoneNumber.text,
-                email: email.text,
-                password: password.text,
-                dob: dob!,
-                residence: residence.text,
-              );
+          // buildGenericButtonWidget(
+          //   buttonName: 'Sign Up',
+          //   onPressed: () async {
+          //     UserCredential userCredential =
+          //         await AuthService.firebase().createUserWithEmailAndPassword(
+          //       avatar: avatar!.path,
+          //       name: name.text,
+          //       phoneNumber: phoneNumber.text,
+          //       email: email.text,
+          //       password: password.text,
+          //       dob: dob!,
+          //       residence: residence.text,
+          //     );
 
-              global.setGlobals(currentUser: userCredential.user!);
+          //     global.setGlobals(currentUser: userCredential.user!);
 
-              if (!mounted) return;
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const VerifyEmail(),
-                ),
-              );
-            },
-          )
+          //     if (!mounted) return;
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (context) => const VerifyEmail(),
+          //       ),
+          //     );
+          //   },
+          // )
         ],
       ),
     );

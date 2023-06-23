@@ -91,17 +91,35 @@ const heading5Neutral = TextStyle(
   fontSize: 16,
   color: rentWheelsNeutralDark900,
 );
-const heading6Neutral = TextStyle(
+const heading5Neutral0 = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 16,
+  color: rentWheelsNeutralLight0,
+);
+const heading6Neutral900 = TextStyle(
   fontWeight: FontWeight.w500,
   fontFamily: 'Urbanist',
   fontSize: 14,
   color: rentWheelsNeutralDark900,
 );
-const heading7Neutral = TextStyle(
+const heading6Neutral500 = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 14,
+  color: rentWheelsNeutral,
+);
+const heading7Neutral900 = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Urbanist',
   fontSize: 12,
   color: rentWheelsNeutralDark900,
+);
+const heading7Neutral500 = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 12,
+  color: rentWheelsNeutral,
 );
 const heading8Neutral = TextStyle(
   fontWeight: FontWeight.w500,

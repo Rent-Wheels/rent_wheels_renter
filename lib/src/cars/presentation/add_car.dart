@@ -107,58 +107,58 @@ class _AddCarState extends State<AddCar> {
                 controller: terms,
                 decoration: const InputDecoration(hintText: 'terms'),
               ),
-              buildGenericButtonWidget(
-                buttonName: 'Select Images',
-                onPressed: chooseImages,
-              ),
-              ...media
-                  .map((media) => Image.file(
-                        File(media.mediaURL),
-                        fit: BoxFit.cover,
-                      ))
-                  .toList(),
-              buildGenericButtonWidget(
-                buttonName: 'Add Car',
-                onPressed: () async {
-                  // Car carDetails = Car(
-                  //     owner: global.userDetails!.id,
-                  //     make: 'Mercedes Benz',
-                  //     model: 'Cruze',
-                  //     capacity: 5,
-                  //     yearOfManufacture: '2055',
-                  //     registrationNumber: 'AW 3345-99',
-                  //     condition: 'Excellent',
-                  //     rate: 15,
-                  //     plan: '/day',
-                  //     type: 'Bus',
-                  //     availability: true,
-                  //     location: 'Kumasi',
-                  //     maxDuration: 25,
-                  //     description: 'Desc',
-                  //     terms: 'terms',
-                  //     media: media);
-                  // // Car carDetails = Car(
-                  // //     owner: global.userDetails!.id,
-                  // //     make: make.text,
-                  // //     model: model.text,
-                  // //     capacity: int.parse(capacity.text),
-                  // //     yearOfManufacture: yearOfManufacture.text,
-                  // //     registrationNumber: registrationNumber.text,
-                  // //     condition: condition.text,
-                  // //     rate: int.parse(rate.text),
-                  // //     plan: plan.text,
-                  // //     type: type.text,
-                  // //     availability: bool.parse(availability.text),
-                  // //     location: location.text,
-                  // //     maxDuration: int.parse(maxDuration.text),
-                  // //     description: description.text,
-                  // //     terms: terms.text,
-                  // //     media: media);
+              // buildGenericButtonWidget(
+              //   buttonName: 'Select Images',
+              //   onPressed: chooseImages,
+              // ),
+              // ...media
+              //     .map((media) => Image.file(
+              //           File(media.mediaURL),
+              //           fit: BoxFit.cover,
+              //         ))
+              //     .toList(),
+              // buildGenericButtonWidget(
+              //   buttonName: 'Add Car',
+              //   onPressed: () async {
+              //     // Car carDetails = Car(
+              //     //     owner: global.userDetails!.id,
+              //     //     make: 'Mercedes Benz',
+              //     //     model: 'Cruze',
+              //     //     capacity: 5,
+              //     //     yearOfManufacture: '2055',
+              //     //     registrationNumber: 'AW 3345-99',
+              //     //     condition: 'Excellent',
+              //     //     rate: 15,
+              //     //     plan: '/day',
+              //     //     type: 'Bus',
+              //     //     availability: true,
+              //     //     location: 'Kumasi',
+              //     //     maxDuration: 25,
+              //     //     description: 'Desc',
+              //     //     terms: 'terms',
+              //     //     media: media);
+              //     // // Car carDetails = Car(
+              //     // //     owner: global.userDetails!.id,
+              //     // //     make: make.text,
+              //     // //     model: model.text,
+              //     // //     capacity: int.parse(capacity.text),
+              //     // //     yearOfManufacture: yearOfManufacture.text,
+              //     // //     registrationNumber: registrationNumber.text,
+              //     // //     condition: condition.text,
+              //     // //     rate: int.parse(rate.text),
+              //     // //     plan: plan.text,
+              //     // //     type: type.text,
+              //     // //     availability: bool.parse(availability.text),
+              //     // //     location: location.text,
+              //     // //     maxDuration: int.parse(maxDuration.text),
+              //     // //     description: description.text,
+              //     // //     terms: terms.text,
+              //     // //     media: media);
 
-                  // await RentWheelsCarMethods()
-                  //     .addNewCar(carDetails: carDetails);
-                },
-              ),
+              //     // await RentWheelsCarMethods()
+              //     //     .addNewCar(carDetails: carDetails);
+              //   },
+              // ),
             ],
           ),
         ),

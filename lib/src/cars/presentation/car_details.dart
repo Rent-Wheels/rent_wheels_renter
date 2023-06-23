@@ -7,7 +7,6 @@ import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 
 class CarDetails extends StatefulWidget {
   final Car car;
@@ -175,48 +174,48 @@ class _CarDetailsState extends State<CarDetails> {
                       fit: BoxFit.cover,
                     ))
                 .toList(),
-            buildGenericButtonWidget(
-              buttonName: 'Select Images',
-              onPressed: chooseImages,
-            ),
-            buildGenericButtonWidget(
-              buttonName: 'Update Car',
-              onPressed: () async {
-                // Car carDetails = Car(
-                //   carId: widget.car.carId,
-                //   owner: global.userDetails!.id,
-                //   make: make.text,
-                //   model: model.text,
-                //   capacity: int.parse(capacity.text),
-                //   yearOfManufacture: yearOfManufacture.text,
-                //   registrationNumber: registrationNumber.text,
-                //   condition: condition.text,
-                //   rate: int.parse(rate.text),
-                //   plan: plan.text,
-                //   type: type.text,
-                //   availability: bool.parse(availability.text),
-                //   location: location.text,
-                //   maxDuration: int.parse(maxDuration.text),
-                //   description: description.text,
-                //   terms: terms.text,
-                //   media: media,
-                // );
+            // buildGenericButtonWidget(
+            //   buttonName: 'Select Images',
+            //   onPressed: chooseImages,
+            // ),
+            // buildGenericButtonWidget(
+            //   buttonName: 'Update Car',
+            //   onPressed: () async {
+            //     // Car carDetails = Car(
+            //     //   carId: widget.car.carId,
+            //     //   owner: global.userDetails!.id,
+            //     //   make: make.text,
+            //     //   model: model.text,
+            //     //   capacity: int.parse(capacity.text),
+            //     //   yearOfManufacture: yearOfManufacture.text,
+            //     //   registrationNumber: registrationNumber.text,
+            //     //   condition: condition.text,
+            //     //   rate: int.parse(rate.text),
+            //     //   plan: plan.text,
+            //     //   type: type.text,
+            //     //   availability: bool.parse(availability.text),
+            //     //   location: location.text,
+            //     //   maxDuration: int.parse(maxDuration.text),
+            //     //   description: description.text,
+            //     //   terms: terms.text,
+            //     //   media: media,
+            //     // );
 
-                // await RentWheelsCarMethods()
-                //     .updateCarDetails(carDetails: carDetails);
-              },
-            ),
-            buildGenericButtonWidget(
-              buttonName: 'Delete Car',
-              onPressed: () async {
-                final response = await RentWheelsCarMethods()
-                    .deleteCar(carId: widget.car.carId!);
-                if (response == Status.success) {
-                  if (!mounted) return;
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
+            //     // await RentWheelsCarMethods()
+            //     //     .updateCarDetails(carDetails: carDetails);
+            //   },
+            // ),
+            // buildGenericButtonWidget(
+            //   buttonName: 'Delete Car',
+            //   onPressed: () async {
+            //     final response = await RentWheelsCarMethods()
+            //         .deleteCar(carId: widget.car.carId!);
+            //     if (response == Status.success) {
+            //       if (!mounted) return;
+            //       Navigator.of(context).pop();
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

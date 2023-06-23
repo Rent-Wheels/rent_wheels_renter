@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Brand Colours
 const rentWheelsBrandDark900 = Color.fromARGB(255, 16, 63, 116);
+const rentWheelsBrandDark900Trans = Color.fromARGB(125, 16, 63, 116);
 const rentWheelsBrandDark800 = Color.fromARGB(255, 27, 88, 140);
 const rentWheelsBrandDark700 = Color.fromARGB(255, 43, 123, 174);
 const rentWheelsBrandDark600 = Color.fromARGB(255, 62, 162, 208);
@@ -21,7 +22,7 @@ const rentWheelsNeutralLight400 = Color.fromARGB(255, 169, 180, 205);
 const rentWheelsNeutralLight300 = Color.fromARGB(255, 197, 208, 230);
 const rentWheelsNeutralLight200 = Color.fromARGB(255, 223, 232, 246);
 const rentWheelsNeutralLight100 = Color.fromARGB(255, 239, 243, 250);
-const rentWheelsNeutralLight0 = Color.fromARGB(255, 225, 225, 225);
+const rentWheelsNeutralLight0 = Color.fromARGB(255, 255, 255, 255);
 
 // Success Colors
 const rentWheelsSuccessDark900 = Color.fromARGB(255, 22, 103, 26);

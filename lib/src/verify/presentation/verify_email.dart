@@ -24,31 +24,31 @@ class _VerifyEmailState extends State<VerifyEmail> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text('A verification email has been sent to ${global.user!.email} '),
-          buildGenericButtonWidget(
-              buttonName: 'Confirm Verification',
-              onPressed: () async {
-                await FirebaseAuth.instance.currentUser!.reload();
+          // buildGenericButtonWidget(
+          //     buttonName: 'Confirm Verification',
+          //     onPressed: () async {
+          //       await FirebaseAuth.instance.currentUser!.reload();
 
-                global.user = FirebaseAuth.instance.currentUser;
+          //       global.user = FirebaseAuth.instance.currentUser;
 
-                if (!global.user!.emailVerified) return;
+          //       if (!global.user!.emailVerified) return;
 
-                final user = await RentWheelsUserMethods()
-                    .getUserDetails(userId: global.user!.uid);
-                if (!mounted) return;
+          //       final user = await RentWheelsUserMethods()
+          //           .getUserDetails(userId: global.user!.uid);
+          //       if (!mounted) return;
 
-                if (user.role == Roles.renter.id) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const Home()),
-                      (route) => false);
-                }
-              }),
-          buildGenericButtonWidget(
-            buttonName: 'Resend Verification',
-            onPressed: () async {
-              await AuthService.firebase().verifyEmail(user: global.user!);
-            },
-          ),
+          //       if (user.role == Roles.renter.id) {
+          //         Navigator.of(context).pushAndRemoveUntil(
+          //             MaterialPageRoute(builder: (context) => const Home()),
+          //             (route) => false);
+          //       }
+          //     }),
+          // buildGenericButtonWidget(
+          //   buttonName: 'Resend Verification',
+          //   onPressed: () async {
+          //     await AuthService.firebase().verifyEmail(user: global.user!);
+          //   },
+          // ),
         ],
       ),
     );

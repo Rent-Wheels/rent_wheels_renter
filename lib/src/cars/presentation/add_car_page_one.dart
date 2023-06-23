@@ -31,16 +31,6 @@ class _AddCarMockState extends State<AddCarMock> {
   TextEditingController yearOfManufacture = TextEditingController();
   TextEditingController registrationNumber = TextEditingController();
 
-  TextEditingController rate = TextEditingController();
-  TextEditingController plan = TextEditingController();
-  TextEditingController terms = TextEditingController();
-  TextEditingController location = TextEditingController();
-  TextEditingController capacity = TextEditingController();
-  TextEditingController condition = TextEditingController();
-  TextEditingController maxDuration = TextEditingController();
-  TextEditingController description = TextEditingController();
-  TextEditingController availability = TextEditingController();
-
   bool isActive() {
     return isMakeValid &&
         isModelValid &&
