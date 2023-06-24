@@ -47,6 +47,8 @@ dependencies:
   google_maps_webservice: ^0.0.19
   google_api_headers: ^1.0.0
   modal_bottom_sheet: ^3.0.0-pre
+  loading_indicator: ^3.1.0
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:
