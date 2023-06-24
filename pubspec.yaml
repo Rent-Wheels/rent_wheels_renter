@@ -46,6 +46,7 @@ dependencies:
   string_validator: ^1.0.0
   google_maps_webservice: ^0.0.19
   google_api_headers: ^1.0.0
+  modal_bottom_sheet: ^3.0.0-pre
 
 dev_dependencies:
   flutter_test:

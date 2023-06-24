@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_one.dart';
-import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
+import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/src/verify/presentation/verify_user.dart';

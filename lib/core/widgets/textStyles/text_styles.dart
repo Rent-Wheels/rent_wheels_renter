@@ -379,11 +379,17 @@ const body3Brand = TextStyle(
 );
 
 // Neutral Body
-const body1Neutral = TextStyle(
+const body1Neutral900 = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'Urbanist',
   fontSize: 16,
   color: rentWheelsNeutralDark900,
+);
+const body1Neutral500 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Urbanist',
+  fontSize: 16,
+  color: rentWheelsNeutral,
 );
 const body2Neutral = TextStyle(
   fontWeight: FontWeight.w400,
