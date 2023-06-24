@@ -1,42 +1,42 @@
 class Car {
   String? carId;
-  String owner;
-  String make;
-  String model;
-  num capacity;
-  String yearOfManufacture;
-  String color;
-  String registrationNumber;
-  String condition;
-  num rate;
-  String plan;
-  String type;
-  bool availability;
-  String location;
-  num maxDuration;
-  String description;
-  String terms;
-  List<Media> media;
+  String? owner;
+  String? make;
+  String? model;
+  num? capacity;
+  String? yearOfManufacture;
+  String? color;
+  String? registrationNumber;
+  String? condition;
+  num? rate;
+  String? plan;
+  String? type;
+  bool? availability;
+  String? location;
+  num? maxDuration;
+  String? description;
+  String? terms;
+  List<Media>? media;
 
   Car({
     this.carId,
-    required this.owner,
-    required this.make,
-    required this.model,
-    required this.capacity,
-    required this.color,
-    required this.yearOfManufacture,
-    required this.registrationNumber,
-    required this.condition,
-    required this.rate,
-    required this.plan,
-    required this.type,
-    required this.availability,
-    required this.location,
-    required this.maxDuration,
-    required this.description,
-    required this.terms,
-    required this.media,
+    this.owner,
+    this.make,
+    this.model,
+    this.capacity,
+    this.color,
+    this.yearOfManufacture,
+    this.registrationNumber,
+    this.condition,
+    this.rate,
+    this.plan,
+    this.type,
+    this.availability,
+    this.location,
+    this.maxDuration,
+    this.description,
+    this.terms,
+    this.media,
   });
 
   factory Car.fromJSON(Map<String, dynamic> json) {
@@ -66,9 +66,9 @@ class Car {
 }
 
 class Media {
-  String mediaURL;
+  String? mediaURL;
 
-  Media({required this.mediaURL});
+  Media({this.mediaURL});
 
   factory Media.fromJSON(Map<String, dynamic> json) {
     return Media(mediaURL: json['mediaURL']);

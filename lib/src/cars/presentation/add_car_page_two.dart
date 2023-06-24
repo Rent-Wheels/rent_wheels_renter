@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/textfields/dropdown_input_field.dart';
-import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_three.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/rate_input_field_widget.dart';
 import 'package:string_validator/string_validator.dart';
 
+import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_three.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/rate_input_field_widget.dart';
+
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/textfields/dropdown_input_field.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
 class AddCarPageTwo extends StatefulWidget {
-  const AddCarPageTwo({super.key});
+  final Car carDetails;
+  const AddCarPageTwo({super.key, required this.carDetails});
 
   @override
   State<AddCarPageTwo> createState() => _AddCarPageTwoState();
 }
 
 class _AddCarPageTwoState extends State<AddCarPageTwo> {
-  bool isRateValid = false;
-  bool isPlanValid = true;
-  bool isTypeValid = false;
-  bool isColorValid = false;
-  bool isDurationValid = true;
-  bool isCapacityValid = false;
-  bool isConditionValid = false;
-  bool isMaxDurationValid = false;
-  bool isRegistrationValid = false;
+  late bool isRateValid;
+  late bool isPlanValid;
+  late bool isTypeValid;
+  late bool isDurationValid;
+  late bool isCapacityValid;
+  late bool isConditionValid;
+  late bool isMaxDurationValid;
 
+  TextEditingController plan = TextEditingController();
   TextEditingController type = TextEditingController();
   TextEditingController rate = TextEditingController();
   TextEditingController capacity = TextEditingController();
   TextEditingController condition = TextEditingController();
   TextEditingController maxDuration = TextEditingController();
-  TextEditingController plan = TextEditingController(text: '/hr');
   TextEditingController duration = TextEditingController(text: 'days');
+
+  Car carDetails = Car();
 
   bool isActive() {
     return isRateValid &&
@@ -49,6 +52,33 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
   }
 
   @override
+  void initState() {
+    type.text = widget.carDetails.type ?? "";
+    plan.text = widget.carDetails.plan ?? "/hr";
+    condition.text = widget.carDetails.condition ?? "";
+    rate.text =
+        widget.carDetails.rate == null ? "" : widget.carDetails.rate.toString();
+    capacity.text = widget.carDetails.capacity == null
+        ? ""
+        : widget.carDetails.capacity.toString();
+    maxDuration.text = widget.carDetails.capacity == null
+        ? ""
+        : widget.carDetails.maxDuration.toString();
+
+    isPlanValid = true;
+    isDurationValid = true;
+    isTypeValid = widget.carDetails.type == null ? false : true;
+    isRateValid = widget.carDetails.rate == null ? false : true;
+    isCapacityValid = widget.carDetails.capacity == null ? false : true;
+    isConditionValid = widget.carDetails.condition == null ? false : true;
+    isMaxDurationValid = widget.carDetails.maxDuration == null ? false : true;
+
+    carDetails = widget.carDetails;
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
@@ -57,7 +87,20 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
         foregroundColor: rentWheelsBrandDark900,
         backgroundColor: rentWheelsNeutralLight0,
         leading: buildAdaptiveBackButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            carDetails.type = type.text;
+            carDetails.plan = plan.text;
+            carDetails.condition = condition.text;
+            carDetails.rate =
+                rate.text.isNotEmpty ? num.parse(rate.text) : null;
+            carDetails.capacity =
+                capacity.text.isNotEmpty ? num.parse(capacity.text) : null;
+            carDetails.maxDuration = maxDuration.text.isNotEmpty
+                ? num.parse(maxDuration.text)
+                : null;
+
+            Navigator.pop(context, carDetails);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -73,6 +116,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                   Space().height(context, 0.03),
                   buildDropDownInputField(
                     context: context,
+                    value: type.text.isNotEmpty ? type.text : null,
                     hintText: 'Car Type',
                     items: const [
                       DropdownMenuItem(
@@ -149,6 +193,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                   Space().height(context, 0.02),
                   buildDropDownInputField(
                     context: context,
+                    value: condition.text.isNotEmpty ? condition.text : null,
                     hintText: 'Car Condition',
                     items: const [
                       DropdownMenuItem(
@@ -275,16 +320,34 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),
-                isActive: true,
-                // isActive: isActive(),
+                isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  carDetails.type = type.text;
+                  carDetails.plan = plan.text;
+                  carDetails.condition = condition.text;
+                  carDetails.rate = num.parse(rate.text);
+                  carDetails.capacity = num.parse(capacity.text);
+                  carDetails.maxDuration = num.parse(maxDuration.text);
+
+                  final car = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AddCarPageThree(),
+                      builder: (context) => AddCarPageThree(
+                        carDetails: carDetails,
+                      ),
                     ),
                   );
+
+                  carDetails = car;
+                  setState(() {
+                    type.text = carDetails.type!;
+                    plan.text = carDetails.plan!;
+                    condition.text = carDetails.condition!;
+                    rate.text = carDetails.rate.toString();
+                    capacity.text = carDetails.capacity.toString();
+                    maxDuration.text = carDetails.maxDuration.toString();
+                  });
                 },
               )
             ],

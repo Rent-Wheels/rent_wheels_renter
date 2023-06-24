@@ -130,7 +130,7 @@ class _CarDetailsState extends State<CarDetails> {
               controller: terms,
               decoration: const InputDecoration(hintText: 'terms'),
             ),
-            ...widget.car.media.map(
+            ...widget.car.media!.map(
               (media) {
                 return Stack(
                   children: [
@@ -148,11 +148,11 @@ class _CarDetailsState extends State<CarDetails> {
                             final response = await RentWheelsCarMethods()
                                 .deleteCarMedia(
                                     carId: widget.car.carId!,
-                                    mediaURL: media.mediaURL);
+                                    mediaURL: media.mediaURL!);
 
                             if (response == Status.success) {
                               setState(() {
-                                widget.car.media.removeWhere(
+                                widget.car.media!.removeWhere(
                                     (m) => m.mediaURL == media.mediaURL);
                               });
                             }
@@ -170,7 +170,7 @@ class _CarDetailsState extends State<CarDetails> {
             ).toList(),
             ...media
                 .map((media) => Image.file(
-                      File(media.mediaURL),
+                      File(media.mediaURL!),
                       fit: BoxFit.cover,
                     ))
                 .toList(),

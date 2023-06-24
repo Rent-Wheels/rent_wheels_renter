@@ -3,20 +3,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/add_car_image_widget.dart';
+import 'package:rent_wheels_renter/src/cars/widgets/add_more_images_widget.dart';
+
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/add_car_image_widget.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/add_more_images_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/bottomSheets/media_bottom_sheet.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class AddCarPageFour extends StatefulWidget {
-  const AddCarPageFour({super.key});
+  final Car carDetails;
+  const AddCarPageFour({super.key, required this.carDetails});
 
   @override
   State<AddCarPageFour> createState() => _AddCarPageFourState();
@@ -25,8 +27,9 @@ class AddCarPageFour extends StatefulWidget {
 class _AddCarPageFourState extends State<AddCarPageFour> {
   File? back;
   File? front;
-  List<Media> imageFiles = [];
-  List<File> additionalImageFiles = [];
+  late List<Media> imageFiles;
+  late List<File> additionalImageFiles;
+  Car carDetails = Car();
 
   bool isActive() {
     return back != null && front != null;
@@ -53,10 +56,10 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
         setState(() {
           if (type == 'front') {
             front = image;
-            imageFiles.insert(0, Media(mediaURL: image.path));
+            imageFiles[0] = Media(mediaURL: image.path);
           } else if (type == 'back') {
             back = image;
-            imageFiles.insert(1, Media(mediaURL: image.path));
+            imageFiles[1] = Media(mediaURL: image.path);
           }
         });
       }
@@ -67,10 +70,10 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
     setState(() {
       if (type == 'front') {
         front = null;
-        imageFiles.removeAt(0);
+        imageFiles[0] = Media(mediaURL: null);
       } else if (type == 'back') {
         back = null;
-        imageFiles.removeAt(1);
+        imageFiles[1] = Media(mediaURL: null);
       } else {
         additionalImageFiles.removeWhere((img) => img == image);
         imageFiles.removeWhere((media) => media.mediaURL == image!.path);
@@ -93,6 +96,32 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
   }
 
   @override
+  void initState() {
+    if (widget.carDetails.media != null &&
+        widget.carDetails.media!.isNotEmpty) {
+      additionalImageFiles = [];
+      imageFiles = widget.carDetails.media!;
+      if (imageFiles.first.mediaURL != null) {
+        front = File(imageFiles.first.mediaURL!);
+      }
+      if (imageFiles.length > 1 && imageFiles[1].mediaURL != null) {
+        back = File(imageFiles[1].mediaURL!);
+      }
+      if (imageFiles.length > 2) {
+        additionalImageFiles =
+            imageFiles.map((image) => File(image.mediaURL ?? "")).toList();
+        additionalImageFiles.removeRange(0, 2);
+      }
+    } else {
+      imageFiles = [Media(mediaURL: null), Media(mediaURL: null)];
+      additionalImageFiles = [];
+    }
+
+    carDetails = widget.carDetails;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
@@ -101,17 +130,21 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
         foregroundColor: rentWheelsBrandDark900,
         backgroundColor: rentWheelsNeutralLight0,
         leading: buildAdaptiveBackButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            carDetails.media = imageFiles;
+            Navigator.pop(context, carDetails);
+          },
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(Sizes().height(context, 0.02)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildAddCarTop(context: context, page: 4),
                   Space().height(context, 0.03),
@@ -173,14 +206,15 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                   if (isActive())
                     buildAddMorePhotos(
                       context: context,
-                      onPressed: () => bottomSheet(type: 'additional'),
+                      onPressed: () => getImage(
+                          source: ImageSource.gallery, type: 'additional'),
                     ),
                 ],
               ),
               Space().height(context, 0.05),
               buildGenericButtonWidget(
                 context: context,
-                width: Sizes().width(context, 0.8),
+                width: Sizes().width(context, 0.85),
                 isActive: isActive(),
                 buttonName: "Continue",
                 onPressed: () {},

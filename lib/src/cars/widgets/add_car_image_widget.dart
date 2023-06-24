@@ -78,7 +78,6 @@ buildCarImageUpload({
               child: GestureDetector(
                 onTap: deleteImage,
                 child: Container(
-                  // radius: Sizes().width(context, 0.035),
                   color: rentWheelsNeutralLight0,
                   child: Icon(
                     Icons.delete,

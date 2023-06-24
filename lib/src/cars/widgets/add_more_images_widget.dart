@@ -25,23 +25,23 @@ buildAddMorePhotos({
               Sizes().width(context, 0.035),
             ),
           ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.add,
+                color: rentWheelsInformationDark900,
+                size: Sizes().height(context, 0.02),
+              ),
+              Space().width(context, 0.005),
+              const Text(
+                'Add more photos.',
+                style: body1Neutral500,
+              )
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.add,
-              color: rentWheelsInformationDark900,
-              size: Sizes().height(context, 0.02),
-            ),
-            Space().width(context, 0.005),
-            const Text(
-              'Add more photos.',
-              style: body1Neutral500,
-            )
-          ],
-        )
       ],
     ),
   );

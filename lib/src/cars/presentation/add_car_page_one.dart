@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
 
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
-import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
-import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
 import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_two.dart';
+
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
+import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
@@ -37,6 +39,8 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
         isYearValid &&
         isRegistrationValid;
   }
+
+  Car carDetails = Car();
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +125,8 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     controller: yearOfManufacture,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
-                      if (value.length == 4 && isNumeric(value)) {
+                      if (num.parse(value) >= 1970 &&
+                          num.parse(value) <= 2023) {
                         setState(() {
                           isYearValid = true;
                         });
@@ -138,8 +143,9 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     hint: 'Car Registration Number',
                     controller: registrationNumber,
                     onChanged: (value) {
-                      final noSpaceValue = value.replaceAll(" ", "");
-                      if (noSpaceValue.length >= 3 && isAscii(noSpaceValue)) {
+                      final registrationRegexp = RegExp(
+                          r'^[A-Z]{2}\s\d{1,4}[\s-](\D{1}|[0][9]|[1][0-9]|[2][0-3])$');
+                      if (registrationRegexp.hasMatch(value)) {
                         setState(() {
                           isRegistrationValid = true;
                         });
@@ -156,16 +162,35 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
               buildGenericButtonWidget(
                 context: context,
                 width: Sizes().width(context, 0.8),
-                isActive: true,
-                // isActive: isActive(),
+                isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  carDetails.make = make.text;
+                  carDetails.model = model.text;
+                  carDetails.color = color.text;
+                  carDetails.yearOfManufacture = yearOfManufacture.text;
+                  carDetails.registrationNumber = registrationNumber.text;
+
+                  final car = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AddCarPageTwo(),
+                      builder: (context) => AddCarPageTwo(
+                        carDetails: carDetails,
+                      ),
                     ),
                   );
+
+                  if (car != null) {
+                    carDetails = car;
+
+                    setState(() {
+                      make.text = carDetails.make!;
+                      model.text = carDetails.model!;
+                      color.text = carDetails.color!;
+                      yearOfManufacture.text = carDetails.yearOfManufacture!;
+                      registrationNumber.text = carDetails.registrationNumber!;
+                    });
+                  }
                 },
               )
             ],

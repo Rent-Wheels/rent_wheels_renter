@@ -51,31 +51,31 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
         MultipartRequest('POST', Uri.parse('${global.baseURL}/cars/'));
 
     request.headers.addAll(global.headers);
-    request.fields['owner'] = carDetails.owner;
-    request.fields['make'] = carDetails.make;
-    request.fields['model'] = carDetails.model;
+    request.fields['owner'] = carDetails.owner!;
+    request.fields['make'] = carDetails.make!;
+    request.fields['model'] = carDetails.model!;
     request.fields['capacity'] = carDetails.capacity.toString();
-    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture;
-    request.fields['registrationNumber'] = carDetails.registrationNumber;
-    request.fields['condition'] = carDetails.condition;
+    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture!;
+    request.fields['registrationNumber'] = carDetails.registrationNumber!;
+    request.fields['condition'] = carDetails.condition!;
     request.fields['rate'] = carDetails.rate.toString();
-    request.fields['plan'] = carDetails.plan;
-    request.fields['type'] = carDetails.type;
-    request.fields['availability'] = carDetails.availability ? '1' : '0';
-    request.fields['location'] = carDetails.location;
+    request.fields['plan'] = carDetails.plan!;
+    request.fields['type'] = carDetails.type!;
+    request.fields['availability'] = carDetails.availability! ? '1' : '0';
+    request.fields['location'] = carDetails.location!;
     request.fields['maxDuration'] = carDetails.maxDuration.toString();
-    request.fields['description'] = carDetails.description;
-    request.fields['terms'] = carDetails.terms;
+    request.fields['description'] = carDetails.description!;
+    request.fields['terms'] = carDetails.terms!;
 
-    request.files.addAll(carDetails.media.map(
+    request.files.addAll(carDetails.media!.map(
       (media) {
-        final ext = media.mediaURL.split('.').last;
+        final ext = media.mediaURL!.split('.').last;
         return MultipartFile(
           'media',
-          File(media.mediaURL).readAsBytes().asStream(),
-          File(media.mediaURL).lengthSync(),
+          File(media.mediaURL!).readAsBytes().asStream(),
+          File(media.mediaURL!).lengthSync(),
           filename: '${uuid.v1()}.$ext',
-          contentType: MediaType.parse(lookupMimeType(media.mediaURL)!),
+          contentType: MediaType.parse(lookupMimeType(media.mediaURL!)!),
         );
       },
     ).toList());
@@ -97,31 +97,31 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
 
     request.headers.addAll(global.headers);
     request.fields['carId'] = carDetails.carId!;
-    request.fields['owner'] = carDetails.owner;
-    request.fields['make'] = carDetails.make;
-    request.fields['model'] = carDetails.model;
+    request.fields['owner'] = carDetails.owner!;
+    request.fields['make'] = carDetails.make!;
+    request.fields['model'] = carDetails.model!;
     request.fields['capacity'] = carDetails.capacity.toString();
-    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture;
-    request.fields['registrationNumber'] = carDetails.registrationNumber;
-    request.fields['condition'] = carDetails.condition;
+    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture!;
+    request.fields['registrationNumber'] = carDetails.registrationNumber!;
+    request.fields['condition'] = carDetails.condition!;
     request.fields['rate'] = carDetails.rate.toString();
-    request.fields['plan'] = carDetails.plan;
-    request.fields['type'] = carDetails.type;
-    request.fields['availability'] = carDetails.availability ? '1' : '0';
-    request.fields['location'] = carDetails.location;
+    request.fields['plan'] = carDetails.plan!;
+    request.fields['type'] = carDetails.type!;
+    request.fields['availability'] = carDetails.availability! ? '1' : '0';
+    request.fields['location'] = carDetails.location!;
     request.fields['maxDuration'] = carDetails.maxDuration.toString();
-    request.fields['description'] = carDetails.description;
-    request.fields['terms'] = carDetails.terms;
+    request.fields['description'] = carDetails.description!;
+    request.fields['terms'] = carDetails.terms!;
 
-    request.files.addAll(carDetails.media.map(
+    request.files.addAll(carDetails.media!.map(
       (media) {
-        final ext = media.mediaURL.split('.').last;
+        final ext = media.mediaURL!.split('.').last;
         return MultipartFile(
           'media',
-          File(media.mediaURL).readAsBytes().asStream(),
-          File(media.mediaURL).lengthSync(),
+          File(media.mediaURL!).readAsBytes().asStream(),
+          File(media.mediaURL!).lengthSync(),
           filename: '${uuid.v1()}.$ext',
-          contentType: MediaType.parse(lookupMimeType(media.mediaURL)!),
+          contentType: MediaType.parse(lookupMimeType(media.mediaURL!)!),
         );
       },
     ).toList());
@@ -157,7 +157,7 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     final response = await patch(
         Uri.parse('${global.baseURL}/cars/$carId/media'),
         headers: global.headers,
-        body: {'mediaURL': mediaURL});
+        body: {'mediaURL!': mediaURL});
 
     if (response.statusCode == 200) return Status.success;
 

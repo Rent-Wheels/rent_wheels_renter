@@ -1,33 +1,54 @@
 import 'package:flutter/material.dart';
 
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
-import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
-import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/src/search/custom_search_bar.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_four.dart';
+
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
+import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/location/location_selector_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class AddCarPageThree extends StatefulWidget {
-  const AddCarPageThree({super.key});
+  final Car carDetails;
+  const AddCarPageThree({super.key, required this.carDetails});
 
   @override
   State<AddCarPageThree> createState() => _AddCarPageThreeState();
 }
 
 class _AddCarPageThreeState extends State<AddCarPageThree> {
-  bool isTermsValid = false;
-  bool isLocationValid = false;
-  bool isDescriptionValid = false;
+  late bool isTermsValid;
+  late bool isLocationValid;
+  late bool isDescriptionValid;
 
   TextEditingController terms = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController description = TextEditingController();
 
+  Car carDetails = Car();
+
   bool isActive() {
     return isTermsValid && isLocationValid && isDescriptionValid;
+  }
+
+  @override
+  void initState() {
+    terms.text = widget.carDetails.terms ?? "";
+    location.text = widget.carDetails.location ?? "";
+    description.text = widget.carDetails.description ?? "";
+
+    isTermsValid = widget.carDetails.terms == null ? false : true;
+    isLocationValid = widget.carDetails.location == null ? false : true;
+    isDescriptionValid = widget.carDetails.description == null ? false : true;
+
+    carDetails = widget.carDetails;
+
+    super.initState();
   }
 
   @override
@@ -39,7 +60,12 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
         foregroundColor: rentWheelsBrandDark900,
         backgroundColor: rentWheelsNeutralLight0,
         leading: buildAdaptiveBackButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            carDetails.terms = terms.text;
+            carDetails.location = location.text;
+            carDetails.description = description.text;
+            Navigator.pop(context, carDetails);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -125,7 +151,16 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                 width: Sizes().width(context, 0.8),
                 isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddCarPageFour(
+                        carDetails: carDetails,
+                      ),
+                    ),
+                  );
+                },
               )
             ],
           ),

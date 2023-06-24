@@ -57,7 +57,7 @@ class _CarsState extends State<Cars> {
           )),
           child: ListTile(
             leading: Image.network(
-                '${global.baseURL}/${cars[index].media[0].mediaURL}'),
+                '${global.baseURL}/${cars[index].media![0].mediaURL}'),
             title: Text(
                 '${cars[index].yearOfManufacture} ${cars[index].make} ${cars[index].model}'),
           ),
