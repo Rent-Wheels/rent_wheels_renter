@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
 
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_sucess.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_image_widget.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_more_images_widget.dart';
 
@@ -12,9 +12,12 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popups.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
+import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/bottomSheets/media_bottom_sheet.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class AddCarPageFour extends StatefulWidget {
@@ -223,8 +226,27 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                 width: Sizes().width(context, 0.85),
                 isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {
+                onPressed: () async {
                   buildLoadingIndicator(context, 'Adding Car');
+
+                  try {
+                    final car = await RentWheelsCarMethods()
+                        .addNewCar(carDetails: carDetails);
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddCarSuccess(carDetails: car),
+                      ),
+                      (route) => false,
+                    );
+                  } catch (e) {
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                    showErrorPopUp(
+                        e.toString().replaceAll('Exception:', ""), context);
+                  }
                 },
               )
             ],

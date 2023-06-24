@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:rent_wheels_renter/src/cars/presentation/add_car.dart';
 import 'package:rent_wheels_renter/src/cars/presentation/all_cars.dart';
+import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_one.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const AddCar(),
+                  builder: (context) => const AddCarPageOne(),
                 ),
               ),
               child: const ListTile(

@@ -51,7 +51,7 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
         MultipartRequest('POST', Uri.parse('${global.baseURL}/cars/'));
 
     request.headers.addAll(global.headers);
-    request.fields['owner'] = carDetails.owner!;
+    request.fields['owner'] = global.userDetails!.id;
     request.fields['make'] = carDetails.make!;
     request.fields['model'] = carDetails.model!;
     request.fields['capacity'] = carDetails.capacity.toString();
@@ -61,11 +61,13 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     request.fields['rate'] = carDetails.rate.toString();
     request.fields['plan'] = carDetails.plan!;
     request.fields['type'] = carDetails.type!;
-    request.fields['availability'] = carDetails.availability! ? '1' : '0';
+    request.fields['availability'] = '1';
     request.fields['location'] = carDetails.location!;
     request.fields['maxDuration'] = carDetails.maxDuration.toString();
     request.fields['description'] = carDetails.description!;
     request.fields['terms'] = carDetails.terms!;
+    request.fields['color'] = carDetails.color!;
+    request.fields['durationUnit'] = carDetails.duration!;
 
     request.files.addAll(carDetails.media!.map(
       (media) {
@@ -86,7 +88,7 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     if (response.statusCode == 201) {
       return Car.fromJSON(jsonDecode(responseBody));
     }
-    throw Exception();
+    throw Exception(responseBody);
   }
 
   @override
@@ -97,7 +99,7 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
 
     request.headers.addAll(global.headers);
     request.fields['carId'] = carDetails.carId!;
-    request.fields['owner'] = carDetails.owner!;
+    request.fields['owner'] = global.userDetails!.id;
     request.fields['make'] = carDetails.make!;
     request.fields['model'] = carDetails.model!;
     request.fields['capacity'] = carDetails.capacity.toString();
@@ -107,7 +109,7 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     request.fields['rate'] = carDetails.rate.toString();
     request.fields['plan'] = carDetails.plan!;
     request.fields['type'] = carDetails.type!;
-    request.fields['availability'] = carDetails.availability! ? '1' : '0';
+    request.fields['availability'] = '1';
     request.fields['location'] = carDetails.location!;
     request.fields['maxDuration'] = carDetails.maxDuration.toString();
     request.fields['description'] = carDetails.description!;

@@ -391,6 +391,12 @@ const body1Neutral500 = TextStyle(
   fontSize: 16,
   color: rentWheelsNeutral,
 );
+const body1NeutralLight = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Urbanist',
+  fontSize: 16,
+  color: rentWheelsNeutralLight0,
+);
 const body2Neutral = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'Urbanist',
