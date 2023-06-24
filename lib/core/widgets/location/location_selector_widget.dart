@@ -30,12 +30,14 @@ buildLocationSelector({
             Sizes().width(context, 0.035),
           ),
         ),
-        padding: EdgeInsets.only(left: Sizes().width(context, 0.04)),
+        padding: EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.04)),
         child: GestureDetector(
           onTap: onTap,
           child: TextField(
             enabled: false,
             controller: controller,
+            minLines: 1,
+            maxLines: null,
             style: heading6Neutral900,
             decoration: InputDecoration(
               hintText: hint,

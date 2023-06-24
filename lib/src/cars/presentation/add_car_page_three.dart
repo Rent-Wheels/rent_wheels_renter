@@ -61,9 +61,6 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
         backgroundColor: rentWheelsNeutralLight0,
         leading: buildAdaptiveBackButton(
           onPressed: () {
-            carDetails.terms = terms.text;
-            carDetails.location = location.text;
-            carDetails.description = description.text;
             Navigator.pop(context, carDetails);
           },
         ),
@@ -95,6 +92,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                         setState(() {
                           location.text = result;
                           isLocationValid = true;
+                          carDetails.location = result;
                         });
                       }
                     },
@@ -113,6 +111,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                       if (noSpaces.isNotEmpty && noSpaces.length > 10) {
                         setState(() {
                           isDescriptionValid = true;
+                          carDetails.description = value;
                         });
                       } else {
                         setState(() {
@@ -135,6 +134,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                       if (noSpaces.isNotEmpty && noSpaces.length > 10) {
                         setState(() {
                           isTermsValid = true;
+                          carDetails.terms = value;
                         });
                       } else {
                         setState(() {
@@ -151,8 +151,8 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                 width: Sizes().width(context, 0.8),
                 isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  final car = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddCarPageFour(
@@ -160,6 +160,14 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                       ),
                     ),
                   );
+                  if (car != null) {
+                    carDetails = car;
+                    setState(() {
+                      terms.text = carDetails.terms!;
+                      location.text = carDetails.location!;
+                      description.text = carDetails.description!;
+                    });
+                  }
                 },
               )
             ],

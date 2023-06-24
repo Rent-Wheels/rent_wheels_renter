@@ -8,6 +8,7 @@ buildGenericTextfield({
   required String hint,
   TextInputType? keyboardType,
   TextInputAction? textInput,
+  TextCapitalization? textCapitalization,
   int? minLines,
   int? maxLines,
   required BuildContext context,
@@ -39,7 +40,8 @@ buildGenericTextfield({
           controller: controller,
           style: heading6Neutral900,
           keyboardType: keyboardType,
-          textCapitalization: TextCapitalization.sentences,
+          textCapitalization:
+              textCapitalization ?? TextCapitalization.sentences,
           textInputAction: textInput ?? TextInputAction.next,
           minLines: minLines,
           maxLines: maxLines,

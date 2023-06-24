@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
 
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_image_widget.dart';
@@ -64,6 +65,10 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
         });
       }
     }
+
+    setState(() {
+      carDetails.media = imageFiles;
+    });
   }
 
   deleteImage({File? image, required String type}) {
@@ -78,6 +83,8 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
         additionalImageFiles.removeWhere((img) => img == image);
         imageFiles.removeWhere((media) => media.mediaURL == image!.path);
       }
+
+      carDetails.media = imageFiles;
     });
   }
 
@@ -131,7 +138,6 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
         backgroundColor: rentWheelsNeutralLight0,
         leading: buildAdaptiveBackButton(
           onPressed: () {
-            carDetails.media = imageFiles;
             Navigator.pop(context, carDetails);
           },
         ),
@@ -217,7 +223,9 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                 width: Sizes().width(context, 0.85),
                 isActive: isActive(),
                 buttonName: "Continue",
-                onPressed: () {},
+                onPressed: () {
+                  buildLoadingIndicator(context, 'Adding Car');
+                },
               )
             ],
           ),

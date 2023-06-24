@@ -32,7 +32,9 @@ class CustomSearchScaffoldState extends PlacesAutocompleteState {
       apiHeaders: await const GoogleApiHeaders().getHeaders(),
     );
     PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
-    return '${detail.result.name}, ${detail.result.formattedAddress}';
+    return detail.result.name == detail.result.formattedAddress!.split(',')[0]
+        ? detail.result.formattedAddress!
+        : '${detail.result.name}, ${detail.result.formattedAddress}';
   }
 
   @override

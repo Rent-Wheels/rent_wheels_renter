@@ -74,6 +74,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                       if (noSpaceValue.length >= 3 && isAlpha(noSpaceValue)) {
                         setState(() {
                           isMakeValid = true;
+                          carDetails.make = value;
                         });
                       } else {
                         setState(() {
@@ -89,9 +90,11 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     controller: model,
                     onChanged: (value) {
                       final noSpaceValue = value.replaceAll(" ", "");
-                      if (noSpaceValue.length >= 2) {
+                      if (noSpaceValue.length >= 2 &&
+                          isAlphanumeric(noSpaceValue)) {
                         setState(() {
                           isModelValid = true;
+                          carDetails.model = value;
                         });
                       } else {
                         setState(() {
@@ -110,6 +113,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                       if (noSpaceValue.length >= 3 && isAlpha(noSpaceValue)) {
                         setState(() {
                           isColorValid = true;
+                          carDetails.color = value;
                         });
                       } else {
                         setState(() {
@@ -129,6 +133,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                           num.parse(value) <= 2023) {
                         setState(() {
                           isYearValid = true;
+                          carDetails.yearOfManufacture = value;
                         });
                       } else {
                         setState(() {
@@ -142,12 +147,14 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     context: context,
                     hint: 'Car Registration Number',
                     controller: registrationNumber,
+                    textCapitalization: TextCapitalization.characters,
                     onChanged: (value) {
                       final registrationRegexp = RegExp(
                           r'^[A-Z]{2}\s\d{1,4}[\s-](\D{1}|[0][9]|[1][0-9]|[2][0-3])$');
                       if (registrationRegexp.hasMatch(value)) {
                         setState(() {
                           isRegistrationValid = true;
+                          carDetails.registrationNumber = value;
                         });
                       } else {
                         setState(() {
@@ -165,12 +172,6 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                 isActive: isActive(),
                 buttonName: "Continue",
                 onPressed: () async {
-                  carDetails.make = make.text;
-                  carDetails.model = model.text;
-                  carDetails.color = color.text;
-                  carDetails.yearOfManufacture = yearOfManufacture.text;
-                  carDetails.registrationNumber = registrationNumber.text;
-
                   final car = await Navigator.push(
                     context,
                     MaterialPageRoute(

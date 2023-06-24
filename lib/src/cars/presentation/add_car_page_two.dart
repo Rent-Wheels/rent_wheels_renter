@@ -37,7 +37,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
   TextEditingController capacity = TextEditingController();
   TextEditingController condition = TextEditingController();
   TextEditingController maxDuration = TextEditingController();
-  TextEditingController duration = TextEditingController(text: 'days');
+  TextEditingController duration = TextEditingController();
 
   Car carDetails = Car();
 
@@ -61,7 +61,8 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
     capacity.text = widget.carDetails.capacity == null
         ? ""
         : widget.carDetails.capacity.toString();
-    maxDuration.text = widget.carDetails.capacity == null
+    duration.text = widget.carDetails.duration ?? "days";
+    maxDuration.text = widget.carDetails.maxDuration == null
         ? ""
         : widget.carDetails.maxDuration.toString();
 
@@ -88,17 +89,6 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
         backgroundColor: rentWheelsNeutralLight0,
         leading: buildAdaptiveBackButton(
           onPressed: () {
-            carDetails.type = type.text;
-            carDetails.plan = plan.text;
-            carDetails.condition = condition.text;
-            carDetails.rate =
-                rate.text.isNotEmpty ? num.parse(rate.text) : null;
-            carDetails.capacity =
-                capacity.text.isNotEmpty ? num.parse(capacity.text) : null;
-            carDetails.maxDuration = maxDuration.text.isNotEmpty
-                ? num.parse(maxDuration.text)
-                : null;
-
             Navigator.pop(context, carDetails);
           },
         ),
@@ -161,6 +151,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                         setState(() {
                           type.text = value;
                           isTypeValid = true;
+                          carDetails.type = value;
                         });
                       } else {
                         setState(() {
@@ -182,6 +173,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                           isNumeric(value)) {
                         setState(() {
                           isCapacityValid = true;
+                          carDetails.capacity = num.parse(value);
                         });
                       } else {
                         setState(() {
@@ -218,6 +210,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                         setState(() {
                           condition.text = value;
                           isConditionValid = true;
+                          carDetails.condition = value;
                         });
                       } else {
                         setState(() {
@@ -241,6 +234,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                       ),
                     ],
                     value: plan.text,
+                    prefixText: 'GH¢',
                     hintText: 'Rental Rate',
                     context: context,
                     controller: rate,
@@ -249,6 +243,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                         setState(() {
                           plan.text = value;
                           isPlanValid = true;
+                          carDetails.plan = value;
                         });
                       } else {
                         setState(() {
@@ -257,9 +252,10 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                       }
                     },
                     rateChanged: (value) {
-                      if (isNumeric(value)) {
+                      if (isNumeric(value) && num.parse(value) > 0) {
                         setState(() {
                           isRateValid = true;
+                          carDetails.rate = num.parse(value);
                         });
                       } else {
                         setState(() {
@@ -291,10 +287,11 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                     context: context,
                     controller: maxDuration,
                     planChanged: (value) {
-                      if (value.isNotEmpty) {
+                      if (value.isNotEmpty && num.parse(value) > 0) {
                         setState(() {
                           duration.text = value;
                           isDurationValid = true;
+                          carDetails.duration = value;
                         });
                       } else {
                         setState(() {
@@ -303,9 +300,10 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                       }
                     },
                     rateChanged: (value) {
-                      if (isNumeric(value)) {
+                      if (isNumeric(value) && num.parse(value) > 0) {
                         setState(() {
                           isMaxDurationValid = true;
+                          carDetails.maxDuration = num.parse(value);
                         });
                       } else {
                         setState(() {
@@ -323,12 +321,8 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                 isActive: isActive(),
                 buttonName: "Continue",
                 onPressed: () async {
-                  carDetails.type = type.text;
                   carDetails.plan = plan.text;
-                  carDetails.condition = condition.text;
-                  carDetails.rate = num.parse(rate.text);
-                  carDetails.capacity = num.parse(capacity.text);
-                  carDetails.maxDuration = num.parse(maxDuration.text);
+                  carDetails.duration = duration.text;
 
                   final car = await Navigator.push(
                     context,
@@ -339,15 +333,18 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                     ),
                   );
 
-                  carDetails = car;
-                  setState(() {
-                    type.text = carDetails.type!;
-                    plan.text = carDetails.plan!;
-                    condition.text = carDetails.condition!;
-                    rate.text = carDetails.rate.toString();
-                    capacity.text = carDetails.capacity.toString();
-                    maxDuration.text = carDetails.maxDuration.toString();
-                  });
+                  if (car != null) {
+                    carDetails = car;
+                    setState(() {
+                      type.text = carDetails.type!;
+                      plan.text = carDetails.plan!;
+                      condition.text = carDetails.condition!;
+                      carDetails.duration = duration.text;
+                      rate.text = carDetails.rate.toString();
+                      capacity.text = carDetails.capacity.toString();
+                      maxDuration.text = carDetails.maxDuration.toString();
+                    });
+                  }
                 },
               )
             ],

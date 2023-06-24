@@ -5,6 +5,7 @@ import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
 buildRateInputField({
   dynamic value,
+  String? prefixText,
   required items,
   required planChanged,
   required int textFlex,
@@ -46,6 +47,17 @@ buildRateInputField({
                 controller: controller,
                 style: heading6Neutral900,
                 decoration: InputDecoration(
+                  prefix: prefixText != null
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                            right: Sizes().width(context, 0.005),
+                          ),
+                          child: Text(
+                            prefixText,
+                            style: heading6Neutral900,
+                          ),
+                        )
+                      : null,
                   hintText: hintText,
                   hintStyle: heading6Neutral500,
                   border: InputBorder.none,
