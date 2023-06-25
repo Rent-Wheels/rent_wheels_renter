@@ -5,13 +5,14 @@ import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
 buildGenericTextfield({
-  required String hint,
-  TextInputType? keyboardType,
-  TextInputAction? textInput,
-  TextCapitalization? textCapitalization,
   int? minLines,
   int? maxLines,
+  bool? isPassword,
+  required String hint,
+  TextInputAction? textInput,
+  TextInputType? keyboardType,
   required BuildContext context,
+  TextCapitalization? textCapitalization,
   required TextEditingController controller,
   required void Function(String) onChanged,
 }) {
@@ -35,21 +36,24 @@ buildGenericTextfield({
             Sizes().width(context, 0.035),
           ),
         ),
-        padding: EdgeInsets.only(left: Sizes().width(context, 0.04)),
+        padding: EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.04)),
         child: TextField(
-          controller: controller,
-          style: heading6Neutral900,
-          keyboardType: keyboardType,
-          textCapitalization:
-              textCapitalization ?? TextCapitalization.sentences,
-          textInputAction: textInput ?? TextInputAction.next,
           minLines: minLines,
           maxLines: maxLines,
+          controller: controller,
+          obscuringCharacter: '*',
+          style: heading6Neutral900,
+          keyboardType: keyboardType,
+          obscureText: isPassword ?? false,
           cursorColor: rentWheelsBrandDark900,
+          enableSuggestions: isPassword == null,
+          textInputAction: textInput ?? TextInputAction.next,
+          textCapitalization:
+              textCapitalization ?? TextCapitalization.sentences,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: heading6Neutral500,
             border: InputBorder.none,
+            hintStyle: heading6Neutral500,
           ),
           onChanged: onChanged,
         ),

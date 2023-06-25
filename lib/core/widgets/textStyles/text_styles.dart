@@ -339,6 +339,12 @@ const heading6Information = TextStyle(
   fontSize: 14,
   color: rentWheelsInformationDark900,
 );
+const heading6InformationBold = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 14,
+  color: rentWheelsInformationDark900,
+);
 const heading7Information = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Urbanist',
@@ -397,11 +403,17 @@ const body1NeutralLight = TextStyle(
   fontSize: 16,
   color: rentWheelsNeutralLight0,
 );
-const body2Neutral = TextStyle(
+const body2Neutral900 = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'Urbanist',
   fontSize: 14,
   color: rentWheelsNeutralDark900,
+);
+const body2Neutral = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Urbanist',
+  fontSize: 14,
+  color: rentWheelsNeutral,
 );
 const body3Neutral = TextStyle(
   fontWeight: FontWeight.w400,
