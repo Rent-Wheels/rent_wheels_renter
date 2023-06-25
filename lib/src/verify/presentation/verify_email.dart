@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:rent_wheels_renter/src/login/presentation/login.dart';
+import 'package:rent_wheels_renter/src/verify/presentation/verify_user.dart';
+
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
-import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
-import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
-import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
+import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
+import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/backend/users/methods/user_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
-import 'package:rent_wheels_renter/src/verify/presentation/verify_user.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -28,6 +30,39 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: rentWheelsNeutralLight0,
+        actions: [
+          Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: Sizes().height(context, 0.01)),
+            child: IconButton(
+              icon: const Icon(
+                Icons.logout,
+                color: rentWheelsErrorDark700,
+              ),
+              onPressed: () async {
+                buildLoadingIndicator(context, 'Logging Out');
+
+                try {
+                  await AuthService.firebase().logout();
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ),
+                      (route) => false);
+                } catch (e) {
+                  if (!mounted) return;
+                  showErrorPopUp(e.toString(), context);
+                }
+              },
+            ),
+          )
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.all(Sizes().height(context, 0.02)),
         child: Column(
@@ -46,11 +81,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
             Space().height(context, 0.02),
             RichText(
               textAlign: TextAlign.center,
-              text: TextSpan(
+              text: const TextSpan(
                 text: 'A verification email has been sent to ',
                 children: [
                   TextSpan(
-                    text: '${global.user!.email}',
+                    text: 'email',
+                    // text: '${global.user!.email}',
                     style: heading5Information,
                   ),
                 ],
