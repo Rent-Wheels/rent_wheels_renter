@@ -287,7 +287,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                     context: context,
                     controller: maxDuration,
                     planChanged: (value) {
-                      if (value.isNotEmpty && num.parse(value) > 0) {
+                      if (value.isNotEmpty) {
                         setState(() {
                           duration.text = value;
                           isDurationValid = true;

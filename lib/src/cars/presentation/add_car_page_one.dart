@@ -150,7 +150,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     textCapitalization: TextCapitalization.characters,
                     onChanged: (value) {
                       final registrationRegexp = RegExp(
-                          r'^[A-Z]{2}\s\d{1,4}[\s-](\D{1}|[0][9]|[1][0-9]|[2][0-3])$');
+                          r'^[A-Z]{2}\s\d{1,4}[\s-]([A-Z]{1}|[0][9]|[1][0-9]|[2][0-3])$');
                       if (registrationRegexp.hasMatch(value)) {
                         setState(() {
                           isRegistrationValid = true;
