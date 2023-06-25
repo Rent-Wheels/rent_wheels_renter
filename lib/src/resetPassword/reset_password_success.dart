@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:rent_wheels_renter/src/cars/presentation/all_cars.dart';
+import 'package:rent_wheels_renter/src/login/presentation/login.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
-import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 
-class AddCarSuccess extends StatelessWidget {
-  final Car carDetails;
-  const AddCarSuccess({super.key, required this.carDetails});
+class ResetPasswordSuccess extends StatelessWidget {
+  final String email;
+  const ResetPasswordSuccess({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +34,12 @@ class AddCarSuccess extends StatelessWidget {
             Space().height(context, 0.02),
             RichText(
               text: TextSpan(
-                text:
-                    "${carDetails.yearOfManufacture} ${carDetails.make} ${carDetails.model} ",
-                style: heading5Information,
-                children: const [
+                text: "A password reset link has been sent to ",
+                style: body1Information,
+                children: [
                   TextSpan(
-                    text: "has been added successfully.",
-                    style: body1Information,
+                    text: email,
+                    style: heading5Information,
                   )
                 ],
               ),
@@ -52,11 +50,11 @@ class AddCarSuccess extends StatelessWidget {
               context: context,
               width: Sizes().width(context, 0.85),
               isActive: true,
-              buttonName: "View All Cars",
+              buttonName: "Return to login",
               onPressed: () => Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AllCars(),
+                  builder: (context) => const Login(),
                 ),
                 (route) => false,
               ),

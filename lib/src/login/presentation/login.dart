@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
 import 'package:string_validator/string_validator.dart';
-
-import 'package:rent_wheels_renter/screen_implementer.dart';
 
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/signup/presentation/signup.dart';
+import 'package:rent_wheels_renter/src/resetPassword/forgot_password.dart';
 import 'package:rent_wheels_renter/src/verify/presentation/verify_user.dart';
 import 'package:rent_wheels_renter/src/verify/presentation/verify_email.dart';
 
@@ -13,6 +11,7 @@ import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
+import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/widgets/popups/error_popups.dart';
@@ -182,7 +181,7 @@ class _LoginState extends State<Login> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ForgotPasswordMock(),
+                        builder: (context) => const ForgotPassword(),
                       ),
                     ),
                     child: const Text(

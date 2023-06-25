@@ -17,7 +17,7 @@ class RentWheelsUserMethods implements RentWheelsUserEndpoints {
     if (response.statusCode == 200) {
       return BackendUser.fromJSON(jsonDecode(response.body));
     } else {
-      throw Exception();
+      throw Exception(response.body);
     }
   }
 }

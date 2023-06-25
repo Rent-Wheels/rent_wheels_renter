@@ -92,6 +92,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
       if (e.code == 'requires-recent-login') {
         throw GenericAuthException();
       }
+      throw Exception('Could not send email');
     }
   }
 
