@@ -40,7 +40,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
 
         await BackendAuthService().createUser(
           avatar: avatar,
-          userId: credential.user!.uid,
+          user: credential.user!,
           name: name,
           phoneNumber: phoneNumber,
           email: email,
@@ -55,7 +55,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
       } else if (e.code == 'email-already-in-use') {
         throw InvalidEmailException();
       }
-      throw GenericAuthException();
+      throw Exception(e);
     }
   }
 

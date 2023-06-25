@@ -13,23 +13,27 @@ class VerifyUser extends StatefulWidget {
 class _VerifyUserState extends State<VerifyUser> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('You are not a renter'),
-          // buildGenericButtonWidget(
-          //     buttonName: 'Logout',
-          //     onPressed: () async {
-          //       await AuthService.firebase().logout();
+          const Text('You are not a renter'),
+          buildGenericButtonWidget(
+            context: context,
+            isActive: true,
+            width: double.infinity,
+            buttonName: 'Logout',
+            onPressed: () async {
+              await AuthService.firebase().logout();
 
-          //       if (!mounted) return;
-          //       Navigator.of(context).pushAndRemoveUntil(
-          //           MaterialPageRoute(
-          //             builder: (context) => const Login(),
-          //           ),
-          //           (route) => false);
-          //     })
+              if (!mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const Login(),
+                  ),
+                  (route) => false);
+            },
+          )
         ],
       ),
     );

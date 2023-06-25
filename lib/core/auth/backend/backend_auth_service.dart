@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
 import 'package:rent_wheels_renter/core/models/user/user_model.dart';
@@ -14,7 +15,7 @@ class BackendAuthService implements BackendAuthProvider {
   @override
   Future<BackendUser> createUser({
     required String avatar,
-    required String userId,
+    required User user,
     required String name,
     required String phoneNumber,
     required String email,
@@ -25,18 +26,18 @@ class BackendAuthService implements BackendAuthProvider {
         MultipartRequest('POST', Uri.parse('${global.baseURL}/renters/'));
 
     final ext = avatar.split('.').last;
-    request.fields['userId'] = userId;
+    request.fields['userId'] = user.uid;
     request.fields['name'] = name;
     request.fields['phoneNumber'] = phoneNumber;
     request.fields['email'] = email;
     request.fields['dob'] = dob.toIso8601String();
-    request.fields['residence'] = residence;
+    request.fields['placeOfResidence'] = residence;
     request.files.add(
       MultipartFile(
         'avatar',
         File(avatar).readAsBytes().asStream(),
         File(avatar).lengthSync(),
-        filename: 'avatar-$userId.$ext',
+        filename: 'avatar-${user.uid}.$ext',
         contentType: MediaType.parse(
           lookupMimeType(avatar) ?? 'image/jpeg',
         ),
@@ -49,7 +50,8 @@ class BackendAuthService implements BackendAuthProvider {
     if (response.statusCode == 201) {
       return BackendUser.fromJSON(jsonDecode(responseBody));
     } else {
-      throw GenericAuthException();
+      await user.delete();
+      throw Exception(responseBody);
     }
   }
 
