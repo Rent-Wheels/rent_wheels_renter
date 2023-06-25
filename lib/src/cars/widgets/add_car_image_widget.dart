@@ -32,21 +32,22 @@ buildCarImageUpload({
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.camera_outlined,
-                  color: rentWheelsInformationDark900,
-                ),
-                Space().height(context, 0.005),
-                const Text(
-                  'Add your photo here.',
-                  style: body1Neutral500,
-                )
-              ],
-            ),
+            if (imageFile == null)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.camera_outlined,
+                    color: rentWheelsInformationDark900,
+                  ),
+                  Space().height(context, 0.005),
+                  const Text(
+                    'Add your photo here.',
+                    style: body1Neutral500,
+                  )
+                ],
+              ),
           ],
         ),
       ),
@@ -60,7 +61,7 @@ buildCarImageUpload({
                 height: Sizes().height(context, 0.2),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     image: FileImage(imageFile),
                   ),
                   border: Border.all(
