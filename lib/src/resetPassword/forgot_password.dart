@@ -8,7 +8,7 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/error_popups.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
@@ -101,7 +101,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   if (e is GenericAuthException) {
                   } else {
                     showErrorPopUp(
-                      e.toString().replaceAll(RegExp(r'(Exception:|")'), ''),
+                      e.toString(),
                       context,
                     );
                   }

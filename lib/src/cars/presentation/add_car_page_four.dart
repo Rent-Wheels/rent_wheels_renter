@@ -12,7 +12,7 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/error_popups.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';

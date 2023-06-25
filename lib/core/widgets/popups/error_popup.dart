@@ -20,7 +20,7 @@ showErrorPopUp(String content, BuildContext context) {
         ),
         Space().width(context, 0.02),
         Text(
-          content,
+          content.replaceAll(RegExp(r'(Exception:|")'), ''),
           style: body1NeutralLight,
         ),
       ],

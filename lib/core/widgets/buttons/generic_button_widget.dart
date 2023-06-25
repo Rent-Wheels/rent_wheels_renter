@@ -5,6 +5,7 @@ import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
 GestureDetector buildGenericButtonWidget({
+  Color? btnColor,
   required double width,
   required bool isActive,
   required String buttonName,
@@ -17,7 +18,9 @@ GestureDetector buildGenericButtonWidget({
       width: width,
       height: Sizes().height(context, 0.06),
       decoration: BoxDecoration(
-        color: isActive ? rentWheelsBrandDark900 : rentWheelsBrandDark900Trans,
+        color: isActive
+            ? btnColor ?? rentWheelsBrandDark900
+            : rentWheelsBrandDark900Trans,
         borderRadius: BorderRadius.circular(Sizes().width(context, 0.035)),
       ),
       child: Center(

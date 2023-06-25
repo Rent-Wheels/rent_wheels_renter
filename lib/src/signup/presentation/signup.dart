@@ -15,7 +15,7 @@ import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
-import 'package:rent_wheels_renter/core/widgets/popups/error_popups.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/tappable_textfield.dart';
@@ -289,7 +289,7 @@ class _SignUpState extends State<SignUp> {
                       );
                     } else {
                       showErrorPopUp(
-                        e.toString().replaceAll(RegExp(r'(Exception:|")'), ''),
+                        e.toString(),
                         context,
                       );
                     }
@@ -297,26 +297,22 @@ class _SignUpState extends State<SignUp> {
                 },
               ),
               Space().height(context, 0.01),
-              Container(
-                height: Sizes().height(context, 0.1),
-                color: rentWheelsNeutralLight0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Already have an account?",
-                      style: body2Neutral,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Already have an account?",
+                    style: body2Neutral,
+                  ),
+                  Space().width(context, 0.01),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Text(
+                      "Login",
+                      style: heading6InformationBold,
                     ),
-                    Space().width(context, 0.01),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: const Text(
-                        "Login",
-                        style: heading6InformationBold,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

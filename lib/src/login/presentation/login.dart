@@ -14,7 +14,7 @@ import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
-import 'package:rent_wheels_renter/core/widgets/popups/error_popups.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/backend/users/methods/user_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
@@ -164,7 +164,7 @@ class _LoginState extends State<Login> {
                     );
                   } else {
                     showErrorPopUp(
-                      e.toString().replaceAll(RegExp(r'(Exception:|")'), ''),
+                      e.toString(),
                       context,
                     );
                   }
