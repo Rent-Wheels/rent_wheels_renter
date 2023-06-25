@@ -9,7 +9,7 @@ import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/location/location_selector_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/textfields/tappable_textfield.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
@@ -76,7 +76,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                 children: [
                   buildAddCarTop(context: context, page: 3),
                   Space().height(context, 0.03),
-                  buildLocationSelector(
+                  buildTappableTextField(
                     hint: 'Car Location',
                     context: context,
                     controller: location,

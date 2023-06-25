@@ -4,7 +4,7 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
-buildLocationSelector({
+buildTappableTextField({
   required String hint,
   required BuildContext context,
   required TextEditingController controller,

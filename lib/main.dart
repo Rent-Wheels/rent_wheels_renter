@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rent_wheels_renter/screen_implementer.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
 
@@ -24,8 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'RentWheels Renter',
-      home: ConnectionPage(),
+      title: 'Rent Wheels Renter',
+      home: SignUpMock(),
     );
   }
 }
