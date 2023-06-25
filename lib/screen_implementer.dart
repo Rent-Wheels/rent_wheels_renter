@@ -1,17 +1,22 @@
 import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/profilePicture/profile_picture_widget.dart';
+
+import 'package:rent_wheels_renter/src/search/custom_search_bar.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/tappable_textfield.dart';
+import 'package:rent_wheels_renter/core/widgets/bottomSheets/media_bottom_sheet.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/profilePicture/profile_picture_widget.dart';
+import 'package:string_validator/string_validator.dart';
 
 class SignUpMock extends StatefulWidget {
   const SignUpMock({super.key});
@@ -21,14 +26,74 @@ class SignUpMock extends StatefulWidget {
 }
 
 class _SignUpMockState extends State<SignUpMock> {
+  bool isAvatarValid = false;
+  bool isDobValid = false;
+  bool isNameValid = false;
+  bool isEmailValid = false;
+  bool isPasswordValid = false;
+  bool isResidenceValid = false;
+  bool isPhoneNumberValid = false;
+
   File? avatar;
   final picker = ImagePicker();
+
   TextEditingController dob = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController residence = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+
+  bool isActive() {
+    return isAvatarValid &&
+        isDobValid &&
+        isNameValid &&
+        isEmailValid &&
+        isPasswordValid &&
+        isResidenceValid &&
+        isPhoneNumberValid;
+  }
+
+  openImage({required ImageSource source}) async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        avatar = File(image.path);
+        isAvatarValid = true;
+      });
+    }
+  }
+
+  bottomSheet() {
+    return mediaBottomSheet(
+      context: context,
+      cameraOnTap: () {
+        openImage(source: ImageSource.camera);
+        Navigator.of(context).pop();
+      },
+      galleryOnTap: () {
+        openImage(source: ImageSource.gallery);
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime(2005),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2006),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        dob.text = DateFormat.yMMMMd('en_US').format(pickedDate);
+        isDobValid = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +121,47 @@ class _SignUpMockState extends State<SignUpMock> {
               Space().height(context, 0.03),
               buildProfilePicture(
                 context: context,
-                onTap: () {},
+                imageFile: avatar,
+                onTap: bottomSheet,
               ),
               Space().height(context, 0.02),
               buildGenericTextfield(
-                hint: 'Name',
+                hint: 'Full Name',
                 context: context,
                 controller: name,
+                maxLines: 1,
                 keyboardType: TextInputType.name,
                 textCapitalization: TextCapitalization.words,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.length >= 4) {
+                    setState(() {
+                      isNameValid = true;
+                    });
+                  } else {
+                    setState(() {
+                      isNameValid = false;
+                    });
+                  }
+                },
               ),
               Space().height(context, 0.02),
               buildGenericTextfield(
                 hint: 'Email',
                 context: context,
                 controller: email,
+                maxLines: 1,
                 keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (isEmail(value)) {
+                    setState(() {
+                      isEmailValid = true;
+                    });
+                  } else {
+                    setState(() {
+                      isEmailValid = false;
+                    });
+                  }
+                },
               ),
               Space().height(context, 0.02),
               buildGenericTextfield(
@@ -82,7 +170,19 @@ class _SignUpMockState extends State<SignUpMock> {
                 controller: password,
                 isPassword: true,
                 maxLines: 1,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  final regExp = RegExp(
+                      r'(?=^.{8,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*');
+                  if (regExp.hasMatch(value)) {
+                    setState(() {
+                      isPasswordValid = true;
+                    });
+                  } else {
+                    setState(() {
+                      isPasswordValid = false;
+                    });
+                  }
+                },
               ),
               Space().height(context, 0.005),
               const Text(
@@ -94,28 +194,53 @@ class _SignUpMockState extends State<SignUpMock> {
                 hint: 'Phone Number',
                 context: context,
                 controller: phoneNumber,
+                maxLines: 1,
                 keyboardType: TextInputType.phone,
                 textCapitalization: TextCapitalization.words,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.length == 10) {
+                    setState(() {
+                      isPhoneNumberValid = true;
+                    });
+                  } else {
+                    setState(() {
+                      isPhoneNumberValid = false;
+                    });
+                  }
+                },
               ),
               Space().height(context, 0.02),
               buildTappableTextField(
                 hint: 'Residence',
                 context: context,
                 controller: residence,
-                onTap: () {},
+                onTap: () async {
+                  final response = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CustomSearchScaffold(),
+                    ),
+                  );
+
+                  if (response != null) {
+                    setState(() {
+                      residence.text = response;
+                      isResidenceValid = true;
+                    });
+                  }
+                },
               ),
               Space().height(context, 0.02),
               buildTappableTextField(
                 hint: 'Date of Birth',
                 context: context,
                 controller: dob,
-                onTap: () {},
+                onTap: presentDatePicker,
               ),
               Space().height(context, 0.05),
               buildGenericButtonWidget(
                 width: Sizes().width(context, 0.85),
-                isActive: false,
+                isActive: isActive(),
                 buttonName: 'Register',
                 context: context,
                 onPressed: () {},
