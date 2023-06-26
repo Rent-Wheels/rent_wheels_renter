@@ -8,6 +8,7 @@ buildGenericTextfield({
   int? minLines,
   int? maxLines,
   bool? isPassword,
+  bool? enableSuggestions,
   required String hint,
   TextInputAction? textInput,
   TextInputType? keyboardType,
@@ -46,7 +47,8 @@ buildGenericTextfield({
           keyboardType: keyboardType,
           obscureText: isPassword ?? false,
           cursorColor: rentWheelsBrandDark900,
-          enableSuggestions: isPassword == null,
+          autocorrect: enableSuggestions ?? isPassword == null,
+          enableSuggestions: enableSuggestions ?? isPassword == null,
           textInputAction: textInput ?? TextInputAction.next,
           textCapitalization:
               textCapitalization ?? TextCapitalization.sentences,

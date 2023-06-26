@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:string_validator/string_validator.dart';
@@ -86,20 +87,58 @@ class _SignUpState extends State<SignUp> {
   }
 
   presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime(2005),
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2006),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        dob.text = DateFormat.yMMMMd().format(pickedDate);
-        isDobValid = true;
-      });
-    });
+    Platform.isIOS
+        ? showCupertinoModalPopup(
+            context: context,
+            builder: (_) {
+              return Container(
+                height: Sizes().height(context, 0.33),
+                color: const Color.fromARGB(255, 255, 255, 255),
+                child: Column(
+                  children: [
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SizedBox(
+                          height: constraints.minHeight + 200,
+                          child: CupertinoDatePicker(
+                            minimumDate: DateTime(1950),
+                            maximumDate: DateTime(2006),
+                            mode: CupertinoDatePickerMode.date,
+                            initialDateTime: DateTime(2005),
+                            onDateTimeChanged: (pickedDate) {
+                              setState(() {
+                                dob.text =
+                                    DateFormat.yMMMMd().format(pickedDate);
+                                isDobValid = true;
+                              });
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    CupertinoButton(
+                      child: const Text('OK'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  ],
+                ),
+              );
+            },
+          )
+        : showDatePicker(
+            context: context,
+            initialDate: DateTime(2005),
+            firstDate: DateTime(1950),
+            lastDate: DateTime(2006),
+          ).then((pickedDate) {
+            if (pickedDate == null) {
+              return;
+            }
+            setState(() {
+              dob.text = DateFormat.yMMMMd().format(pickedDate);
+              isDobValid = true;
+            });
+          });
   }
 
   @override
@@ -115,6 +154,7 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
           padding: EdgeInsets.all(Sizes().height(context, 0.02)),
           child: Column(
@@ -137,7 +177,6 @@ class _SignUpState extends State<SignUp> {
                 context: context,
                 controller: name,
                 maxLines: 1,
-                keyboardType: TextInputType.name,
                 textCapitalization: TextCapitalization.words,
                 onChanged: (value) {
                   if (value.length >= 4) {
@@ -158,6 +197,8 @@ class _SignUpState extends State<SignUp> {
                 controller: email,
                 maxLines: 1,
                 keyboardType: TextInputType.emailAddress,
+                textCapitalization: TextCapitalization.none,
+                enableSuggestions: false,
                 onChanged: (value) {
                   if (isEmail(value)) {
                     setState(() {
@@ -176,6 +217,7 @@ class _SignUpState extends State<SignUp> {
                 context: context,
                 controller: password,
                 isPassword: true,
+                textCapitalization: TextCapitalization.none,
                 maxLines: 1,
                 onChanged: (value) {
                   final regExp = RegExp(
@@ -297,22 +339,26 @@ class _SignUpState extends State<SignUp> {
                 },
               ),
               Space().height(context, 0.01),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Already have an account?",
-                    style: body2Neutral,
-                  ),
-                  Space().width(context, 0.01),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Text(
-                      "Login",
-                      style: heading6InformationBold,
+              Container(
+                height: Sizes().height(context, 0.1),
+                color: rentWheelsNeutralLight0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account?",
+                      style: body2Neutral,
                     ),
-                  ),
-                ],
+                    Space().width(context, 0.01),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Text(
+                        "Login",
+                        style: heading6InformationBold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

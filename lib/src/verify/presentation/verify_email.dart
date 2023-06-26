@@ -81,12 +81,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
             Space().height(context, 0.02),
             RichText(
               textAlign: TextAlign.center,
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'A verification email has been sent to ',
                 children: [
                   TextSpan(
-                    text: 'email',
-                    // text: '${global.user!.email}',
+                    text: '${global.user!.email}',
                     style: heading5Information,
                   ),
                 ],
@@ -162,7 +161,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     } catch (e) {
                       if (!mounted) return;
                       Navigator.pop(context);
-                      showErrorPopUp("Couldn't resend verification", context);
+                      showErrorPopUp(e.toString(), context);
                     }
                   },
                   child: const Text(

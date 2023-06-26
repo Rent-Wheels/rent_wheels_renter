@@ -66,6 +66,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
         ),
       ),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
           padding: EdgeInsets.all(Sizes().height(context, 0.02)),
           child: Column(

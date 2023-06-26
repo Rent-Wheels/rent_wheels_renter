@@ -28,6 +28,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
     required DateTime dob,
     required String residence,
   }) async {
+    UserCredential? user;
     try {
       UserCredential credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -35,9 +36,9 @@ class FirebaseAuthService implements FirebaseAuthProvider {
         password: password,
       );
 
-      if (credential.user != null) {
-        await verifyEmail(user: credential.user!);
+      user = credential;
 
+      if (credential.user != null) {
         await BackendAuthService().createUser(
           avatar: avatar,
           user: credential.user!,
@@ -47,6 +48,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
           dob: dob,
           residence: residence,
         );
+        await verifyEmail(user: credential.user!);
       }
       return credential;
     } on FirebaseAuthException catch (e) {
@@ -55,6 +57,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
       } else if (e.code == 'email-already-in-use') {
         throw InvalidEmailException();
       }
+      await user!.user!.delete();
       throw Exception(e);
     }
   }

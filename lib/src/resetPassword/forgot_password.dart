@@ -60,6 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               context: context,
               controller: email,
               hint: 'Email Address',
+              enableSuggestions: false,
               keyboardType: TextInputType.emailAddress,
               textCapitalization: TextCapitalization.none,
               onChanged: (value) {

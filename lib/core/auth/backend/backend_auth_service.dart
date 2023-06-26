@@ -22,36 +22,40 @@ class BackendAuthService implements BackendAuthProvider {
     required DateTime dob,
     required String residence,
   }) async {
-    var request =
-        MultipartRequest('POST', Uri.parse('${global.baseURL}/renters/'));
+    try {
+      var request =
+          MultipartRequest('POST', Uri.parse('${global.baseURL}/renters/'));
 
-    final ext = avatar.split('.').last;
-    request.fields['userId'] = user.uid;
-    request.fields['name'] = name;
-    request.fields['phoneNumber'] = phoneNumber;
-    request.fields['email'] = email;
-    request.fields['dob'] = dob.toIso8601String();
-    request.fields['placeOfResidence'] = residence;
-    request.files.add(
-      MultipartFile(
-        'avatar',
-        File(avatar).readAsBytes().asStream(),
-        File(avatar).lengthSync(),
-        filename: 'avatar-${user.uid}.$ext',
-        contentType: MediaType.parse(
-          lookupMimeType(avatar) ?? 'image/jpeg',
+      final ext = avatar.split('.').last;
+      request.fields['userId'] = user.uid;
+      request.fields['name'] = name;
+      request.fields['phoneNumber'] = phoneNumber;
+      request.fields['email'] = email;
+      request.fields['dob'] = dob.toIso8601String();
+      request.fields['placeOfResidence'] = residence;
+      request.files.add(
+        MultipartFile(
+          'avatar',
+          File(avatar).readAsBytes().asStream(),
+          File(avatar).lengthSync(),
+          filename: 'avatar-${user.uid}.$ext',
+          contentType: MediaType.parse(
+            lookupMimeType(avatar) ?? 'image/jpeg',
+          ),
         ),
-      ),
-    );
+      );
 
-    final response = await request.send();
-    final responseBody = await response.stream.bytesToString();
+      final response = await request.send();
 
-    if (response.statusCode == 201) {
-      return BackendUser.fromJSON(jsonDecode(responseBody));
-    } else {
-      await user.delete();
+      final responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 201) {
+        return BackendUser.fromJSON(jsonDecode(responseBody));
+      }
       throw Exception(responseBody);
+    } catch (e) {
+      await user.delete();
+      throw Exception('Phone number already exists.');
     }
   }
 
