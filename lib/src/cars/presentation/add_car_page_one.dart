@@ -149,9 +149,10 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     hint: 'Car Registration Number',
                     controller: registrationNumber,
                     textCapitalization: TextCapitalization.characters,
+                    textInput: TextInputAction.done,
                     onChanged: (value) {
                       final registrationRegexp = RegExp(
-                          r'^[A-Z]{2}\s\d{1,4}[\s-]([A-Z]{1}|[0][9]|[1][0-9]|[2][0-3])$');
+                          r'^[A-Z]{2}\s\d{1,4}(\s[A-Z]{1}|-[0][9]|-[1][0-9]|-[2][0-3])$');
                       if (registrationRegexp.hasMatch(value)) {
                         setState(() {
                           isRegistrationValid = true;

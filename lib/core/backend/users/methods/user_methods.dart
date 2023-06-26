@@ -20,4 +20,18 @@ class RentWheelsUserMethods implements RentWheelsUserEndpoints {
       throw Exception(response.body);
     }
   }
+
+  @override
+  Future<BackendUser> upgradeToRenter({required String userId}) async {
+    final response = await patch(
+      Uri.parse('${global.baseURL}/users/$userId/upgrade'),
+      headers: global.headers,
+    );
+
+    if (response.statusCode == 200) {
+      return BackendUser.fromJSON(jsonDecode(response.body));
+    }
+
+    throw Exception(response.body);
+  }
 }

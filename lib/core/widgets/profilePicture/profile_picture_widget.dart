@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
+import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 
 buildProfilePicture({
   required BuildContext context,
@@ -33,7 +34,8 @@ buildProfilePicture({
                       : imgUrl != null
                           ? DecorationImage(
                               fit: BoxFit.cover,
-                              image: CachedNetworkImageProvider(imgUrl),
+                              image: CachedNetworkImageProvider(
+                                  '${global.baseURL}/$imgUrl'),
                             )
                           : null,
                   border: Border.all(color: rentWheelsNeutralLight200),

@@ -245,8 +245,7 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                   } catch (e) {
                     if (!mounted) return;
                     Navigator.pop(context);
-                    showErrorPopUp(
-                        e.toString().replaceAll('Exception:', ""), context);
+                    showErrorPopUp(e.toString(), context);
                   }
                 },
               )

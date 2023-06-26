@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
-import 'package:rent_wheels_renter/src/verify/presentation/verify_user.dart';
+import 'package:rent_wheels_renter/src/upgrade/presentation/upgrade_to_renter.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
@@ -56,6 +56,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       (route) => false);
                 } catch (e) {
                   if (!mounted) return;
+                  Navigator.pop(context);
                   showErrorPopUp(e.toString(), context);
                 }
               },
@@ -128,7 +129,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const VerifyUser(),
+                          builder: (context) => const UpgradeUser(),
                         ),
                         (route) => false,
                       );

@@ -17,6 +17,12 @@ const heading2Brand = TextStyle(
   fontSize: 36,
   color: rentWheelsBrandDark900,
 );
+const heading2BrandLight = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Urbanist',
+  fontSize: 36,
+  color: rentWheelsBrandDark900,
+);
 const heading3Brand = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Urbanist',
