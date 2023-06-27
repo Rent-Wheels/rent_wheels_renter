@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 

@@ -4,9 +4,9 @@ import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/signup/presentation/signup.dart';
-import 'package:rent_wheels_renter/src/resetPassword/forgot_password.dart';
 import 'package:rent_wheels_renter/src/verify/presentation/verify_email.dart';
 import 'package:rent_wheels_renter/src/upgrade/presentation/upgrade_to_renter.dart';
+import 'package:rent_wheels_renter/src/resetPassword/presentation/forgot_password.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Welcome to Rent Wheels Renter',
+                  'Welcome to Rent Wheels',
                   style: heading3Information,
                 ),
                 Space().height(context, 0.01),
