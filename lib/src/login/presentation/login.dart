@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Welcome to Rent Wheels',
+                  'Welcome to Rent Wheels Renter',
                   style: heading3Information,
                 ),
                 Space().height(context, 0.01),
