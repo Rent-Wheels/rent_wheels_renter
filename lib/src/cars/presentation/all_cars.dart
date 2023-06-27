@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
@@ -52,7 +53,7 @@ class _CarsState extends State<Cars> {
       itemCount: cars.length,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          onTap: () => Navigator.of(context).push(CupertinoPageRoute(
             builder: (context) => CarDetails(car: cars[index]),
           )),
           child: ListTile(

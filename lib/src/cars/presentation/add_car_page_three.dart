@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/src/search/custom_search_bar.dart';
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
@@ -84,7 +85,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                     onTap: () async {
                       final result = await Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (context) => CustomSearchScaffold(),
                         ),
                       );
@@ -155,7 +156,7 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                 onPressed: () async {
                   final car = await Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => AddCarPageFour(
                         carDetails: carDetails,
                       ),

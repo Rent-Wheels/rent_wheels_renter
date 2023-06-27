@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
@@ -50,7 +51,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   if (!mounted) return;
                   Navigator.pop(context);
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (context) => const Login(),
                       ),
                       (route) => false);
@@ -120,7 +121,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     if (user.role == Roles.renter.id) {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (context) => const Home(),
                         ),
                         (route) => false,
@@ -128,7 +129,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     } else {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (context) => const UpgradeUser(),
                         ),
                         (route) => false,

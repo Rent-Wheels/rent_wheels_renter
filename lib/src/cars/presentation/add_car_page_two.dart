@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
@@ -326,7 +327,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
 
                   final car = await Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => AddCarPageThree(
                         carDetails: carDetails,
                       ),

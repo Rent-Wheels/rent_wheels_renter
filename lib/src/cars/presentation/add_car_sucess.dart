@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/src/cars/presentation/all_cars.dart';
 
@@ -55,7 +56,7 @@ class AddCarSuccess extends StatelessWidget {
               buttonName: "View All Cars",
               onPressed: () => Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => const AllCars(),
                 ),
                 (route) => false,

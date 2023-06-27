@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
@@ -133,21 +134,21 @@ class _LoginState extends State<Login> {
                         if (user.role != Roles.renter.id) {
                           Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (context) => const UpgradeUser(),
                               ),
                               (route) => false);
                         } else if (!global.user!.emailVerified) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                               builder: (context) => const VerifyEmail(),
                             ),
                           );
                         } else {
                           Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                   builder: (context) => const Home()),
                               (route) => false);
                         }
@@ -188,7 +189,7 @@ class _LoginState extends State<Login> {
                       GestureDetector(
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                             builder: (context) => const ForgotPassword(),
                           ),
                         ),
@@ -215,7 +216,7 @@ class _LoginState extends State<Login> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                               builder: (context) => const SignUp(),
                             ),
                           );

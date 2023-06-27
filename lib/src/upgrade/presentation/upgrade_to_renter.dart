@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
@@ -46,7 +47,7 @@ class _UpgradeUserState extends State<UpgradeUser> {
                   if (!mounted) return;
                   Navigator.pop(context);
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (context) => const Login(),
                       ),
                       (route) => false);
@@ -101,7 +102,7 @@ class _UpgradeUserState extends State<UpgradeUser> {
                   Navigator.pop(context);
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => const Home(),
                     ),
                     (route) => false,

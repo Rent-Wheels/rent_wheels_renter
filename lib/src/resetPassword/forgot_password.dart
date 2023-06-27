@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/src/resetPassword/reset_password_success.dart';
@@ -90,7 +91,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   Navigator.pop(context);
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) =>
                           ResetPasswordSuccess(email: email.text),
                     ),

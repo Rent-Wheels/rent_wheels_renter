@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
@@ -24,7 +25,7 @@ class _HomeState extends State<Home> {
           children: [
             GestureDetector(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => const AddCarPageOne(),
                 ),
               ),
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => const AllCars(),
                 ),
               ),
@@ -51,7 +52,7 @@ class _HomeState extends State<Home> {
                 await AuthService.firebase().logout();
                 if (!mounted) return;
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => const Login(),
                     ),
                     (route) => false);
@@ -65,7 +66,7 @@ class _HomeState extends State<Home> {
 
             //     if (!mounted) return;
             //     Navigator.of(context).pushAndRemoveUntil(
-            //         MaterialPageRoute(builder: (context) => const Login()),
+            //         CupertinoPageRoute(builder: (context) => const Login()),
             //         (route) => false);
             //   },
             // ),

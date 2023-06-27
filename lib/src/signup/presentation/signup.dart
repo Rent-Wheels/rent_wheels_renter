@@ -313,7 +313,7 @@ class _SignUpState extends State<SignUp> {
                 onTap: () async {
                   final response = await Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => CustomSearchScaffold(),
                     ),
                   );
@@ -359,7 +359,7 @@ class _SignUpState extends State<SignUp> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (context) => const VerifyEmail(),
                       ),
                     );

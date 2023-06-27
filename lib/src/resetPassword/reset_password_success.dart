@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
 
@@ -53,7 +54,7 @@ class ResetPasswordSuccess extends StatelessWidget {
               buttonName: "Return to login",
               onPressed: () => Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => const Login(),
                 ),
                 (route) => false,
