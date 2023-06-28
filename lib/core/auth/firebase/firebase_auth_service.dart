@@ -89,9 +89,28 @@ class FirebaseAuthService implements FirebaseAuthProvider {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        throw GenericAuthException();
+        throw RequiresRecentLoginException();
       }
       throw Exception('Could not send email');
+    }
+  }
+
+  @override
+  Future<void> updateUserDetails(
+      {required User user, String? email, String? password}) async {
+    try {
+      if (email != null) {
+        await user.updateEmail(email);
+      }
+      if (password != null) {
+        await user.updatePassword(password);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        throw RequiresRecentLoginException();
+      } else if (e.code == 'email-already-in-use') {
+        throw InvalidEmailException();
+      }
     }
   }
 
@@ -102,7 +121,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
       await BackendAuthService().deleteUser(userId: user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        throw GenericAuthException();
+        throw RequiresRecentLoginException();
       }
     }
   }

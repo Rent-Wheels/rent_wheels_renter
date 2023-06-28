@@ -60,6 +60,55 @@ class BackendAuthService implements BackendAuthProvider {
   }
 
   @override
+  Future<BackendUser> updateUser({
+    required String? avatar,
+    required String userId,
+    required String name,
+    required String phoneNumber,
+    required String email,
+    required DateTime dob,
+    required String residence,
+  }) async {
+    try {
+      var request = MultipartRequest(
+          'PATCH', Uri.parse('${global.baseURL}/users/${global.user!.uid}'));
+
+      final ext = avatar?.split('.').last;
+      request.headers['Authorization'] = 'Bearer ${global.accessToken}';
+      request.fields['userId'] = userId;
+      request.fields['name'] = name;
+      request.fields['phoneNumber'] = phoneNumber;
+      request.fields['email'] = email;
+      request.fields['dob'] = dob.toIso8601String();
+      request.fields['placeOfResidence'] = residence;
+
+      if (avatar != null) {
+        request.files.add(
+          MultipartFile(
+            'avatar',
+            File(avatar).readAsBytes().asStream(),
+            File(avatar).lengthSync(),
+            filename: 'avatar-$userId.$ext',
+            contentType: MediaType.parse(
+              lookupMimeType(avatar) ?? 'image/jpeg',
+            ),
+          ),
+        );
+      }
+
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        return BackendUser.fromJSON(jsonDecode(responseBody));
+      }
+      throw Exception(responseBody);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
   deleteUser({required String userId}) async {
     final response = await delete(
       Uri.parse('${global.baseURL}/users/$userId'),

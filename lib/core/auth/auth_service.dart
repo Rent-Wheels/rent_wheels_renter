@@ -53,6 +53,15 @@ class AuthService implements FirebaseAuthProvider {
       provider.resetPassword(email: email);
 
   @override
+  Future<void> updateUserDetails(
+          {required User user, String? email, String? password}) =>
+      provider.updateUserDetails(
+        user: user,
+        email: email,
+        password: password,
+      );
+
+  @override
   Future<void> deleteUser({
     required User user,
   }) =>
