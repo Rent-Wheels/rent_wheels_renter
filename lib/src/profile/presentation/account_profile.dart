@@ -39,7 +39,6 @@ class _AccountProfileState extends State<AccountProfile> {
   bool isNameValid = false;
   bool isEmailValid = false;
   bool isAvatarValid = false;
-  bool isPasswordValid = false;
   bool isResidenceValid = false;
   bool isPhoneNumberValid = false;
 
@@ -57,15 +56,14 @@ class _AccountProfileState extends State<AccountProfile> {
         isDobValid ||
         isNameValid ||
         isEmailValid ||
-        isPasswordValid ||
         isResidenceValid ||
         isPhoneNumberValid;
   }
 
   MaterialColor getMaterialColor(Color color) {
     final int red = color.red;
-    final int green = color.green;
     final int blue = color.blue;
+    final int green = color.green;
 
     final Map<int, Color> shades = {
       50: Color.fromRGBO(red, green, blue, .1),
@@ -357,11 +355,10 @@ class _AccountProfileState extends State<AccountProfile> {
                     }
 
                     setState(() {
-                      isAvatarValid = false;
                       isDobValid = false;
                       isNameValid = false;
                       isEmailValid = false;
-                      isPasswordValid = false;
+                      isAvatarValid = false;
                       isResidenceValid = false;
                       isPhoneNumberValid = false;
                     });

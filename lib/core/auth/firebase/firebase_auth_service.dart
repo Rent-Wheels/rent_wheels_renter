@@ -127,13 +127,20 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   }
 
   @override
-  Future<void> reauthenticateUser({required email, required password}) async {
+  Future<UserCredential?> reauthenticateUser(
+      {required email, required password}) async {
     final userCredential = await signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-
-    await userCredential.user
-        ?.reauthenticateWithCredential(userCredential.credential!);
+    try {
+      return await userCredential.user
+          ?.reauthenticateWithCredential(userCredential.credential!);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        throw InvalidPasswordAuthException();
+      }
+      throw GenericAuthException();
+    }
   }
 }
