@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:string_validator/string_validator.dart';
 
-import 'package:rent_wheels_renter/src/home/presentation/home.dart';
-import 'package:rent_wheels_renter/src/signup/presentation/signup.dart';
-import 'package:rent_wheels_renter/src/verify/presentation/verify_email.dart';
-import 'package:rent_wheels_renter/src/upgrade/presentation/upgrade_to_renter.dart';
-import 'package:rent_wheels_renter/src/resetPassword/presentation/forgot_password.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
+import 'package:rent_wheels_renter/src/authentication/signup/presentation/signup.dart';
+import 'package:rent_wheels_renter/src/authentication/verify/presentation/verify_email.dart';
+import 'package:rent_wheels_renter/src/authentication/upgrade/presentation/upgrade_to_renter.dart';
+import 'package:rent_wheels_renter/src/authentication/resetPassword/presentation/forgot_password.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';

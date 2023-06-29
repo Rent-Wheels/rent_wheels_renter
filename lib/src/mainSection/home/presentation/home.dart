@@ -4,9 +4,9 @@ import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 
-import 'package:rent_wheels_renter/src/cars/presentation/all_cars.dart';
-import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_one.dart';
-import 'package:rent_wheels_renter/src/login/presentation/login.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
+import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

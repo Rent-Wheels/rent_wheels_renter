@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:rent_wheels_renter/src/search/presentation/custom_search_bar.dart';
-import 'package:rent_wheels_renter/src/cars/widgets/add_car_top_widget.dart';
-import 'package:rent_wheels_renter/src/cars/presentation/add_car_page_four.dart';
+import 'package:rent_wheels_renter/core/widgets/search/custom_search_bar.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/widgets/add_car_top_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_four.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';

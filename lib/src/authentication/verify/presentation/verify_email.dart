@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:rent_wheels_renter/src/login/presentation/login.dart';
-import 'package:rent_wheels_renter/src/upgrade/presentation/upgrade_to_renter.dart';
+import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
+import 'package:rent_wheels_renter/src/authentication/upgrade/presentation/upgrade_to_renter.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
-import 'package:rent_wheels_renter/src/home/presentation/home.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';

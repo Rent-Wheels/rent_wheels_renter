@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:rent_wheels_renter/src/home/presentation/home.dart';
-import 'package:rent_wheels_renter/src/login/presentation/login.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
+import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';

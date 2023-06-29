@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:rent_wheels_renter/src/cars/presentation/all_cars.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';

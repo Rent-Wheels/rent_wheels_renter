@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
-import 'package:rent_wheels_renter/src/cars/presentation/car_details.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/car_details.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 
 class AllCars extends StatefulWidget {
