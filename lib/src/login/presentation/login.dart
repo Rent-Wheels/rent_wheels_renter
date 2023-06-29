@@ -121,12 +121,12 @@ class _LoginState extends State<Login> {
                       );
 
                       if (credential.user != null) {
-                        global.setGlobals(currentUser: credential.user);
+                        await global.setGlobals(currentUser: credential.user);
 
                         final user = await RentWheelsUserMethods()
                             .getUserDetails(userId: global.user!.uid);
 
-                        global.setGlobals(fetchedUserDetails: user);
+                        await global.setGlobals(fetchedUserDetails: user);
 
                         if (!mounted) return;
                         Navigator.pop(context);

@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:rent_wheels_renter/firebase_options.dart';
+
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
+import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/auth/backend/backend_auth_service.dart';
 import 'package:rent_wheels_renter/core/auth/firebase/firebase_auth_provider.dart';
 
@@ -10,6 +12,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
+    global.resetGlobals();
   }
 
   @override
@@ -129,18 +132,14 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future<UserCredential?> reauthenticateUser(
       {required email, required password}) async {
-    final userCredential = await signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
     try {
-      return await userCredential.user
-          ?.reauthenticateWithCredential(userCredential.credential!);
+      return await global.user?.reauthenticateWithCredential(
+          EmailAuthProvider.credential(email: email, password: password));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         throw InvalidPasswordAuthException();
       }
-      throw GenericAuthException();
+      throw Exception(e);
     }
   }
 }

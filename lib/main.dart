@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rent_wheels_renter/screen_implementer.dart';
+import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
 
-import 'package:rent_wheels_renter/src/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/login/presentation/login.dart';
 import 'package:rent_wheels_renter/src/verify/presentation/verify_email.dart';
 import 'package:rent_wheels_renter/src/upgrade/presentation/upgrade_to_renter.dart';
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rent Wheels Renter',
-      home: ResetPasswordMock(),
+      home: ConnectionPage(),
     );
   }
 }

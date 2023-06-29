@@ -96,7 +96,7 @@ class _UpgradeUserState extends State<UpgradeUser> {
                   final upgradedUser = await RentWheelsUserMethods()
                       .upgradeToRenter(userId: global.user!.uid);
 
-                  global.setGlobals(fetchedUserDetails: upgradedUser);
+                  await global.setGlobals(fetchedUserDetails: upgradedUser);
 
                   if (!mounted) return;
                   Navigator.pop(context);

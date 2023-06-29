@@ -10,7 +10,7 @@ class RentWheelsUserMethods implements RentWheelsUserEndpoints {
   @override
   Future<BackendUser> getUserDetails({required String userId}) async {
     final response = await get(
-      Uri.parse('${global.baseURL}/users/$userId'),
+      Uri.parse('${global.baseURL}/renters/$userId'),
       headers: global.headers,
     );
 

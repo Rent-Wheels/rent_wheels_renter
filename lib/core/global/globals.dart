@@ -19,3 +19,10 @@ setGlobals({User? currentUser, BackendUser? fetchedUserDetails}) async {
     userDetails = fetchedUserDetails;
   }
 }
+
+resetGlobals() {
+  user = null;
+  accessToken = '';
+  headers = {};
+  userDetails = null;
+}
