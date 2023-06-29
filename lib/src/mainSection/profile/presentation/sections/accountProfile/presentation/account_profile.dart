@@ -346,7 +346,9 @@ class _AccountProfileState extends State<AccountProfile> {
 
                     if (isEmailValid) {
                       await AuthService.firebase().updateUserDetails(
-                          user: global.user!, email: email.text);
+                        user: global.user!,
+                        email: email.text,
+                      );
 
                       await FirebaseAuth.instance.currentUser!.reload();
 

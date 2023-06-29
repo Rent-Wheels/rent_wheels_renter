@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
+import 'package:rent_wheels_renter/screen_implementer.dart';
 
 import 'package:rent_wheels_renter/tester.dart';
 
@@ -70,7 +70,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             if (global.user != null) {
               if (!isRenter) return const UpgradeUser();
               if (global.user!.emailVerified) {
-                return const Home();
+                return const ProfileMock();
               }
               return const VerifyEmail();
             } else {
