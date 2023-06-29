@@ -26,6 +26,9 @@ class _ResetPasswordMockState extends State<ResetPasswordMock> {
   bool isOldPasswordValid = false;
   bool isNewPasswordValid = false;
   bool isPasswordConfirmationValid = false;
+  bool isOldPasswordVisible = false;
+  bool isNewPasswordVisible = false;
+  bool isPasswordConfirmationVisible = false;
 
   TextEditingController oldPassword = TextEditingController();
   TextEditingController newPassword = TextEditingController();
@@ -63,11 +66,37 @@ class _ResetPasswordMockState extends State<ResetPasswordMock> {
               ),
               Space().height(context, 0.03),
               buildGenericTextfield(
+                icon: isOldPasswordVisible
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isOldPasswordVisible = false;
+                          });
+                        },
+                        child: Icon(
+                          Icons.visibility_off_outlined,
+                          size: Sizes().width(context, 0.045),
+                          color: rentWheelsNeutral,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isOldPasswordVisible = true;
+                          });
+                        },
+                        child: Icon(
+                          Icons.visibility_outlined,
+                          size: Sizes().width(context, 0.045),
+                          color: rentWheelsNeutral,
+                        ),
+                      ),
+                isPassword: !isOldPasswordVisible,
                 hint: 'Old Password',
                 context: context,
                 controller: oldPassword,
                 maxLines: 1,
-                textCapitalization: TextCapitalization.words,
+                enableSuggestions: false,
                 onChanged: (value) {
                   if (value.length > 5) {
                     setState(() {
@@ -78,12 +107,36 @@ class _ResetPasswordMockState extends State<ResetPasswordMock> {
               ),
               Space().height(context, 0.02),
               buildGenericTextfield(
+                icon: isNewPasswordVisible
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isNewPasswordVisible = false;
+                          });
+                        },
+                        child: Icon(
+                          Icons.visibility_off_outlined,
+                          size: Sizes().width(context, 0.045),
+                          color: rentWheelsNeutral,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isNewPasswordVisible = true;
+                          });
+                        },
+                        child: Icon(
+                          Icons.visibility_outlined,
+                          size: Sizes().width(context, 0.045),
+                          color: rentWheelsNeutral,
+                        ),
+                      ),
+                isPassword: !isNewPasswordVisible,
                 hint: 'New Password',
                 context: context,
                 controller: newPassword,
                 maxLines: 1,
-                keyboardType: TextInputType.emailAddress,
-                textCapitalization: TextCapitalization.none,
                 enableSuggestions: false,
                 onChanged: (value) {
                   final regExp = RegExp(
@@ -101,11 +154,37 @@ class _ResetPasswordMockState extends State<ResetPasswordMock> {
               ),
               Space().height(context, 0.02),
               buildGenericTextfield(
+                icon: isPasswordConfirmationVisible
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isPasswordConfirmationVisible = false;
+                          });
+                        },
+                        child: Icon(
+                          Icons.visibility_off_outlined,
+                          size: Sizes().width(context, 0.045),
+                          color: rentWheelsNeutral,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isPasswordConfirmationVisible = true;
+                          });
+                        },
+                        child: Icon(
+                          Icons.visibility_outlined,
+                          size: Sizes().width(context, 0.045),
+                          color: rentWheelsNeutral,
+                        ),
+                      ),
+                isPassword: !isPasswordConfirmationVisible,
                 hint: 'Retype new password',
                 context: context,
                 controller: passwordConfirmation,
                 maxLines: 1,
-                keyboardType: TextInputType.phone,
+                enableSuggestions: false,
                 onChanged: (value) {
                   if (value == newPassword.text) {
                     setState(() {
