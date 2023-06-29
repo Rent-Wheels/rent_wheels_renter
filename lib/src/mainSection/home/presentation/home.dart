@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:rent_wheels_renter/core/auth/auth_service.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
-import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -24,7 +20,8 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => Navigator.of(context).push(
+              onTap: () => Navigator.push(
+                context,
                 CupertinoPageRoute(
                   builder: (context) => const AddCarPageOne(),
                 ),
@@ -34,7 +31,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             GestureDetector(
-              onTap: () => Navigator.of(context).push(
+              onTap: () => Navigator.push(
+                context,
                 CupertinoPageRoute(
                   builder: (context) => const AllCars(),
                 ),
@@ -43,21 +41,6 @@ class _HomeState extends State<Home> {
                 title: Text('All Cars'),
               ),
             ),
-            buildGenericButtonWidget(
-              width: Sizes().width(context, 0.16),
-              isActive: true,
-              context: context,
-              buttonName: 'Logout',
-              onPressed: () async {
-                await AuthService.firebase().logout();
-                if (!mounted) return;
-                Navigator.of(context).pushAndRemoveUntil(
-                    CupertinoPageRoute(
-                      builder: (context) => const Login(),
-                    ),
-                    (route) => false);
-              },
-            ),
             // buildGenericButtonWidget(
             //   buttonName: 'Delete Account',
             //   onPressed: () async {
@@ -65,7 +48,7 @@ class _HomeState extends State<Home> {
             //         .deleteUser(user: FirebaseAuth.instance.currentUser!);
 
             //     if (!mounted) return;
-            //     Navigator.of(context).pushAndRemoveUntil(
+            //     Navigator.pushAndRemoveUntil(context,
             //         CupertinoPageRoute(builder: (context) => const Login()),
             //         (route) => false);
             //   },

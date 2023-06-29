@@ -212,7 +212,7 @@ class _CarDetailsState extends State<CarDetails> {
             //         .deleteCar(carId: widget.car.carId!);
             //     if (response == Status.success) {
             //       if (!mounted) return;
-            //       Navigator.of(context).pop();
+            //       Navigator.pop(context);
             //     }
             //   },
             // ),

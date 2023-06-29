@@ -97,11 +97,11 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
       context: context,
       cameraOnTap: () {
         getImage(source: ImageSource.camera, type: type);
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       },
       galleryOnTap: () {
         getImage(source: ImageSource.gallery, type: type);
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       },
     );
   }

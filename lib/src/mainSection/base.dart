@@ -54,12 +54,13 @@ class _MainSectionState extends State<MainSection> {
       ),
       body: _pages.elementAt(currentIndex),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         enableFeedback: true,
         elevation: 10,
         backgroundColor: rentWheelsNeutralLight0,
         onTap: changeIndex,
         currentIndex: currentIndex,
+        showSelectedLabels: false,
         showUnselectedLabels: false,
         items: [
           BottomNavigationBarItem(

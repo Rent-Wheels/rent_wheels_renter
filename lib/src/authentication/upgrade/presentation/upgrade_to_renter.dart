@@ -46,7 +46,8 @@ class _UpgradeUserState extends State<UpgradeUser> {
                   await AuthService.firebase().logout();
                   if (!mounted) return;
                   Navigator.pop(context);
-                  Navigator.of(context).pushAndRemoveUntil(
+                  Navigator.pushAndRemoveUntil(
+                      context,
                       CupertinoPageRoute(
                         builder: (context) => const Login(),
                       ),

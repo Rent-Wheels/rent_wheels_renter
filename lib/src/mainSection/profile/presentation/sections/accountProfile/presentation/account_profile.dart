@@ -96,11 +96,11 @@ class _AccountProfileState extends State<AccountProfile> {
       context: context,
       cameraOnTap: () {
         openImage(source: ImageSource.camera);
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       },
       galleryOnTap: () {
         openImage(source: ImageSource.gallery);
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       },
     );
   }
@@ -146,7 +146,7 @@ class _AccountProfileState extends State<AccountProfile> {
                             DateFormat.yMMMMd().format(DateTime(2005));
                           });
                         }
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
                       },
                     )
                   ],

@@ -53,9 +53,11 @@ class _CarsState extends State<Cars> {
       itemCount: cars.length,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () => Navigator.of(context).push(CupertinoPageRoute(
-            builder: (context) => CarDetails(car: cars[index]),
-          )),
+          onTap: () => Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => CarDetails(car: cars[index]),
+              )),
           child: ListTile(
             leading: Image.network(
                 '${global.baseURL}/${cars[index].media![0].mediaURL}'),
