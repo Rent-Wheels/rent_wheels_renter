@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
+import 'package:rent_wheels_renter/src/mainSection/base.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
@@ -57,7 +56,9 @@ class AddCarSuccess extends StatelessWidget {
               onPressed: () => Navigator.pushAndRemoveUntil(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => const AllCars(),
+                  builder: (context) => const MainSection(
+                    pageIndex: 1,
+                  ),
                 ),
                 (route) => false,
               ),
