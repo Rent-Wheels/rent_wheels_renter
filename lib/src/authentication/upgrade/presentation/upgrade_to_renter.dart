@@ -33,7 +33,7 @@ class _UpgradeUserState extends State<UpgradeUser> {
         actions: [
           Padding(
             padding:
-                EdgeInsets.symmetric(horizontal: Sizes().height(context, 0.01)),
+                EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.02)),
             child: IconButton(
               icon: const Icon(
                 Icons.logout,
