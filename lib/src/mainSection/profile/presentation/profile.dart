@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(
-                          '${global.baseURL}/${global.userDetails!.profilePicture}',
+                          global.userDetails!.profilePicture,
                         ),
                       ),
                       border: Border.all(color: rentWheelsNeutralLight200),
