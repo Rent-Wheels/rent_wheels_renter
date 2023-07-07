@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
-import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
-import 'package:rent_wheels_renter/core/models/enums/enums.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 
 class CarDetails extends StatefulWidget {
   final Car car;
@@ -134,8 +135,8 @@ class _CarDetailsState extends State<CarDetails> {
               (media) {
                 return Stack(
                   children: [
-                    Image.network(
-                      '${global.baseURL}/${media.mediaURL}',
+                    CachedNetworkImage(
+                      imageUrl: media.mediaURL!,
                       fit: BoxFit.cover,
                     ),
                     Positioned(
@@ -144,18 +145,11 @@ class _CarDetailsState extends State<CarDetails> {
                       child: Container(
                         color: Colors.white,
                         child: GestureDetector(
-                          onTap: () async {
-                            final response = await RentWheelsCarMethods()
-                                .deleteCarMedia(
-                                    carId: widget.car.carId!,
-                                    mediaURL: media.mediaURL!);
-
-                            if (response == Status.success) {
-                              setState(() {
-                                widget.car.media!.removeWhere(
-                                    (m) => m.mediaURL == media.mediaURL);
-                              });
-                            }
+                          onTap: () {
+                            setState(() {
+                              widget.car.media!.removeWhere(
+                                  (m) => m.mediaURL == media.mediaURL);
+                            });
                           },
                           child: const Icon(
                             Icons.delete,
@@ -174,37 +168,44 @@ class _CarDetailsState extends State<CarDetails> {
                       fit: BoxFit.cover,
                     ))
                 .toList(),
-            // buildGenericButtonWidget(
-            //   buttonName: 'Select Images',
-            //   onPressed: chooseImages,
-            // ),
-            // buildGenericButtonWidget(
-            //   buttonName: 'Update Car',
-            //   onPressed: () async {
-            //     // Car carDetails = Car(
-            //     //   carId: widget.car.carId,
-            //     //   owner: global.userDetails!.id,
-            //     //   make: make.text,
-            //     //   model: model.text,
-            //     //   capacity: int.parse(capacity.text),
-            //     //   yearOfManufacture: yearOfManufacture.text,
-            //     //   registrationNumber: registrationNumber.text,
-            //     //   condition: condition.text,
-            //     //   rate: int.parse(rate.text),
-            //     //   plan: plan.text,
-            //     //   type: type.text,
-            //     //   availability: bool.parse(availability.text),
-            //     //   location: location.text,
-            //     //   maxDuration: int.parse(maxDuration.text),
-            //     //   description: description.text,
-            //     //   terms: terms.text,
-            //     //   media: media,
-            //     // );
+            buildGenericButtonWidget(
+              isActive: true,
+              context: context,
+              onPressed: chooseImages,
+              buttonName: 'Select Images',
+              width: Sizes().width(context, 0.85),
+            ),
+            buildGenericButtonWidget(
+              isActive: true,
+              context: context,
+              buttonName: 'Update Car',
+              width: Sizes().width(context, 0.85),
+              onPressed: () async {
+                Car carDetails = Car(
+                  carId: widget.car.carId,
+                  make: make.text,
+                  model: model.text,
+                  capacity: int.parse(capacity.text),
+                  color: widget.car.color,
+                  yearOfManufacture: yearOfManufacture.text,
+                  registrationNumber: registrationNumber.text,
+                  condition: condition.text,
+                  rate: int.parse(rate.text),
+                  plan: plan.text,
+                  type: type.text,
+                  availability: bool.parse(availability.text),
+                  location: location.text,
+                  maxDuration: int.parse(maxDuration.text),
+                  description: description.text,
+                  terms: terms.text,
+                  duration: 'days',
+                  media: [...widget.car.media!, ...media],
+                );
 
-            //     // await RentWheelsCarMethods()
-            //     //     .updateCarDetails(carDetails: carDetails);
-            //   },
-            // ),
+                await RentWheelsCarMethods()
+                    .updateCarDetails(carDetails: carDetails);
+              },
+            ),
             // buildGenericButtonWidget(
             //   buttonName: 'Delete Car',
             //   onPressed: () async {

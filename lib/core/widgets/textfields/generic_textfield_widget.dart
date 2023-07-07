@@ -30,6 +30,8 @@ buildGenericTextfield({
       ),
       Container(
         width: Sizes().width(context, 0.85),
+        constraints: BoxConstraints(maxHeight: Sizes().height(context, 0.2)),
+        padding: EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.04)),
         decoration: BoxDecoration(
           border: Border.all(
             color: rentWheelsNeutralLight200,
@@ -38,28 +40,29 @@ buildGenericTextfield({
             Sizes().width(context, 0.035),
           ),
         ),
-        padding: EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.04)),
-        child: TextField(
-          minLines: minLines,
-          maxLines: maxLines,
-          controller: controller,
-          obscuringCharacter: '*',
-          style: heading6Neutral900,
-          keyboardType: keyboardType,
-          obscureText: isPassword ?? false,
-          cursorColor: rentWheelsBrandDark900,
-          autocorrect: enableSuggestions ?? isPassword == null,
-          enableSuggestions: enableSuggestions ?? isPassword == null,
-          textInputAction: textInput ?? TextInputAction.next,
-          textCapitalization:
-              textCapitalization ?? TextCapitalization.sentences,
-          decoration: InputDecoration(
-            hintText: hint,
-            border: InputBorder.none,
-            hintStyle: heading6Neutral500,
-            suffix: icon,
+        child: SingleChildScrollView(
+          child: TextField(
+            minLines: minLines,
+            maxLines: maxLines,
+            controller: controller,
+            obscuringCharacter: '*',
+            style: heading6Neutral900,
+            keyboardType: keyboardType,
+            obscureText: isPassword ?? false,
+            cursorColor: rentWheelsBrandDark900,
+            autocorrect: enableSuggestions ?? isPassword == null,
+            enableSuggestions: enableSuggestions ?? isPassword == null,
+            textInputAction: textInput ?? TextInputAction.next,
+            textCapitalization:
+                textCapitalization ?? TextCapitalization.sentences,
+            decoration: InputDecoration(
+              hintText: hint,
+              border: InputBorder.none,
+              hintStyle: heading6Neutral500,
+              suffix: icon,
+            ),
+            onChanged: onChanged,
           ),
-          onChanged: onChanged,
         ),
       ),
     ],

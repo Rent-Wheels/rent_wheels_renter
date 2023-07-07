@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
-import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/car_details.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 
@@ -59,8 +58,8 @@ class _CarsState extends State<Cars> {
                 builder: (context) => CarDetails(car: cars[index]),
               )),
           child: ListTile(
-            leading: Image.network(
-                '${global.baseURL}/${cars[index].media![0].mediaURL}'),
+            // leading: CachedNetworkImage(
+            //     imageUrl: '${cars[index].media![0].mediaURL}'),
             title: Text(
                 '${cars[index].yearOfManufacture} ${cars[index].make} ${cars[index].model}'),
           ),

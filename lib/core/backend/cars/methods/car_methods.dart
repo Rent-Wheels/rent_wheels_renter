@@ -2,14 +2,13 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:mime/mime.dart';
-import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
-import 'package:uuid/uuid.dart';
-import 'package:http_parser/http_parser.dart';
+import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
+import 'package:rent_wheels_renter/core/backend/files/file_methods.dart';
+import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/backend/cars/endpoints/car_endpoints.dart';
 
 class RentWheelsCarMethods implements RentWheelsCarEndpoints {
@@ -46,96 +45,113 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
 
   @override
   Future<Car> addNewCar({required Car carDetails}) async {
-    const uuid = Uuid();
-    final request =
-        MultipartRequest('POST', Uri.parse('${global.baseURL}/cars/'));
+    global.headers.addEntries({
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    }.entries);
 
-    request.headers.addAll(global.headers);
-    request.fields['owner'] = global.userDetails!.id;
-    request.fields['make'] = carDetails.make!;
-    request.fields['model'] = carDetails.model!;
-    request.fields['capacity'] = carDetails.capacity.toString();
-    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture!;
-    request.fields['registrationNumber'] = carDetails.registrationNumber!;
-    request.fields['condition'] = carDetails.condition!;
-    request.fields['rate'] = carDetails.rate.toString();
-    request.fields['plan'] = carDetails.plan!;
-    request.fields['type'] = carDetails.type!;
-    request.fields['availability'] = '1';
-    request.fields['location'] = carDetails.location!;
-    request.fields['maxDuration'] = carDetails.maxDuration.toString();
-    request.fields['description'] = carDetails.description!;
-    request.fields['terms'] = carDetails.terms!;
-    request.fields['color'] = carDetails.color!;
-    request.fields['durationUnit'] = carDetails.duration!;
+    try {
+      List<Map<String, String>> media = [];
 
-    request.files.addAll(carDetails.media!.map(
-      (media) {
-        final ext = media.mediaURL!.split('.').last;
-        return MultipartFile(
-          'media',
-          File(media.mediaURL!).readAsBytes().asStream(),
-          File(media.mediaURL!).lengthSync(),
-          filename: '${uuid.v1()}.$ext',
-          contentType: MediaType.parse(lookupMimeType(media.mediaURL!)!),
+      for (var carMedia in carDetails.media!) {
+        final ext = carMedia.mediaURL!.split('.').last;
+        final mediaURL = await RentWheelsFilesMethods().getFileUrl(
+          file: File(carMedia.mediaURL!),
+          filePath:
+              'users/${global.user!.uid}/cars/${carDetails.registrationNumber!}/car_media_${carDetails.media!.indexOf(carMedia)}.$ext',
         );
-      },
-    ).toList());
+        media.add({'mediaURL': mediaURL});
+      }
 
-    final response = await request.send();
-    final responseBody = await response.stream.bytesToString();
+      final response = await post(Uri.parse('${global.baseURL}/cars/'),
+          headers: global.headers,
+          body: jsonEncode(
+            {
+              'owner': global.userDetails!.id,
+              'make': carDetails.make!,
+              'model': carDetails.model!,
+              'capacity': carDetails.capacity,
+              'yearOfManufacture': carDetails.yearOfManufacture!,
+              'registrationNumber': carDetails.registrationNumber!,
+              'condition': carDetails.condition!,
+              'rate': carDetails.rate,
+              'plan': carDetails.plan!,
+              'type': carDetails.type!,
+              'location': carDetails.location!,
+              'maxDuration': carDetails.maxDuration,
+              'description': carDetails.description!,
+              'terms': carDetails.terms!,
+              'color': carDetails.color!,
+              'durationUnit': carDetails.duration!,
+              'media': media
+            },
+          ));
 
-    if (response.statusCode == 201) {
-      return Car.fromJSON(jsonDecode(responseBody));
+      if (response.statusCode == 201) {
+        return Car.fromJSON(jsonDecode(response.body));
+      }
+      throw Exception(response.body);
+    } catch (e) {
+      throw Exception(e);
     }
-    throw Exception(responseBody);
   }
 
   @override
   Future<Car> updateCarDetails({required Car carDetails}) async {
-    const uuid = Uuid();
-    final request = MultipartRequest(
-        'PUT', Uri.parse('${global.baseURL}/cars/${carDetails.carId}'));
+    global.headers.addEntries({
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    }.entries);
 
-    request.headers.addAll(global.headers);
-    request.fields['carId'] = carDetails.carId!;
-    request.fields['owner'] = global.userDetails!.id;
-    request.fields['make'] = carDetails.make!;
-    request.fields['model'] = carDetails.model!;
-    request.fields['capacity'] = carDetails.capacity.toString();
-    request.fields['yearOfManufacture'] = carDetails.yearOfManufacture!;
-    request.fields['registrationNumber'] = carDetails.registrationNumber!;
-    request.fields['condition'] = carDetails.condition!;
-    request.fields['rate'] = carDetails.rate.toString();
-    request.fields['plan'] = carDetails.plan!;
-    request.fields['type'] = carDetails.type!;
-    request.fields['availability'] = '1';
-    request.fields['location'] = carDetails.location!;
-    request.fields['maxDuration'] = carDetails.maxDuration.toString();
-    request.fields['description'] = carDetails.description!;
-    request.fields['terms'] = carDetails.terms!;
+    try {
+      List<Map<String, String>> media = [];
 
-    request.files.addAll(carDetails.media!.map(
-      (media) {
-        final ext = media.mediaURL!.split('.').last;
-        return MultipartFile(
-          'media',
-          File(media.mediaURL!).readAsBytes().asStream(),
-          File(media.mediaURL!).lengthSync(),
-          filename: '${uuid.v1()}.$ext',
-          contentType: MediaType.parse(lookupMimeType(media.mediaURL!)!),
-        );
-      },
-    ).toList());
+      for (var carMedia in carDetails.media!) {
+        if (!isURL(carMedia.mediaURL!)) {
+          final ext = carMedia.mediaURL!.split('.').last;
+          final mediaURL = await RentWheelsFilesMethods().getFileUrl(
+            file: File(carMedia.mediaURL!),
+            filePath:
+                'users/${global.user!.uid}/cars/${carDetails.registrationNumber!}/car_media_${carDetails.media!.indexOf(carMedia)}.$ext',
+          );
+          media.add({'mediaURL': mediaURL});
+        } else {
+          media.add({'mediaURL': carMedia.mediaURL!});
+        }
+      }
 
-    final response = await request.send();
-    final responseBody = await response.stream.bytesToString();
+      final response =
+          await put(Uri.parse('${global.baseURL}/cars/${carDetails.carId}'),
+              headers: global.headers,
+              body: jsonEncode(
+                {
+                  'owner': global.userDetails!.id,
+                  'make': carDetails.make!,
+                  'model': carDetails.model!,
+                  'capacity': carDetails.capacity,
+                  'yearOfManufacture': carDetails.yearOfManufacture!,
+                  'registrationNumber': carDetails.registrationNumber!,
+                  'condition': carDetails.condition!,
+                  'rate': carDetails.rate,
+                  'plan': carDetails.plan!,
+                  'type': carDetails.type!,
+                  'location': carDetails.location!,
+                  'maxDuration': carDetails.maxDuration,
+                  'description': carDetails.description!,
+                  'terms': carDetails.terms!,
+                  'color': carDetails.color!,
+                  'durationUnit': carDetails.duration!,
+                  'media': media
+                },
+              ));
 
-    if (response.statusCode == 200) {
-      return Car.fromJSON(jsonDecode(responseBody));
+      if (response.statusCode == 200) {
+        return Car.fromJSON(jsonDecode(response.body));
+      }
+      throw Exception(response.body);
+    } catch (e) {
+      throw Exception(e);
     }
-
-    throw Exception();
   }
 
   @override
@@ -149,21 +165,6 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     }
 
     throw Exception();
-  }
-
-  @override
-  Future deleteCarMedia({
-    required String carId,
-    required String mediaURL,
-  }) async {
-    final response = await patch(
-        Uri.parse('${global.baseURL}/cars/$carId/media'),
-        headers: global.headers,
-        body: {'mediaURL!': mediaURL});
-
-    if (response.statusCode == 200) return Status.success;
-
-    return Status.failed;
   }
 
   @override

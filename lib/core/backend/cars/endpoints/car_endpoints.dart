@@ -8,5 +8,4 @@ abstract class RentWheelsCarEndpoints {
   Future<Car> updateCarDetails({required Car carDetails});
   Future<Car> changeCarAvailability({required String carId});
   Future<List<Reservation>> getCarRentalHistory({required String carId});
-  Future deleteCarMedia({required String carId, required String mediaURL});
 }
