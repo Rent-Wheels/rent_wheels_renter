@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:rent_wheels_renter/src/mainSection/base.dart';
 import 'package:string_validator/string_validator.dart';
 
-import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/authentication/signup/presentation/signup.dart';
 import 'package:rent_wheels_renter/src/authentication/verify/presentation/verify_email.dart';
 import 'package:rent_wheels_renter/src/authentication/upgrade/presentation/upgrade_to_renter.dart';
@@ -149,7 +149,7 @@ class _LoginState extends State<Login> {
                           Navigator.pushAndRemoveUntil(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => const Home()),
+                                  builder: (context) => const MainSection()),
                               (route) => false);
                         }
                       }
