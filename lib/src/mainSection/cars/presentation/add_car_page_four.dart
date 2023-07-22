@@ -227,7 +227,7 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                 context: context,
                 width: Sizes().width(context, 0.85),
                 isActive: isActive(),
-                buttonName: "Continue",
+                buttonName: "Add Car",
                 onPressed: () async {
                   buildLoadingIndicator(context, 'Adding Car');
 
