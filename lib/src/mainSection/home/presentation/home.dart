@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
               onTap: () => Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => const AddCarPageOne(),
+                  builder: (context) => const AddCarPageOne(title: 'Add car'),
                 ),
               ),
               child: const ListTile(

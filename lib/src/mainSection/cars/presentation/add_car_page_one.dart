@@ -14,7 +14,8 @@ import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_wid
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
 class AddCarPageOne extends StatefulWidget {
-  const AddCarPageOne({super.key});
+  const AddCarPageOne({super.key, this.title});
+  final String? title;
 
   @override
   State<AddCarPageOne> createState() => _AddCarPageOneState();
@@ -65,7 +66,8 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildAddCarTop(context: context, page: 1),
+                  buildAddCarTop(
+                      context: context, page: 1, title: widget.title),
                   Space().height(context, 0.03),
                   buildGenericTextfield(
                     context: context,
