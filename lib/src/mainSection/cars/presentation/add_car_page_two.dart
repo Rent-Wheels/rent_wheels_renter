@@ -17,7 +17,10 @@ import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_wid
 
 class AddCarPageTwo extends StatefulWidget {
   final Car carDetails;
-  const AddCarPageTwo({super.key, required this.carDetails});
+  final Car? car;
+  final String? title;
+  const AddCarPageTwo(
+      {super.key, required this.carDetails, this.car, this.title});
 
   @override
   State<AddCarPageTwo> createState() => _AddCarPageTwoState();
@@ -43,28 +46,53 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
   Car carDetails = Car();
 
   bool isActive() {
-    return isRateValid &&
-        isTypeValid &&
-        isPlanValid &&
-        isDurationValid &&
-        isCapacityValid &&
-        isMaxDurationValid &&
-        isConditionValid;
+    return widget.car != null
+        ? true
+        : isRateValid &&
+            isTypeValid &&
+            isPlanValid &&
+            isDurationValid &&
+            isCapacityValid &&
+            isMaxDurationValid &&
+            isConditionValid;
   }
 
   @override
   void initState() {
-    type.text = widget.carDetails.type ?? "";
-    plan.text = widget.carDetails.plan ?? "/hr";
-    condition.text = widget.carDetails.condition ?? "";
-    rate.text =
-        widget.carDetails.rate == null ? "" : widget.carDetails.rate.toString();
+    type.text = widget.carDetails.type == null
+        ? widget.car != null
+            ? widget.car!.type!
+            : ''
+        : widget.carDetails.type!;
+    plan.text = widget.carDetails.plan == null
+        ? widget.car != null
+            ? widget.car!.plan!
+            : ''
+        : widget.carDetails.plan!;
+    condition.text = widget.carDetails.condition == null
+        ? widget.car != null
+            ? widget.car!.condition!
+            : ''
+        : widget.carDetails.condition!;
+    rate.text = widget.carDetails.rate == null
+        ? widget.car != null
+            ? widget.car!.rate.toString()
+            : ''
+        : widget.carDetails.rate.toString();
     capacity.text = widget.carDetails.capacity == null
-        ? ""
+        ? widget.car != null
+            ? widget.car!.capacity.toString()
+            : ''
         : widget.carDetails.capacity.toString();
-    duration.text = widget.carDetails.duration ?? "days";
+    duration.text = widget.carDetails.duration == null
+        ? widget.car != null
+            ? widget.car!.duration!
+            : ''
+        : widget.carDetails.duration!;
     maxDuration.text = widget.carDetails.maxDuration == null
-        ? ""
+        ? widget.car != null
+            ? widget.car!.maxDuration.toString()
+            : ''
         : widget.carDetails.maxDuration.toString();
 
     isPlanValid = true;
@@ -82,6 +110,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(type.text.isNotEmpty ? type.text : '');
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
       appBar: AppBar(
@@ -103,7 +132,8 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildAddCarTop(context: context, page: 2),
+                  buildAddCarTop(
+                      context: context, page: 2, title: widget.title),
                   Space().height(context, 0.03),
                   buildDropDownInputField(
                     context: context,
@@ -330,6 +360,8 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                     CupertinoPageRoute(
                       builder: (context) => AddCarPageThree(
                         carDetails: carDetails,
+                        car: widget.car,
+                        title: 'Updating car',
                       ),
                     ),
                   );
@@ -337,13 +369,21 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                   if (car != null) {
                     carDetails = car;
                     setState(() {
-                      type.text = carDetails.type!;
-                      plan.text = carDetails.plan!;
-                      condition.text = carDetails.condition!;
-                      carDetails.duration = duration.text;
-                      rate.text = carDetails.rate.toString();
-                      capacity.text = carDetails.capacity.toString();
-                      maxDuration.text = carDetails.maxDuration.toString();
+                      type.text = carDetails.type ?? widget.car!.type!;
+                      plan.text = carDetails.plan ?? widget.car!.plan!;
+                      condition.text =
+                          carDetails.condition ?? widget.car!.condition!;
+                      carDetails.duration =
+                          carDetails.duration ?? widget.car!.duration!;
+                      rate.text = carDetails.rate == null
+                          ? widget.car!.rate!.toString()
+                          : carDetails.rate.toString();
+                      capacity.text = carDetails.capacity == null
+                          ? widget.car!.capacity!.toString()
+                          : carDetails.capacity.toString();
+                      maxDuration.text = carDetails.maxDuration == null
+                          ? widget.car!.type!
+                          : carDetails.maxDuration.toString();
                     });
                   }
                 },

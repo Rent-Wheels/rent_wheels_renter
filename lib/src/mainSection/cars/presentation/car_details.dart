@@ -199,17 +199,48 @@ class _CarDetailsState extends State<CarDetails> {
         ],
       ),
       floatingActionButton: buildGenericButtonWidget(
-        width: Sizes().width(context, 0.26),
-        isActive: car.availability!,
-        buttonName: 'Update Car',
-        context: context,
-        onPressed: () => Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => const AddCarPageOne(title: 'Updating car'),
-          ),
-        ),
-      ),
+          width: Sizes().width(context, 0.26),
+          isActive: car.availability!,
+          buttonName: 'Update Car',
+          context: context,
+          onPressed: () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => AddCarPageOne(
+                  title: 'Updating car',
+                  car: widget.car,
+                ),
+              ),
+            );
+            debugPrint(widget.car.make);
+          }),
+      // bottomSheet: Container(
+      //   color: rentWheelsNeutralLight0,
+      //   padding: EdgeInsets.all(Sizes().height(context, 0.02)),
+      //   height: Sizes().height(context, 0.13),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           Text(
+      //             '${car.yearOfManufacture} ${car.make} ${car.model}',
+      //             style: heading4Information,
+      //           ),
+      //           Space().height(context, 0.01),
+      //           Text(
+      //             'GH¢${car.rate} ${car.plan}',
+      //             style: body1Information,
+      //           ),
+      //         ],
+      //       ),
+
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

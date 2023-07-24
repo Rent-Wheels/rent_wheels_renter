@@ -23,7 +23,9 @@ import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_wid
 
 class AddCarPageFour extends StatefulWidget {
   final Car carDetails;
-  const AddCarPageFour({super.key, required this.carDetails});
+  final String title;
+  const AddCarPageFour(
+      {super.key, required this.carDetails, required this.title});
 
   @override
   State<AddCarPageFour> createState() => _AddCarPageFourState();
@@ -157,7 +159,8 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildAddCarTop(context: context, page: 4),
+                  buildAddCarTop(
+                      context: context, page: 4, title: widget.title),
                   Space().height(context, 0.03),
                   Padding(
                     padding:
