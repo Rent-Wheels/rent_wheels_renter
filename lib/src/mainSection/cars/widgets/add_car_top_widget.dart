@@ -6,12 +6,13 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 buildAddCarTop({
   required BuildContext context,
   required int page,
+  String? title,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'Add car',
+      Text(
+        title ?? 'Add car',
         style: heading2Information,
       ),
       Space().height(context, 0.01),

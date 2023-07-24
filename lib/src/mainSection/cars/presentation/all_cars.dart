@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/car_details.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 
@@ -57,11 +58,26 @@ class _CarsState extends State<Cars> {
               CupertinoPageRoute(
                 builder: (context) => CarDetails(car: cars[index]),
               )),
-          child: ListTile(
-            // leading: CachedNetworkImage(
-            //     imageUrl: '${cars[index].media![0].mediaURL}'),
-            title: Text(
-                '${cars[index].yearOfManufacture} ${cars[index].make} ${cars[index].model}'),
+          child: Container(
+            margin: const EdgeInsets.all(5),
+            height: MediaQuery.of(context).size.shortestSide * 0.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(cars[index].media![0].mediaURL!),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${cars[index].yearOfManufacture} ${cars[index].make} ${cars[index].model}',
+                  style: heading4Information.copyWith(),
+                ),
+              ),
+            ),
           ),
         );
       },

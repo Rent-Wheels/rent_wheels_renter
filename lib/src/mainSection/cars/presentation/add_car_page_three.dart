@@ -16,7 +16,10 @@ import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_wid
 
 class AddCarPageThree extends StatefulWidget {
   final Car carDetails;
-  const AddCarPageThree({super.key, required this.carDetails});
+  final Car? car;
+  final String? title;
+  const AddCarPageThree(
+      {super.key, required this.carDetails, this.car, this.title});
 
   @override
   State<AddCarPageThree> createState() => _AddCarPageThreeState();
@@ -34,14 +37,17 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
   Car carDetails = Car();
 
   bool isActive() {
-    return isTermsValid && isLocationValid && isDescriptionValid;
+    return widget.car != null
+        ? true
+        : isTermsValid && isLocationValid && isDescriptionValid;
   }
 
   @override
   void initState() {
-    terms.text = widget.carDetails.terms ?? "";
-    location.text = widget.carDetails.location ?? "";
-    description.text = widget.carDetails.description ?? "";
+    terms.text = widget.carDetails.terms ?? widget.car!.terms!;
+    location.text = widget.carDetails.location ?? widget.car!.location!;
+    description.text =
+        widget.carDetails.description ?? widget.car!.description!;
 
     isTermsValid = widget.carDetails.terms == null ? false : true;
     isLocationValid = widget.carDetails.location == null ? false : true;
@@ -76,7 +82,8 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildAddCarTop(context: context, page: 3),
+                  buildAddCarTop(
+                      context: context, page: 3, title: widget.title),
                   Space().height(context, 0.03),
                   buildTappableTextField(
                     hint: 'Car Location',
@@ -159,15 +166,18 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                     CupertinoPageRoute(
                       builder: (context) => AddCarPageFour(
                         carDetails: carDetails,
+                        title: 'Updating car',
                       ),
                     ),
                   );
                   if (car != null) {
                     carDetails = car;
                     setState(() {
-                      terms.text = carDetails.terms!;
-                      location.text = carDetails.location!;
-                      description.text = carDetails.description!;
+                      terms.text = carDetails.terms ?? widget.car!.terms!;
+                      location.text =
+                          carDetails.location ?? widget.car!.location!;
+                      description.text =
+                          carDetails.description ?? widget.car!.description!;
                     });
                   }
                 },
