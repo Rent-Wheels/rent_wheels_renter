@@ -91,6 +91,12 @@ const heading4Neutral = TextStyle(
   fontSize: 20,
   color: rentWheelsNeutralDark900,
 );
+const heading4Neutral0 = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 20,
+  color: rentWheelsNeutralLight0,
+);
 const heading5Neutral = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Urbanist',

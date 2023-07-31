@@ -30,7 +30,9 @@ class _ProfileState extends State<Profile> {
       backgroundColor: rentWheelsNeutralLight0,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(Sizes().height(context, 0.02)),
+          padding: EdgeInsets.symmetric(
+            horizontal: Sizes().height(context, 0.02),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
