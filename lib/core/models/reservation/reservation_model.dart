@@ -19,7 +19,7 @@ class Reservation {
 
   factory Reservation.fromJSON(Map<String, dynamic> json) {
     return Reservation(
-      id: json['id'],
+      id: json['_id'],
       customer: Customer.fromJSON(json['customer']),
       renter: json['renter'],
       car: json['car'],
