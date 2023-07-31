@@ -3,17 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/add_car_top_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_sucess.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/add_car_image_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/add_more_images_widget.dart';
 
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
@@ -23,26 +26,73 @@ import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_wid
 
 class AddCarPageFour extends StatefulWidget {
   final Car carDetails;
-  final String title;
+  final CarReviewType type;
   const AddCarPageFour(
-      {super.key, required this.carDetails, required this.title});
+      {super.key, required this.carDetails, required this.type});
 
   @override
   State<AddCarPageFour> createState() => _AddCarPageFourState();
 }
 
 class _AddCarPageFourState extends State<AddCarPageFour> {
-  File? back;
-  File? front;
+  File? backImageFile;
+  File? frontImageFile;
+
+  String? frontImageUrl;
+  String? backImageUrl;
+
   late List<Media> imageFiles;
-  late List<File> additionalImageFiles;
+  late List<File?> additionalImageFiles;
+  late List<String?> additionalImageUrls;
   Car carDetails = Car();
 
   bool isActive() {
-    return back != null && front != null;
+    return (backImageFile != null && frontImageFile != null) ||
+        (backImageUrl != null && frontImageUrl != null);
   }
 
-  //function to get image source and file
+  getExistingImages() {
+    if (widget.carDetails.media != null &&
+        widget.carDetails.media!.isNotEmpty) {
+      additionalImageUrls = [];
+      additionalImageFiles = [];
+      imageFiles = widget.carDetails.media!;
+      if (imageFiles.first.mediaURL != null) {
+        !isURL(imageFiles.first.mediaURL!)
+            ? frontImageFile = File(imageFiles.first.mediaURL!)
+            : frontImageUrl = imageFiles.first.mediaURL!;
+      }
+      if (imageFiles.length > 1 && imageFiles[1].mediaURL != null) {
+        !isURL(imageFiles[1].mediaURL!)
+            ? backImageFile = File(imageFiles[1].mediaURL!)
+            : backImageUrl = imageFiles[1].mediaURL!;
+      }
+      if (imageFiles.length > 2) {
+        additionalImageFiles = imageFiles.map((image) {
+          if (!isURL(image.mediaURL!)) {
+            return File(image.mediaURL ?? "");
+          }
+        }).toList();
+
+        additionalImageUrls = imageFiles.map((image) {
+          if (isURL(image.mediaURL!)) {
+            return image.mediaURL ?? "";
+          }
+        }).toList();
+
+        additionalImageFiles.removeRange(0, 2);
+        additionalImageUrls.removeRange(0, 2);
+
+        additionalImageFiles.removeWhere((image) => image == null);
+        additionalImageUrls.removeWhere((image) => image == null);
+      }
+    } else {
+      imageFiles = [Media(mediaURL: null), Media(mediaURL: null)];
+      additionalImageUrls = [];
+      additionalImageFiles = [];
+    }
+  }
+
   Future getImage({required ImageSource source, String? type}) async {
     if (type == 'additional') {
       final List<XFile> images = await ImagePicker().pickMultiImage();
@@ -62,10 +112,10 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
 
         setState(() {
           if (type == 'front') {
-            front = image;
+            frontImageFile = image;
             imageFiles[0] = Media(mediaURL: image.path);
           } else if (type == 'back') {
-            back = image;
+            backImageFile = image;
             imageFiles[1] = Media(mediaURL: image.path);
           }
         });
@@ -80,10 +130,10 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
   deleteImage({File? image, required String type}) {
     setState(() {
       if (type == 'front') {
-        front = null;
+        frontImageFile = null;
         imageFiles[0] = Media(mediaURL: null);
       } else if (type == 'back') {
-        back = null;
+        backImageFile = null;
         imageFiles[1] = Media(mediaURL: null);
       } else {
         additionalImageFiles.removeWhere((img) => img == image);
@@ -108,28 +158,46 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
     );
   }
 
+  Future addCar() async {
+    buildLoadingIndicator(context, 'Adding Car');
+
+    try {
+      final car =
+          await RentWheelsCarMethods().addNewCar(carDetails: carDetails);
+      if (!mounted) return;
+      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => AddCarSuccess(carDetails: car),
+        ),
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      showErrorPopUp(e.toString(), context);
+    }
+  }
+
+  Future updateCar() async {
+    buildLoadingIndicator(context, 'Updating Car Details');
+
+    try {
+      await RentWheelsCarMethods().updateCarDetails(carDetails: carDetails);
+      if (!mounted) return;
+      Navigator.pop(context);
+      showSuccessPopUp('Car has been updated successfully!', context);
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      showErrorPopUp(e.toString(), context);
+    }
+  }
+
   @override
   void initState() {
-    if (widget.carDetails.media != null &&
-        widget.carDetails.media!.isNotEmpty) {
-      additionalImageFiles = [];
-      imageFiles = widget.carDetails.media!;
-      if (imageFiles.first.mediaURL != null) {
-        front = File(imageFiles.first.mediaURL!);
-      }
-      if (imageFiles.length > 1 && imageFiles[1].mediaURL != null) {
-        back = File(imageFiles[1].mediaURL!);
-      }
-      if (imageFiles.length > 2) {
-        additionalImageFiles =
-            imageFiles.map((image) => File(image.mediaURL ?? "")).toList();
-        additionalImageFiles.removeRange(0, 2);
-      }
-    } else {
-      imageFiles = [Media(mediaURL: null), Media(mediaURL: null)];
-      additionalImageFiles = [];
-    }
-
+    getExistingImages();
     carDetails = widget.carDetails;
     super.initState();
   }
@@ -160,7 +228,12 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildAddCarTop(
-                      context: context, page: 4, title: widget.title),
+                    context: context,
+                    page: 4,
+                    title: widget.type == CarReviewType.add
+                        ? 'Add Car'
+                        : 'Update Car',
+                  ),
                   Space().height(context, 0.03),
                   Padding(
                     padding:
@@ -174,7 +247,8 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                     context: context,
                     selectImage: () => bottomSheet(type: 'front'),
                     deleteImage: () => deleteImage(type: 'front'),
-                    imageFile: front,
+                    imageFile: frontImageFile,
+                    imageUrl: frontImageUrl,
                   ),
                   Space().height(context, 0.02),
                   Padding(
@@ -189,34 +263,54 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                     context: context,
                     selectImage: () => bottomSheet(type: 'back'),
                     deleteImage: () => deleteImage(type: 'back'),
-                    imageFile: back,
+                    imageFile: backImageFile,
+                    imageUrl: backImageUrl,
                   ),
-                  if (additionalImageFiles.isNotEmpty)
-                    Space().height(context, 0.02),
-                  if (additionalImageFiles.isNotEmpty)
-                    Padding(
-                      padding:
-                          EdgeInsets.only(bottom: Sizes().width(context, 0.02)),
-                      child: const Text(
-                        'Additional Images',
-                        style: heading5Information,
-                      ),
-                    ),
-                  ...additionalImageFiles.map((image) {
-                    return Column(
+                  Space().height(context, 0.02),
+                  if (additionalImageFiles.isNotEmpty ||
+                      additionalImageUrls.isNotEmpty)
+                    Column(
                       children: [
-                        buildCarImageUpload(
+                        Space().height(context, 0.02),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: Sizes().width(context, 0.02)),
+                          child: const Text(
+                            'Additional Images',
+                            style: heading5Information,
+                          ),
+                        ),
+                      ],
+                    ),
+                  if (additionalImageUrls.isNotEmpty)
+                    ...additionalImageUrls.map((image) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: Sizes().height(context, 0.02),
+                        ),
+                        child: buildCarImageUpload(
+                          context: context,
+                          selectImage: null,
+                          deleteImage: () {},
+                          imageUrl: image,
+                        ),
+                      );
+                    }).toList(),
+                  if (additionalImageFiles.isNotEmpty)
+                    ...additionalImageFiles.map((image) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: Sizes().height(context, 0.02),
+                        ),
+                        child: buildCarImageUpload(
                           context: context,
                           selectImage: null,
                           deleteImage: () =>
                               deleteImage(type: 'additional', image: image),
                           imageFile: image,
                         ),
-                        Space().height(context, 0.02),
-                      ],
-                    );
-                  }).toList(),
-                  if (isActive()) Space().height(context, 0.02),
+                      );
+                    }).toList(),
                   if (isActive())
                     buildAddMorePhotos(
                       context: context,
@@ -228,31 +322,14 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
               Space().height(context, 0.05),
               buildGenericButtonWidget(
                 context: context,
-                width: Sizes().width(context, 0.85),
+                width: double.infinity,
                 isActive: isActive(),
-                buttonName: "Add Car",
-                onPressed: () async {
-                  buildLoadingIndicator(context, 'Adding Car');
-
-                  try {
-                    final car = await RentWheelsCarMethods()
-                        .addNewCar(carDetails: carDetails);
-                    if (!mounted) return;
-                    Navigator.pop(context);
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => AddCarSuccess(carDetails: car),
-                      ),
-                      (route) => false,
-                    );
-                  } catch (e) {
-                    if (!mounted) return;
-                    Navigator.pop(context);
-                    showErrorPopUp(e.toString(), context);
-                  }
-                },
-              )
+                buttonName:
+                    widget.type == CarReviewType.add ? 'Add Car' : 'Update Car',
+                onPressed:
+                    widget.type == CarReviewType.add ? addCar : updateCar,
+              ),
+              Space().height(context, 0.05),
             ],
           ),
         ),

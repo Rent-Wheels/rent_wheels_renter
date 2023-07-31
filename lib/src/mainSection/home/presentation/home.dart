@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
 
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -23,7 +25,9 @@ class _HomeState extends State<Home> {
               onTap: () => Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => const AddCarPageOne(title: 'Add car'),
+                  builder: (context) => const AddCarPageOne(
+                    type: CarReviewType.add,
+                  ),
                 ),
               ),
               child: const ListTile(

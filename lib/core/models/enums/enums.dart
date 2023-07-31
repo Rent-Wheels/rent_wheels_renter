@@ -20,3 +20,5 @@ enum ReservationStatus {
 
   final String status;
 }
+
+enum CarReviewType { add, update }

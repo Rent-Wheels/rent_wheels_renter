@@ -15,7 +15,6 @@ buildAddMorePhotos({
       alignment: Alignment.center,
       children: [
         Container(
-          width: Sizes().width(context, 0.85),
           height: Sizes().height(context, 0.05),
           decoration: BoxDecoration(
             border: Border.all(

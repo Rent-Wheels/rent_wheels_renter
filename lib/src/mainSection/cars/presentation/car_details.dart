@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:rent_wheels_renter/core/models/car/car_model.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+
+import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_key_value.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel_items.dart';
+
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
-import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel_items.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_key_value.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class CarDetails extends StatefulWidget {
   final Car car;
-  // final Renter renter;
+
   final String? heroTag;
 
-  const CarDetails(
-      {super.key,
-      required this.car,
-      // required this.renter,
-      this.heroTag});
+  const CarDetails({super.key, required this.car, this.heroTag});
 
   @override
   State<CarDetails> createState() => _CarDetailsState();
@@ -36,27 +35,19 @@ class _CarDetailsState extends State<CarDetails> {
   final CarouselController _carImage = CarouselController();
 
   @override
-  void initState() {
-    scroll.addListener(() {
-      setState(() {
-        if (scroll.offset < 196) {
-          changeColor = false;
-        } else {
-          changeColor = true;
-        }
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    scroll.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    scroll.addListener(() {
+      if (scroll.offset < 196) {
+        setState(() {
+          changeColor = false;
+        });
+      } else {
+        setState(() {
+          changeColor = true;
+        });
+      }
+    });
+
     Car car = widget.car;
     List<Widget> carouselItems = widget.car.media!.map((media) {
       return buildCarDetailsCarouselItem(
@@ -186,7 +177,7 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                       Space().height(context, 0.02),
                       const Text(
-                        'Renter Details',
+                        'Reservations',
                         style: heading4Information,
                       ),
                       // Space().height(context, 0.01),
@@ -200,7 +191,7 @@ class _CarDetailsState extends State<CarDetails> {
       ),
       floatingActionButton: buildGenericButtonWidget(
           width: Sizes().width(context, 0.26),
-          isActive: car.availability!,
+          isActive: true,
           buttonName: 'Update Car',
           context: context,
           onPressed: () {
@@ -208,13 +199,23 @@ class _CarDetailsState extends State<CarDetails> {
               context,
               CupertinoPageRoute(
                 builder: (context) => AddCarPageOne(
-                  title: 'Updating car',
-                  car: widget.car,
+                  type: CarReviewType.update,
+                  car: car,
                 ),
               ),
             );
-            debugPrint(widget.car.make);
           }),
+      // buildGenericButtonWidget(
+      //   buttonName: 'Delete Car',
+      //   onPressed: () async {
+      //     final response = await RentWheelsCarMethods()
+      //         .deleteCar(carId: widget.car.carId!);
+      //     if (response == Status.success) {
+      //       if (!mounted) return;
+      //       Navigator.pop(context);
+      //     }
+      //   },
+      // ),
       // bottomSheet: Container(
       //   color: rentWheelsNeutralLight0,
       //   padding: EdgeInsets.all(Sizes().height(context, 0.02)),

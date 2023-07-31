@@ -5,6 +5,7 @@ import 'package:string_validator/string_validator.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/add_car_top_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_two.dart';
 
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
@@ -14,9 +15,9 @@ import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_wid
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
 
 class AddCarPageOne extends StatefulWidget {
-  const AddCarPageOne({super.key, this.title, this.car});
-  final String? title;
   final Car? car;
+  final CarReviewType type;
+  const AddCarPageOne({super.key, required this.type, this.car});
 
   @override
   State<AddCarPageOne> createState() => _AddCarPageOneState();
@@ -48,28 +49,14 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
   Car carDetails = Car();
   @override
   void initState() {
-    super.initState();
-
     if (widget.car != null) {
-      make = TextEditingController(text: widget.car!.make);
-      model = TextEditingController(text: widget.car!.model);
-      color = TextEditingController(text: widget.car!.color);
-      // capacity = TextEditingController(text: widget.car!.capacity.toString());
-      yearOfManufacture =
-          TextEditingController(text: widget.car!.yearOfManufacture);
-      registrationNumber =
-          TextEditingController(text: widget.car!.registrationNumber);
-      // condition = TextEditingController(text: widget.car!.condition);
-      // rate = TextEditingController(text: widget.car!.rate.toString());
-      // plan = TextEditingController(text: widget.car!.plan);
-      // type = TextEditingController(text: widget.car!.type);
-      // availability =
-      // TextEditingController(text: widget.car!.availability.toString());
-      // location = TextEditingController(text: widget.car!.location);
-      // maxDuration =
-      //     TextEditingController(text: widget.car!.maxDuration.toString());
-      // description = TextEditingController(text: widget.car!.description);
-      // terms = TextEditingController(text: widget.car!.terms);
+      Car car = widget.car!;
+      make = TextEditingController(text: car.make);
+      model = TextEditingController(text: car.model);
+      color = TextEditingController(text: car.color);
+      yearOfManufacture = TextEditingController(text: car.yearOfManufacture);
+      registrationNumber = TextEditingController(text: car.registrationNumber);
+      carDetails = car;
     }
     super.initState();
   }
@@ -97,7 +84,12 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildAddCarTop(
-                      context: context, page: 1, title: widget.title),
+                    context: context,
+                    page: 1,
+                    title: widget.type == CarReviewType.add
+                        ? 'Add Car'
+                        : 'Update Car',
+                  ),
                   Space().height(context, 0.03),
                   buildGenericTextfield(
                     context: context,
@@ -211,9 +203,9 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     context,
                     CupertinoPageRoute(
                       builder: (context) => AddCarPageTwo(
-                          carDetails: carDetails,
-                          car: widget.car,
-                          title: 'Updating car'),
+                        type: widget.type,
+                        carDetails: carDetails,
+                      ),
                     ),
                   );
 
@@ -221,13 +213,11 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     carDetails = car;
 
                     setState(() {
-                      model.text = carDetails.model ?? widget.car!.model!;
-                      make.text = carDetails.make ?? widget.car!.make!;
-                      color.text = carDetails.color ?? widget.car!.color!;
-                      yearOfManufacture.text = carDetails.yearOfManufacture ??
-                          widget.car!.yearOfManufacture!;
-                      registrationNumber.text = carDetails.registrationNumber ??
-                          widget.car!.registrationNumber!;
+                      model.text = carDetails.model!;
+                      make.text = carDetails.make!;
+                      color.text = carDetails.color!;
+                      yearOfManufacture.text = carDetails.yearOfManufacture!;
+                      registrationNumber.text = carDetails.registrationNumber!;
                     });
                   }
                 },

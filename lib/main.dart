@@ -70,9 +70,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             if (global.user != null) {
               if (!isRenter) return const UpgradeUser();
               if (global.user!.emailVerified) {
-                return const MainSection(
-                  pageIndex: 1,
-                );
+                return const MainSection();
               }
               return const VerifyEmail();
             } else {
