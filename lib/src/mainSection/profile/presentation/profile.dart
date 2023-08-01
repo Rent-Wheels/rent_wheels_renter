@@ -53,7 +53,7 @@ class _ProfileState extends State<Profile> {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(
-                          global.userDetails!.profilePicture,
+                          global.userDetails!.profilePicture!,
                         ),
                       ),
                       border: Border.all(color: rentWheelsNeutralLight200),
@@ -68,12 +68,12 @@ class _ProfileState extends State<Profile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        global.userDetails!.name,
+                        global.userDetails!.name!,
                         style: heading5Neutral,
                       ),
                       Space().height(context, 0.005),
                       Text(
-                        global.userDetails!.email,
+                        global.userDetails!.email!,
                         style: heading6Neutral900,
                       ),
                     ],

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/car_details.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/all_cars_sections_widget.dart';
 
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/loadingIndicator/shimmer_loading_placeholder.dart';
@@ -29,14 +29,28 @@ class _AllCarsDataState extends State<AllCarsData> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: cars
-                .map((car) => buildAllCarsSections(
+                .map(
+                  (car) => buildAllCarsSections(
                     car: car,
                     context: context,
-                    onTap: () => Navigator.push(
+                    onTap: () async {
+                      final reservations = await RentWheelsCarMethods()
+                          .getCarRentalHistory(carId: car.carId!);
+
+                      if (!mounted) return;
+
+                      Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => CarDetails(car: car),
-                        ))))
+                          builder: (context) => CarDetails(
+                            car: car,
+                            reservations: reservations,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
                 .toList(),
           );
         }

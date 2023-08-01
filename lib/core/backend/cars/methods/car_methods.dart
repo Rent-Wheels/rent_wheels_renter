@@ -33,9 +33,12 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     );
 
     if (response.statusCode == 200) {
-      List results = jsonDecode(response.body);
-      return List<Reservation>.from(
-          results.map((reservation) => Reservation.fromJSON(reservation)));
+      Map<String, dynamic> results = jsonDecode(response.body);
+      List reservations = results['rentalHistory'];
+      return reservations.isEmpty
+          ? []
+          : List<Reservation>.from(reservations
+              .map((reservation) => Reservation.fromJSON(reservation)));
     }
     throw Exception();
   }

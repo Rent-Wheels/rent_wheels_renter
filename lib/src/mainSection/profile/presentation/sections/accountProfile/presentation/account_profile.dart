@@ -189,11 +189,11 @@ class _AccountProfileState extends State<AccountProfile> {
 
   @override
   void initState() {
-    name.text = global.userDetails!.name;
-    email.text = global.userDetails!.email;
-    phoneNumber.text = global.userDetails!.phoneNumber;
-    residence.text = global.userDetails!.placeOfResidence;
-    dob.text = DateFormat.yMMMMd().format(global.userDetails!.dob);
+    name.text = global.userDetails!.name!;
+    email.text = global.userDetails!.email!;
+    phoneNumber.text = global.userDetails!.phoneNumber!;
+    residence.text = global.userDetails!.placeOfResidence!;
+    dob.text = DateFormat.yMMMMd().format(global.userDetails!.dob!);
 
     super.initState();
   }

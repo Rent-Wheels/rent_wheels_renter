@@ -13,15 +13,21 @@ import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
+import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class CarDetails extends StatefulWidget {
   final Car car;
-
   final String? heroTag;
+  final List<Reservation> reservations;
 
-  const CarDetails({super.key, required this.car, this.heroTag});
+  const CarDetails({
+    super.key,
+    this.heroTag,
+    required this.car,
+    required this.reservations,
+  });
 
   @override
   State<CarDetails> createState() => _CarDetailsState();

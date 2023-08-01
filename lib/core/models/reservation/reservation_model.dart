@@ -1,11 +1,13 @@
+import 'package:rent_wheels_renter/core/models/user/user_model.dart';
+
 class Reservation {
   String id;
-  Customer customer;
+  BackendUser customer;
   String renter;
   String car;
   DateTime startDate;
   DateTime returnDate;
-  String reservationStatus;
+  String status;
 
   Reservation({
     required this.id,
@@ -14,35 +16,18 @@ class Reservation {
     required this.car,
     required this.startDate,
     required this.returnDate,
-    required this.reservationStatus,
+    required this.status,
   });
 
   factory Reservation.fromJSON(Map<String, dynamic> json) {
     return Reservation(
       id: json['_id'],
-      customer: Customer.fromJSON(json['customer']),
+      customer: BackendUser.fromJSON(json['customer']['id']),
       renter: json['renter'],
       car: json['car'],
       startDate: DateTime.parse(json['startDate']),
       returnDate: DateTime.parse(json['returnDate']),
-      reservationStatus: json['reservationStatus'],
-    );
-  }
-}
-
-class Customer {
-  String id;
-  String name;
-
-  Customer({
-    required this.id,
-    required this.name,
-  });
-
-  factory Customer.fromJSON(Map<String, String> json) {
-    return Customer(
-      id: json['_id']!,
-      name: json['name']!,
+      status: json['status'],
     );
   }
 }
