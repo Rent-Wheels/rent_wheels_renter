@@ -127,17 +127,22 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
     });
   }
 
-  deleteImage({File? image, required String type}) {
+  deleteImage({File? image, String? imageUrl, required String type}) {
     setState(() {
       if (type == 'front') {
-        frontImageFile = null;
+        frontImageFile != null ? frontImageFile = null : frontImageUrl = null;
         imageFiles[0] = Media(mediaURL: null);
       } else if (type == 'back') {
-        backImageFile = null;
+        backImageFile != null ? backImageFile = null : backImageUrl = null;
         imageFiles[1] = Media(mediaURL: null);
       } else {
-        additionalImageFiles.removeWhere((img) => img == image);
-        imageFiles.removeWhere((media) => media.mediaURL == image!.path);
+        if (additionalImageUrls.isNotEmpty) {
+          additionalImageUrls.removeWhere((img) => img == imageUrl);
+          imageFiles.removeWhere((media) => media.mediaURL == imageUrl);
+        } else {
+          additionalImageFiles.removeWhere((img) => img == image);
+          imageFiles.removeWhere((media) => media.mediaURL == image!.path);
+        }
       }
 
       carDetails.media = imageFiles;
@@ -291,7 +296,10 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                         child: buildCarImageUpload(
                           context: context,
                           selectImage: null,
-                          deleteImage: () {},
+                          deleteImage: () => deleteImage(
+                            type: 'additional',
+                            imageUrl: image,
+                          ),
                           imageUrl: image,
                         ),
                       );
