@@ -103,6 +103,12 @@ const heading5Neutral = TextStyle(
   fontSize: 16,
   color: rentWheelsNeutralDark900,
 );
+const heading5Neutral500 = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 16,
+  color: rentWheelsNeutral,
+);
 const heading5Neutral0 = TextStyle(
   fontWeight: FontWeight.w500,
   fontFamily: 'Urbanist',
@@ -115,11 +121,23 @@ const heading6Neutral900 = TextStyle(
   fontSize: 14,
   color: rentWheelsNeutralDark900,
 );
+const heading6Neutral900Bold = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 14,
+  color: rentWheelsNeutralDark900,
+);
 const heading6Neutral500 = TextStyle(
   fontWeight: FontWeight.w500,
   fontFamily: 'Urbanist',
   fontSize: 14,
   color: rentWheelsNeutral,
+);
+const heading6Neutral0 = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Urbanist',
+  fontSize: 14,
+  color: rentWheelsNeutralLight0,
 );
 const heading7Neutral900 = TextStyle(
   fontWeight: FontWeight.w700,

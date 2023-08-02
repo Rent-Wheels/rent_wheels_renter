@@ -16,6 +16,8 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_reservations_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/reservations/presentation/reservation_details.dart';
 
 class CarDetails extends StatefulWidget {
   final Car car;
@@ -55,6 +57,8 @@ class _CarDetailsState extends State<CarDetails> {
     });
 
     Car car = widget.car;
+    List<Reservation> reservations = widget.reservations;
+
     List<Widget> carouselItems = widget.car.media!.map((media) {
       return buildCarDetailsCarouselItem(
           image: media.mediaURL!, context: context);
@@ -182,11 +186,34 @@ class _CarDetailsState extends State<CarDetails> {
                         style: body1Neutral900,
                       ),
                       Space().height(context, 0.02),
-                      const Text(
-                        'Reservations',
-                        style: heading4Information,
-                      ),
-                      // Space().height(context, 0.01),
+                      if (reservations.isNotEmpty)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Reservations',
+                              style: heading4Information,
+                            ),
+                            Space().height(context, 0.01),
+                            ...reservations.map(
+                              (reservation) => buildCarReservations(
+                                context: context,
+                                status: reservation.status,
+                                customer: reservation.customer,
+                                onTap: () => Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => ReservationDetails(
+                                      car: car,
+                                      customer: reservation.customer,
+                                      reservation: reservation,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 );

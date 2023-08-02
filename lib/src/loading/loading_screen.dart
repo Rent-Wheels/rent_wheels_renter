@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:loading_indicator/loading_indicator.dart';
+
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
@@ -8,6 +10,7 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    timeDilation = 1.5;
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
       body: SafeArea(
