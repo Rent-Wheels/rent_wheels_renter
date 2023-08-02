@@ -7,7 +7,9 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
 Future<dynamic> buildLoadingIndicator(
-        BuildContext context, String loadingMessage) =>
+  BuildContext context,
+  String loadingMessage,
+) =>
     showDialog(
       barrierDismissible: false,
       context: context,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:rent_wheels_renter/tester.dart';
-
 import 'package:rent_wheels_renter/src/mainSection/base.dart';
+import 'package:rent_wheels_renter/src/loading/loading_screen.dart';
 import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 import 'package:rent_wheels_renter/src/authentication/verify/presentation/verify_email.dart';
 import 'package:rent_wheels_renter/src/authentication/upgrade/presentation/upgrade_to_renter.dart';
@@ -78,7 +77,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             }
 
           default:
-            return const Tester();
+            return const LoadingScreen();
         }
       },
     );
