@@ -3,7 +3,7 @@ import 'package:rent_wheels_renter/core/models/user/user_model.dart';
 
 class Reservation {
   String? id;
-  BackendUser? customer;
+  dynamic customer;
   String? renter;
   dynamic car;
   String? destination;
@@ -27,8 +27,10 @@ class Reservation {
   factory Reservation.fromJSON(Map<String, dynamic> json) {
     return Reservation(
       id: json['_id'],
-      customer: BackendUser.fromJSON(json['customer']['id']),
-      renter: json['renter'],
+      customer: json['customer']['id'] is String
+          ? json['customer']['id']
+          : BackendUser.fromJSON(json['customer']['id']),
+      renter: json['renter'] is String ? json['renter'] : null,
       car: json['car'] is String ? json['car'] : Car.fromJSON(json['car']),
       destination: json['destination'],
       startDate: DateTime.parse(json['startDate']),

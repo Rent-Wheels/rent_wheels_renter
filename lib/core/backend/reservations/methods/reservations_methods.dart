@@ -12,7 +12,7 @@ class RentWheelsReservationsMethods extends RentWheelsReservationsEndpoint {
     yield* Stream.periodic(const Duration(milliseconds: 30), (_) {
       return get(
               Uri.parse(
-                  '${global.baseURL}/reservations/?userId=${global.userDetails!.id}/'),
+                  '${global.baseURL}/reservations/?renterId=${global.userDetails!.id}'),
               headers: global.headers)
           .then((response) {
         if (response.statusCode == 200) {

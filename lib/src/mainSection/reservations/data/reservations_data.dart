@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/reservations/widgets/filter_buttons_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/reservations/presentation/reservation_details.dart';
@@ -114,6 +117,48 @@ class _ReservationsDataState extends State<ReservationsData> {
                           context: context,
                           car: reservation.car,
                           reservation: reservation,
+                          onAccept: () async {
+                            try {
+                              buildLoadingIndicator(context, '');
+                              await RentWheelsReservationsMethods()
+                                  .updateReservationStatus(
+                                reservationId: reservation.id!,
+                                status: 'Accepted',
+                              );
+
+                              if (!mounted) return;
+                              Navigator.pop(context);
+                              showSuccessPopUp(
+                                'Reservation Accepted!',
+                                context,
+                              );
+                            } catch (e) {
+                              if (!mounted) return;
+                              Navigator.pop(context);
+                              showErrorPopUp(e.toString(), context);
+                            }
+                          },
+                          onDecline: () async {
+                            try {
+                              buildLoadingIndicator(context, '');
+                              await RentWheelsReservationsMethods()
+                                  .updateReservationStatus(
+                                reservationId: reservation.id!,
+                                status: 'Cancelled',
+                              );
+
+                              if (!mounted) return;
+                              Navigator.pop(context);
+                              showSuccessPopUp(
+                                'Reservation Declined!',
+                                context,
+                              );
+                            } catch (e) {
+                              if (!mounted) return;
+                              Navigator.pop(context);
+                              showErrorPopUp(e.toString(), context);
+                            }
+                          },
                           onPressed: () async {
                             final status = await Navigator.push(
                               context,
@@ -146,48 +191,54 @@ class _ReservationsDataState extends State<ReservationsData> {
           );
         }
 
-        return ShimmerLoading(
-          isLoading: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: Sizes().height(context, 0.05),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return buildFilterButtons(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: Sizes().height(context, 0.05),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return ShimmerLoading(
+                    isLoading: true,
+                    child: buildFilterButtons(
                       width: Sizes().width(context, 0.2),
                       label: '',
                       context: context,
                       onTap: null,
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-              Space().height(context, 0.02),
-              SizedBox(
-                height: Sizes().height(context, 0.9),
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return Padding(
+            ),
+            Space().height(context, 0.02),
+            SizedBox(
+              height: Sizes().height(context, 0.9),
+              child: ListView.builder(
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return ShimmerLoading(
+                    isLoading: true,
+                    child: Padding(
                       padding: EdgeInsets.only(
-                          bottom: Sizes().height(context, 0.04)),
+                        bottom: Sizes().height(context, 0.04),
+                      ),
                       child: buildReservationSections(
+                        onAccept: null,
+                        onDecline: null,
+                        onPressed: null,
                         isLoading: true,
                         context: context,
-                        onPressed: null,
                         reservation: Reservation(),
                         car: Car(media: [Media(mediaURL: '')]),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

@@ -11,7 +11,7 @@ GestureDetector buildGenericButtonWidget({
   required bool isActive,
   required String buttonName,
   required BuildContext context,
-  required void Function() onPressed,
+  required void Function()? onPressed,
 }) {
   return GestureDetector(
     onTap: isActive ? onPressed : null,

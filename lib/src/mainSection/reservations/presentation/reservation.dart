@@ -21,10 +21,6 @@ class _ReservationsState extends State<Reservations> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
-      appBar: AppBar(
-        backgroundColor: rentWheelsNeutralLight0,
-        elevation: 0,
-      ),
       body: Shimmer(
         linearGradient: global.shimmerGradient,
         child: SingleChildScrollView(

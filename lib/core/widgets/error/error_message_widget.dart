@@ -21,6 +21,7 @@ buildErrorMessage({
       Text(
         errorMessage?.replaceAll(RegExp(r'(Exception:|")'), '') ?? '',
         style: body2Neutral,
+        textAlign: TextAlign.center,
       )
     ],
   );

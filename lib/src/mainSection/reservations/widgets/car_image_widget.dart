@@ -27,7 +27,16 @@ buildCarImage({
                 ),
         ),
       ),
-      buildReservationStatus(status: reservationStatus, context: context),
+      Container(
+        margin: EdgeInsets.only(
+          left: Sizes().width(context, 0.02),
+          top: Sizes().height(context, 0.01),
+        ),
+        child: buildReservationStatus(
+          status: reservationStatus,
+          context: context,
+        ),
+      )
     ],
   );
 }

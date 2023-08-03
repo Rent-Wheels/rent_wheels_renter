@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/reservations/widgets/car_image_widget.dart';
 
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/util/date_formatter.dart';
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
@@ -15,8 +15,10 @@ Widget buildReservationSections({
   required Car car,
   required bool isLoading,
   required BuildContext context,
-  required void Function()? onPressed,
   required Reservation reservation,
+  required void Function()? onPressed,
+  required void Function()? onAccept,
+  required void Function()? onDecline,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +30,7 @@ Widget buildReservationSections({
           children: [
             buildCarImage(
               imageUrl: car.media![0].mediaURL!,
-              reservationStatus: reservation.status!,
+              reservationStatus: reservation.status ?? '',
               context: context,
             ),
             Space().height(context, 0.01),
@@ -65,27 +67,28 @@ Widget buildReservationSections({
         ),
       ),
       Space().height(context, 0.02),
-      Row(
-        children: [
-          buildGenericButtonWidget(
-            width: Sizes().width(context, 0.4),
-            isActive: true,
-            buttonName: 'Write review',
-            context: context,
-            onPressed: () {},
-          ),
-          Space().width(context, 0.04),
-          buildGenericButtonWidget(
-            isActive: true,
-            context: context,
-            buttonName: 'Write review',
-            btnColor: rentWheelsNeutralLight0,
-            textStyle: heading5NeutralLight,
-            width: Sizes().width(context, 0.4),
-            onPressed: () {},
-          ),
-        ],
-      )
+      if (reservation.status?.toLowerCase() == 'pending')
+        Row(
+          children: [
+            buildGenericButtonWidget(
+              width: Sizes().width(context, 0.4),
+              isActive: true,
+              btnColor: rentWheelsSuccessDark700,
+              buttonName: '✓ Accept',
+              context: context,
+              onPressed: onAccept,
+            ),
+            Space().width(context, 0.04),
+            buildGenericButtonWidget(
+              isActive: true,
+              context: context,
+              buttonName: 'x Decline',
+              btnColor: rentWheelsErrorDark700,
+              width: Sizes().width(context, 0.4),
+              onPressed: onDecline,
+            ),
+          ],
+        )
     ],
   );
 }
