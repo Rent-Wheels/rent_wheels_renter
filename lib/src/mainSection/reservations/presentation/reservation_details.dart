@@ -33,9 +33,9 @@ class _ReservationDetailsState extends State<ReservationDetails> {
 
     Duration getDuration() {
       Duration duration =
-          reservation.returnDate.difference(reservation.startDate);
+          reservation.returnDate!.difference(reservation.startDate!);
 
-      if (reservation.returnDate.isAtSameMomentAs(reservation.startDate)) {
+      if (reservation.returnDate!.isAtSameMomentAs(reservation.startDate!)) {
         duration = const Duration(days: 1);
       }
 

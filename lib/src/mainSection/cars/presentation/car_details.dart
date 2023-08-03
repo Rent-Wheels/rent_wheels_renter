@@ -198,14 +198,14 @@ class _CarDetailsState extends State<CarDetails> {
                             ...reservations.map(
                               (reservation) => buildCarReservations(
                                 context: context,
-                                status: reservation.status,
-                                customer: reservation.customer,
+                                status: reservation.status!,
+                                customer: reservation.customer!,
                                 onTap: () => Navigator.push(
                                   context,
                                   CupertinoPageRoute(
                                     builder: (context) => ReservationDetails(
                                       car: car,
-                                      customer: reservation.customer,
+                                      customer: reservation.customer!,
                                       reservation: reservation,
                                     ),
                                   ),

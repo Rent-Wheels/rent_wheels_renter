@@ -69,7 +69,7 @@ buildReservationDetails({
                     SizedBox(
                       width: Sizes().width(context, 0.6),
                       child: Text(
-                        '${formatDate(reservation.startDate)} - ${formatDate(reservation.returnDate)}',
+                        '${formatDate(reservation.startDate!)} - ${formatDate(reservation.returnDate!)}',
                         style: heading6Neutral900Bold,
                       ),
                     ),
@@ -144,7 +144,7 @@ buildReservationDetails({
             Space().height(context, 0.01),
             buildPriceDetailsKeyValue(
               label: 'Destination',
-              value: reservation.destination,
+              value: reservation.destination!,
               context: context,
             ),
             Space().height(context, 0.01),

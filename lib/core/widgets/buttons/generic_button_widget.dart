@@ -6,6 +6,7 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
 GestureDetector buildGenericButtonWidget({
   Color? btnColor,
+  TextStyle? textStyle,
   required double width,
   required bool isActive,
   required String buttonName,
@@ -26,7 +27,7 @@ GestureDetector buildGenericButtonWidget({
       child: Center(
         child: Text(
           buttonName,
-          style: heading5Neutral0,
+          style: textStyle ?? heading5Neutral0,
         ),
       ),
     ),
