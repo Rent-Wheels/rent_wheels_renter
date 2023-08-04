@@ -11,6 +11,8 @@ class Reservation {
   DateTime? returnDate;
   String? status;
   num? price;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Reservation({
     this.id,
@@ -20,6 +22,8 @@ class Reservation {
     this.destination,
     this.startDate,
     this.returnDate,
+    this.createdAt,
+    this.updatedAt,
     this.status,
     this.price,
   });
@@ -35,6 +39,8 @@ class Reservation {
       destination: json['destination'],
       startDate: DateTime.parse(json['startDate']),
       returnDate: DateTime.parse(json['returnDate']),
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
       status: json['status'],
       price: json['price'],
     );
