@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:rent_wheels_renter/core/widgets/dialogs/confirmation_dialog_widget.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/reservations/widgets/filter_buttons_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/reservations/presentation/reservation_details.dart';
@@ -168,27 +169,36 @@ class _ReservationsDataState extends State<ReservationsData> {
                                           showErrorPopUp(e.toString(), context);
                                         }
                                       },
-                                      onDecline: () async {
-                                        try {
-                                          buildLoadingIndicator(context, '');
-                                          await RentWheelsReservationsMethods()
-                                              .updateReservationStatus(
-                                            reservationId: reservation.id!,
-                                            status: 'Cancelled',
-                                          );
+                                      onDecline: () => buildConfirmationDialog(
+                                        context: context,
+                                        label: 'Decline Reservation',
+                                        buttonName: 'Decline Reservation',
+                                        message:
+                                            'Are you sure you want to decline this reservation?',
+                                        onAccept: () async {
+                                          try {
+                                            Navigator.pop(context);
+                                            buildLoadingIndicator(context, '');
+                                            await RentWheelsReservationsMethods()
+                                                .updateReservationStatus(
+                                              reservationId: reservation.id!,
+                                              status: 'Declined',
+                                            );
 
-                                          if (!mounted) return;
-                                          Navigator.pop(context);
-                                          showSuccessPopUp(
-                                            'Reservation Declined!',
-                                            context,
-                                          );
-                                        } catch (e) {
-                                          if (!mounted) return;
-                                          Navigator.pop(context);
-                                          showErrorPopUp(e.toString(), context);
-                                        }
-                                      },
+                                            if (!mounted) return;
+                                            Navigator.pop(context);
+                                            showSuccessPopUp(
+                                              'Reservation Declined!',
+                                              context,
+                                            );
+                                          } catch (e) {
+                                            if (!mounted) return;
+                                            Navigator.pop(context);
+                                            showErrorPopUp(
+                                                e.toString(), context);
+                                          }
+                                        },
+                                      ),
                                       onPressed: () async {
                                         final status = await Navigator.push(
                                           context,

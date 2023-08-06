@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
+import 'package:rent_wheels_renter/core/widgets/dialogs/confirmation_dialog_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
@@ -123,30 +124,36 @@ class _ProfileState extends State<Profile> {
         height: Sizes().height(context, 0.1),
         color: rentWheelsNeutralLight0,
         child: buildGenericButtonWidget(
-          width: Sizes().width(context, 0.85),
-          isActive: true,
-          buttonName: 'Logout',
-          context: context,
-          onPressed: () async {
-            buildLoadingIndicator(context, 'Logging Out');
-            try {
-              await AuthService.firebase().logout();
-              if (!mounted) return;
-              Navigator.pop(context);
-              Navigator.pushAndRemoveUntil(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => const Login(),
-                ),
-                (route) => false,
-              );
-            } catch (e) {
-              if (!mounted) return;
-              Navigator.pop(context);
-              showErrorPopUp('Error logging out', context);
-            }
-          },
-        ),
+            width: Sizes().width(context, 0.85),
+            isActive: true,
+            buttonName: 'Logout',
+            context: context,
+            onPressed: () => buildConfirmationDialog(
+                  label: 'Logout',
+                  context: context,
+                  buttonName: 'Logout',
+                  message: 'Are you sure you want to log out?',
+                  onAccept: () async {
+                    Navigator.pop(context);
+                    buildLoadingIndicator(context, 'Logging Out');
+                    try {
+                      await AuthService.firebase().logout();
+                      if (!mounted) return;
+                      Navigator.pop(context);
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const Login(),
+                        ),
+                        (route) => false,
+                      );
+                    } catch (e) {
+                      if (!mounted) return;
+                      Navigator.pop(context);
+                      showErrorPopUp('Error logging out', context);
+                    }
+                  },
+                )),
       ),
     );
   }
