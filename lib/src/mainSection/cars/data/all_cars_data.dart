@@ -26,39 +26,41 @@ class _AllCarsDataState extends State<AllCarsData> {
         if (snapshot.hasData) {
           List<Car> cars = snapshot.data!;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: cars
-                .map(
-                  (car) => buildAllCarsSections(
-                    car: car,
-                    context: context,
-                    onTap: () async {
-                      try {
-                        buildLoadingIndicator(context, '');
-                        final reservations = await RentWheelsCarMethods()
-                            .getCarRentalHistory(carId: car.carId!);
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: cars
+                  .map(
+                    (car) => buildAllCarsSections(
+                      car: car,
+                      context: context,
+                      onTap: () async {
+                        try {
+                          buildLoadingIndicator(context, '');
+                          final reservations = await RentWheelsCarMethods()
+                              .getCarRentalHistory(carId: car.carId!);
 
-                        if (!mounted) return;
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => CarDetails(
-                              car: car,
-                              reservations: reservations,
+                          if (!mounted) return;
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => CarDetails(
+                                car: car,
+                                reservations: reservations,
+                              ),
                             ),
-                          ),
-                        );
-                      } catch (e) {
-                        if (!mounted) return;
-                        Navigator.pop(context);
-                        showErrorPopUp(e.toString(), context);
-                      }
-                    },
-                  ),
-                )
-                .toList(),
+                          );
+                        } catch (e) {
+                          if (!mounted) return;
+                          Navigator.pop(context);
+                          showErrorPopUp(e.toString(), context);
+                        }
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
           );
         }
 

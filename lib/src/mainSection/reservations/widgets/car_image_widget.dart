@@ -7,8 +7,8 @@ import 'package:rent_wheels_renter/core/widgets/reservations/reservation_status_
 
 buildCarImage({
   required String imageUrl,
-  required String reservationStatus,
   required BuildContext context,
+  required String reservationStatus,
 }) {
   return Stack(
     alignment: Alignment.topLeft,

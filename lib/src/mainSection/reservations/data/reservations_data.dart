@@ -132,83 +132,87 @@ class _ReservationsDataState extends State<ReservationsData> {
                       label: 'You have no reservations!',
                       context: context,
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: sections.values
-                          .elementAt(currentIndex)
-                          .map((reservation) => Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: Sizes().height(context, 0.04),
-                                ),
-                                child: buildReservationSections(
-                                  isLoading: false,
-                                  context: context,
-                                  car: reservation.car,
-                                  reservation: reservation,
-                                  onAccept: () async {
-                                    try {
-                                      buildLoadingIndicator(context, '');
-                                      await RentWheelsReservationsMethods()
-                                          .updateReservationStatus(
-                                        reservationId: reservation.id!,
-                                        status: 'Accepted',
-                                      );
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: sections.values
+                              .elementAt(currentIndex)
+                              .map((reservation) => Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: Sizes().height(context, 0.04),
+                                    ),
+                                    child: buildReservationSections(
+                                      isLoading: false,
+                                      context: context,
+                                      car: reservation.car,
+                                      reservation: reservation,
+                                      onAccept: () async {
+                                        try {
+                                          buildLoadingIndicator(context, '');
+                                          await RentWheelsReservationsMethods()
+                                              .updateReservationStatus(
+                                            reservationId: reservation.id!,
+                                            status: 'Accepted',
+                                          );
 
-                                      if (!mounted) return;
-                                      Navigator.pop(context);
-                                      showSuccessPopUp(
-                                        'Reservation Accepted!',
-                                        context,
-                                      );
-                                    } catch (e) {
-                                      if (!mounted) return;
-                                      Navigator.pop(context);
-                                      showErrorPopUp(e.toString(), context);
-                                    }
-                                  },
-                                  onDecline: () async {
-                                    try {
-                                      buildLoadingIndicator(context, '');
-                                      await RentWheelsReservationsMethods()
-                                          .updateReservationStatus(
-                                        reservationId: reservation.id!,
-                                        status: 'Cancelled',
-                                      );
+                                          if (!mounted) return;
+                                          Navigator.pop(context);
+                                          showSuccessPopUp(
+                                            'Reservation Accepted!',
+                                            context,
+                                          );
+                                        } catch (e) {
+                                          if (!mounted) return;
+                                          Navigator.pop(context);
+                                          showErrorPopUp(e.toString(), context);
+                                        }
+                                      },
+                                      onDecline: () async {
+                                        try {
+                                          buildLoadingIndicator(context, '');
+                                          await RentWheelsReservationsMethods()
+                                              .updateReservationStatus(
+                                            reservationId: reservation.id!,
+                                            status: 'Cancelled',
+                                          );
 
-                                      if (!mounted) return;
-                                      Navigator.pop(context);
-                                      showSuccessPopUp(
-                                        'Reservation Declined!',
-                                        context,
-                                      );
-                                    } catch (e) {
-                                      if (!mounted) return;
-                                      Navigator.pop(context);
-                                      showErrorPopUp(e.toString(), context);
-                                    }
-                                  },
-                                  onPressed: () async {
-                                    final status = await Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (context) =>
-                                            ReservationDetails(
-                                          car: reservation.car,
-                                          customer: reservation.customer!,
-                                          reservation: reservation,
-                                        ),
-                                      ),
-                                    );
+                                          if (!mounted) return;
+                                          Navigator.pop(context);
+                                          showSuccessPopUp(
+                                            'Reservation Declined!',
+                                            context,
+                                          );
+                                        } catch (e) {
+                                          if (!mounted) return;
+                                          Navigator.pop(context);
+                                          showErrorPopUp(e.toString(), context);
+                                        }
+                                      },
+                                      onPressed: () async {
+                                        final status = await Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                            builder: (context) =>
+                                                ReservationDetails(
+                                              car: reservation.car,
+                                              customer: reservation.customer!,
+                                              reservation: reservation,
+                                            ),
+                                          ),
+                                        );
 
-                                    if (status != null) {
-                                      setState(() {
-                                        reservation.status = status;
-                                      });
-                                    }
-                                  },
-                                ),
-                              ))
-                          .toList(),
+                                        if (status != null) {
+                                          setState(() {
+                                            reservation.status = status;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
                     ),
             ],
           );
@@ -243,8 +247,7 @@ class _ReservationsDataState extends State<ReservationsData> {
               ),
             ),
             Space().height(context, 0.02),
-            SizedBox(
-              height: Sizes().height(context, 0.9),
+            Expanded(
               child: ListView.builder(
                 itemCount: 3,
                 itemBuilder: (context, index) {

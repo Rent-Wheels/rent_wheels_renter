@@ -21,21 +21,22 @@ class _AllCarsState extends State<AllCars> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
-      body: Shimmer(
-        linearGradient: global.shimmerGradient,
-        child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.02)),
-          child: SingleChildScrollView(
+      body: SafeArea(
+        child: Shimmer(
+          linearGradient: global.shimmerGradient,
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.02)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Space().height(context, 0.04),
                 const Text(
                   "All Cars",
                   style: heading3Information,
                 ),
                 Space().height(context, 0.03),
-                const AllCarsData()
+                const Expanded(child: AllCarsData())
               ],
             ),
           ),
