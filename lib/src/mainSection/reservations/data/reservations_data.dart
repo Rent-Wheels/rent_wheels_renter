@@ -1,7 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/reservations/widgets/filter_buttons_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/reservations/presentation/reservation_details.dart';
@@ -11,9 +8,12 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
 import 'package:rent_wheels_renter/core/backend/reservations/methods/reservations_methods.dart';
 import 'package:rent_wheels_renter/core/widgets/loadingIndicator/shimmer_loading_placeholder.dart';
 
@@ -53,6 +53,20 @@ class _ReservationsDataState extends State<ReservationsData> {
                 .toList();
           }
 
+          List<Reservation> declinedReservations() {
+            return reservations
+                .where((reservation) =>
+                    reservation.status!.toLowerCase() == 'declined')
+                .toList();
+          }
+
+          List<Reservation> paidReservations() {
+            return reservations
+                .where((reservation) =>
+                    reservation.status!.toLowerCase() == 'paid')
+                .toList();
+          }
+
           List<Reservation> ongoingReservations() {
             return reservations
                 .where((reservation) =>
@@ -78,6 +92,8 @@ class _ReservationsDataState extends State<ReservationsData> {
             'All': reservations,
             'Pending': pendingReservations(),
             'Accepted': acceptedReservations(),
+            'Declined': declinedReservations(),
+            'Paid': paidReservations(),
             'Ongoing': ongoingReservations(),
             'Completed': completedReservations(),
             'Cancelled': cancelledReservations(),

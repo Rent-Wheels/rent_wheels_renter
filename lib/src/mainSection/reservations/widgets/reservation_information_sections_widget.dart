@@ -67,7 +67,7 @@ Widget buildReservationSections({
         ),
       ),
       Space().height(context, 0.02),
-      if (reservation.status?.toLowerCase() == 'pending')
+      if (reservation.status?.toLowerCase() == 'pending' || isLoading)
         Row(
           children: [
             buildGenericButtonWidget(

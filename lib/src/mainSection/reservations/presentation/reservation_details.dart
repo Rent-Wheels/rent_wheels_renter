@@ -58,19 +58,21 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           onPressed: () => Navigator.pop(context, reservation.status),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: Sizes().width(context, 0.04),
-          right: Sizes().width(context, 0.04),
-          bottom: Sizes().height(context, 0.1),
-        ),
-        child: buildReservationDetails(
-          car: car,
-          context: context,
-          customer: customer,
-          pageTitle: 'Reservation',
-          duration: getDuration(),
-          reservation: reservation,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: Sizes().width(context, 0.04),
+            right: Sizes().width(context, 0.04),
+            bottom: Sizes().height(context, 0.15),
+          ),
+          child: buildReservationDetails(
+            car: car,
+            context: context,
+            customer: customer,
+            pageTitle: 'Reservation',
+            duration: getDuration(),
+            reservation: reservation,
+          ),
         ),
       ),
       bottomSheet: reservation.status == 'Pending'
