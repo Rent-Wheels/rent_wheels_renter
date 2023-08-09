@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
-
-import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/data/dashboard_data.dart';
+
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
+import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,13 +16,21 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.02)),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DashboardData(),
+              Space().height(context, 0.04),
+              const Text(
+                "Dashboard",
+                style: heading3Information,
+              ),
+              Space().height(context, 0.03),
+              const DashboardData(),
               // GestureDetector(
               //   onTap: () => Navigator.push(
               //     context,

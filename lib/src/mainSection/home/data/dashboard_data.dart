@@ -3,6 +3,7 @@ import 'package:rent_wheels_renter/core/backend/reservations/methods/reservation
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
 
 class DashboardData extends StatefulWidget {
   const DashboardData({super.key});
@@ -89,12 +90,20 @@ class _DashboardDataState extends State<DashboardData> {
 
             return Column(
               children: [
+                buildMostProfitableCar(
+                  car: getMostProfitableCarByRegistration(
+                      getMostProfitableCars()[0].key),
+                  price: getMostProfitableCars()[0].value,
+                  context: context,
+                ),
                 ...getMostProfitableCars()
                     .map((e) => Row(
                           children: [
-                            Text(getMostProfitableCarByRegistration(e.key)
-                                .make!),
-                            Text(e.value.toString()),
+                            buildMostProfitableCar(
+                              context: context,
+                              price: e.value,
+                              car: getMostProfitableCarByRegistration(e.key),
+                            ),
                           ],
                         ))
                     .toList(),
