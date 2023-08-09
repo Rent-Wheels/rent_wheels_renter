@@ -1,4 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:rent_wheels_renter/core/models/enums/enums.dart';
+import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/car_details.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/all_cars_sections_widget.dart';
@@ -26,42 +30,67 @@ class _AllCarsDataState extends State<AllCarsData> {
         if (snapshot.hasData) {
           List<Car> cars = snapshot.data!;
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: cars
-                  .map(
-                    (car) => buildAllCarsSections(
-                      car: car,
+          return cars.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    buildErrorMessage(
+                      label: 'You have no cars added!',
                       context: context,
-                      onTap: () async {
-                        try {
-                          buildLoadingIndicator(context, '');
-                          final reservations = await RentWheelsCarMethods()
-                              .getCarRentalHistory(carId: car.carId!);
-
-                          if (!mounted) return;
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => CarDetails(
-                                car: car,
-                                reservations: reservations,
-                              ),
-                            ),
-                          );
-                        } catch (e) {
-                          if (!mounted) return;
-                          Navigator.pop(context);
-                          showErrorPopUp(e.toString(), context);
-                        }
-                      },
                     ),
-                  )
-                  .toList(),
-            ),
-          );
+                    buildGenericButtonWidget(
+                      width: Sizes().width(context, 0.85),
+                      isActive: true,
+                      buttonName: 'Add Car',
+                      context: context,
+                      onPressed: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const AddCarPageOne(type: CarReviewType.add),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: cars
+                        .map(
+                          (car) => buildAllCarsSections(
+                            car: car,
+                            context: context,
+                            onTap: () async {
+                              try {
+                                buildLoadingIndicator(context, '');
+                                final reservations =
+                                    await RentWheelsCarMethods()
+                                        .getCarRentalHistory(carId: car.carId!);
+
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => CarDetails(
+                                      car: car,
+                                      reservations: reservations,
+                                    ),
+                                  ),
+                                );
+                              } catch (e) {
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                                showErrorPopUp(e.toString(), context);
+                              }
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                );
         }
 
         if (snapshot.hasError) {
