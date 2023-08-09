@@ -5,7 +5,7 @@ class Reservation {
   String? id;
   dynamic customer;
   String? renter;
-  dynamic car;
+  Car? car;
   String? destination;
   DateTime? startDate;
   DateTime? returnDate;
@@ -35,7 +35,7 @@ class Reservation {
           ? json['customer']['id']
           : BackendUser.fromJSON(json['customer']['id']),
       renter: json['renter'] is String ? json['renter'] : null,
-      car: json['car'] is String ? json['car'] : Car.fromJSON(json['car']),
+      car: json['car'] is String ? null : Car.fromJSON(json['car']),
       destination: json['destination'],
       startDate: DateTime.parse(json['startDate']),
       returnDate: DateTime.parse(json['returnDate']),

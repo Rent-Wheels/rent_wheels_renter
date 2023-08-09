@@ -146,7 +146,7 @@ class _ReservationsDataState extends State<ReservationsData> {
                                     child: buildReservationSections(
                                       isLoading: false,
                                       context: context,
-                                      car: reservation.car,
+                                      car: reservation.car!,
                                       reservation: reservation,
                                       onAccept: () async {
                                         try {
@@ -205,7 +205,7 @@ class _ReservationsDataState extends State<ReservationsData> {
                                           CupertinoPageRoute(
                                             builder: (context) =>
                                                 ReservationDetails(
-                                              car: reservation.car,
+                                              car: reservation.car!,
                                               customer: reservation.customer!,
                                               reservation: reservation,
                                             ),
