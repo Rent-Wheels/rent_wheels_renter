@@ -3,9 +3,11 @@ import 'package:rent_wheels_renter/core/backend/reservations/methods/reservation
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
 
 class DashboardData extends StatefulWidget {
   const DashboardData({super.key});
@@ -83,26 +85,39 @@ class _DashboardDataState extends State<DashboardData> {
               return topReservedCars.take(5).toList();
             }
 
-            Car getMostProfitableCarByRegistration(String registrationNumber) {
+            Car getCarByRegistration(String registrationNumber) {
               return reservations
                   .firstWhere((reservation) =>
                       reservation.car!.registrationNumber == registrationNumber)
                   .car!;
             }
 
+            List topStatistics = [
+              buildTopStatistics(
+                context: context,
+                label: 'Most Profitable Car',
+                price: getMostProfitableCars()[0].value,
+                car: getCarByRegistration(getMostProfitableCars()[0].key),
+              ),
+              buildTopStatistics(
+                context: context,
+                label: 'Most Reserved Car',
+                noOfReservations: getMostReservedCars()[0].value,
+                car: getCarByRegistration(getMostReservedCars()[0].key),
+              ),
+            ];
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Most Profitable Car',
-                  style: heading4Brand,
-                ),
-                Space().height(context, 0.02),
-                buildMostProfitableCar(
-                  car: getMostProfitableCarByRegistration(
-                      getMostProfitableCars()[0].key),
-                  price: getMostProfitableCars()[0].value,
-                  context: context,
+                SizedBox(
+                  height: Sizes().height(context, 0.4),
+                  child: ListView.builder(
+                      itemCount: topStatistics.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return topStatistics[index];
+                      }),
                 ),
                 const Text(
                   'Top 5 Profitable Cars',
@@ -113,7 +128,7 @@ class _DashboardDataState extends State<DashboardData> {
                     .map((e) => buildMostProfitableCar(
                           context: context,
                           price: e.value,
-                          car: getMostProfitableCarByRegistration(e.key),
+                          car: getCarByRegistration(e.key),
                         ))
                     .toList(),
                 Space().height(context, 0.02),
@@ -126,7 +141,7 @@ class _DashboardDataState extends State<DashboardData> {
                     .map((e) => buildMostProfitableCar(
                           context: context,
                           noOfReservations: e.value,
-                          car: getMostProfitableCarByRegistration(e.key),
+                          car: getCarByRegistration(e.key),
                         ))
                     .toList()
               ],
