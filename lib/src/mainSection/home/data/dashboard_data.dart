@@ -3,6 +3,8 @@ import 'package:rent_wheels_renter/core/backend/reservations/methods/reservation
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
+import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
 
 class DashboardData extends StatefulWidget {
@@ -89,31 +91,42 @@ class _DashboardDataState extends State<DashboardData> {
             }
 
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Text(
+                  'Most Profitable Car',
+                  style: heading4Brand,
+                ),
+                Space().height(context, 0.02),
                 buildMostProfitableCar(
                   car: getMostProfitableCarByRegistration(
                       getMostProfitableCars()[0].key),
                   price: getMostProfitableCars()[0].value,
                   context: context,
                 ),
+                const Text(
+                  'Top 5 Profitable Cars',
+                  style: heading4Brand,
+                ),
+                Space().height(context, 0.02),
                 ...getMostProfitableCars()
-                    .map((e) => Row(
-                          children: [
-                            buildMostProfitableCar(
-                              context: context,
-                              price: e.value,
-                              car: getMostProfitableCarByRegistration(e.key),
-                            ),
-                          ],
+                    .map((e) => buildMostProfitableCar(
+                          context: context,
+                          price: e.value,
+                          car: getMostProfitableCarByRegistration(e.key),
                         ))
                     .toList(),
+                Space().height(context, 0.02),
+                const Text(
+                  'Top 5 Reserved Cars',
+                  style: heading4Brand,
+                ),
+                Space().height(context, 0.02),
                 ...getMostReservedCars()
-                    .map((e) => Row(
-                          children: [
-                            Text(getMostProfitableCarByRegistration(e.key)
-                                .make!),
-                            Text(e.value.toString()),
-                          ],
+                    .map((e) => buildMostProfitableCar(
+                          context: context,
+                          noOfReservations: e.value,
+                          car: getMostProfitableCarByRegistration(e.key),
                         ))
                     .toList()
               ],

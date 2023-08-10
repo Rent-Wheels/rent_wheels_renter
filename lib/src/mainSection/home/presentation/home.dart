@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/home/data/dashboard_data.dart';
 
@@ -17,10 +18,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: rentWheelsNeutralLight0,
       body: SafeArea(
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: Sizes().width(context, 0.02)),
+          padding: EdgeInsets.symmetric(
+            horizontal: Sizes().width(context, 0.02),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,7 +33,11 @@ class _HomeState extends State<Home> {
                 style: heading3Information,
               ),
               Space().height(context, 0.03),
-              const DashboardData(),
+              const Expanded(
+                child: SingleChildScrollView(
+                  child: DashboardData(),
+                ),
+              ),
               // GestureDetector(
               //   onTap: () => Navigator.push(
               //     context,

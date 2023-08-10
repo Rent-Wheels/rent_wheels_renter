@@ -5,8 +5,9 @@ import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
 buildMostProfitableCar({
+  num? price,
+  num? noOfReservations,
   required Car car,
-  required num price,
   required BuildContext context,
 }) {
   return Padding(
@@ -51,10 +52,16 @@ buildMostProfitableCar({
             ),
           ],
         ),
-        Text(
-          'GH¢$price',
-          style: body1Neutral900,
-        ),
+        if (price != null)
+          Text(
+            'GH¢$price',
+            style: body1Neutral900,
+          ),
+        if (noOfReservations != null)
+          Text(
+            '$noOfReservations',
+            style: body1Neutral900,
+          ),
       ],
     ),
   );
