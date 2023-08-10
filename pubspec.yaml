@@ -53,6 +53,7 @@ dependencies:
   firebase_storage: ^11.2.4
   dotted_dashed_line: ^0.0.3
   shared_preferences: ^2.2.0
+  syncfusion_flutter_charts: ^22.2.8
 
 dev_dependencies:
   flutter_test:
