@@ -42,18 +42,6 @@ class _HomeState extends State<Home> {
                     child: DashboardData(),
                   ),
                 ),
-                // buildGenericButtonWidget(
-                //   buttonName: 'Delete Account',
-                //   onPressed: () async {
-                //     await AuthService.firebase()
-                //         .deleteUser(user: FirebaseAuth.instance.currentUser!);
-
-                //     if (!mounted) return;
-                //     Navigator.pushAndRemoveUntil(context,
-                //         CupertinoPageRoute(builder: (context) => const Login()),
-                //         (route) => false);
-                //   },
-                // ),
               ],
             ),
           ),

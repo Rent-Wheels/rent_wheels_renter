@@ -5,19 +5,23 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_key_value.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_reservations_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel_items.dart';
+import 'package:rent_wheels_renter/src/mainSection/reservations/presentation/reservation_details.dart';
 
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
+import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
+import 'package:rent_wheels_renter/core/widgets/dialogs/confirmation_dialog_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_reservations_widget.dart';
-import 'package:rent_wheels_renter/src/mainSection/reservations/presentation/reservation_details.dart';
 
 class CarDetails extends StatefulWidget {
   final Car car;
@@ -222,59 +226,65 @@ class _CarDetailsState extends State<CarDetails> {
           ),
         ],
       ),
-      floatingActionButton: buildGenericButtonWidget(
-          width: Sizes().width(context, 0.26),
-          isActive: true,
-          buttonName: 'Update Car',
-          context: context,
-          onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => AddCarPageOne(
-                  type: CarReviewType.update,
-                  car: car,
-                ),
+      bottomSheet: Container(
+        color: rentWheelsNeutralLight0,
+        padding: EdgeInsets.all(Sizes().height(context, 0.02)),
+        height: Sizes().height(context, 0.13),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildGenericButtonWidget(
+              isActive: true,
+              context: context,
+              buttonName: 'Update Car',
+              width: Sizes().width(context, 0.4),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => AddCarPageOne(
+                      type: CarReviewType.update,
+                      car: car,
+                    ),
+                  ),
+                );
+              },
+            ),
+            buildGenericButtonWidget(
+              isActive: true,
+              context: context,
+              onPressed: () => buildConfirmationDialog(
+                context: context,
+                label: 'Delete Car',
+                buttonName: 'Delete Car',
+                message:
+                    'Are you sure you want to delete ${car.yearOfManufacture} ${car.make} ${car.model}? This action is irreversible!',
+                onAccept: () async {
+                  try {
+                    buildLoadingIndicator(context, 'Deleting car');
+                    final response = await RentWheelsCarMethods()
+                        .deleteCar(carId: widget.car.carId!);
+                    if (response == Status.failed) {
+                      throw Exception('Deleting car failed');
+                    }
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  } catch (e) {
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                    showErrorPopUp(e.toString(), context);
+                  }
+                },
               ),
-            );
-          }),
-      // buildGenericButtonWidget(
-      //   buttonName: 'Delete Car',
-      //   onPressed: () async {
-      //     final response = await RentWheelsCarMethods()
-      //         .deleteCar(carId: widget.car.carId!);
-      //     if (response == Status.success) {
-      //       if (!mounted) return;
-      //       Navigator.pop(context);
-      //     }
-      //   },
-      // ),
-      // bottomSheet: Container(
-      //   color: rentWheelsNeutralLight0,
-      //   padding: EdgeInsets.all(Sizes().height(context, 0.02)),
-      //   height: Sizes().height(context, 0.13),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //       Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           Text(
-      //             '${car.yearOfManufacture} ${car.make} ${car.model}',
-      //             style: heading4Information,
-      //           ),
-      //           Space().height(context, 0.01),
-      //           Text(
-      //             'GH¢${car.rate} ${car.plan}',
-      //             style: body1Information,
-      //           ),
-      //         ],
-      //       ),
-
-      //     ],
-      //   ),
-      // ),
+              buttonName: 'Delete Car',
+              btnColor: rentWheelsErrorDark700,
+              width: Sizes().width(context, 0.4),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
