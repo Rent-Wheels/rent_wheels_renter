@@ -85,6 +85,12 @@ const heading3Neutral = TextStyle(
   fontSize: 24,
   color: rentWheelsNeutralDark900,
 );
+const heading3Neutral0 = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Urbanist',
+  fontSize: 24,
+  color: rentWheelsNeutralLight0,
+);
 const heading4Neutral = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Urbanist',
@@ -462,6 +468,12 @@ const body3Neutral = TextStyle(
   fontFamily: 'Urbanist',
   fontSize: 12,
   color: rentWheelsNeutralDark900,
+);
+const body3Neutral0 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Urbanist',
+  fontSize: 12,
+  color: rentWheelsNeutralLight0,
 );
 
 // Success Body

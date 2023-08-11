@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -10,13 +9,8 @@ Widget buildLineChart({
   required List data,
   required BuildContext context,
 }) {
-  return Container(
+  return SizedBox(
     width: Sizes().width(context, 1),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(
-        Sizes().height(context, 0.015),
-      ),
-    ),
     child: SfCartesianChart(
       primaryXAxis: CategoryAxis(
         arrangeByIndex: true,
@@ -27,9 +21,9 @@ Widget buildLineChart({
       ),
       series: [
         LineSeries<DashboardDataPoints, String>(
-          yValueMapper: (data, _) => data.points,
+          yValueMapper: (data, _) => data.value,
           dataSource: data as List<DashboardDataPoints>,
-          xValueMapper: (data, _) => DateFormat.E().format(data.days),
+          xValueMapper: (data, _) => data.label,
           dataLabelSettings: const DataLabelSettings(
             isVisible: true,
             textStyle: body3Neutral,

@@ -1,9 +1,9 @@
 class DashboardDataPoints {
-  num points;
-  DateTime days;
+  num value;
+  String label;
 
   DashboardDataPoints({
-    required this.points,
-    required this.days,
+    required this.value,
+    required this.label,
   });
 }

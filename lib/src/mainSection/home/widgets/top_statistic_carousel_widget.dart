@@ -18,6 +18,7 @@ buildTopStatisticCarousel({
         items: items,
         carouselController: controller,
         options: CarouselOptions(
+          autoPlay: true,
           height: Sizes().height(context, 0.35),
           enableInfiniteScroll: items.length == 1 ? false : true,
           viewportFraction: 1,

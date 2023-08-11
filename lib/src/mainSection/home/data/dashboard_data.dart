@@ -1,9 +1,11 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistic_carousel_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/pie_chart_widget.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistic_carousel_widget.dart';
 
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
@@ -22,6 +24,7 @@ class DashboardData extends StatefulWidget {
 
 class _DashboardDataState extends State<DashboardData> {
   int _topStatisticIndex = 0;
+  DateTime currentDate = DateTime.now();
   CarouselController statistic = CarouselController();
 
   @override
@@ -39,12 +42,43 @@ class _DashboardDataState extends State<DashboardData> {
               );
             }
 
+            List<DashboardDataPoints> getPastWeekReservationStatistics() {
+              Map<String, num> reservationStat = {};
+              List<Reservation> pastWeekReservation = reservations
+                  .where(
+                    (reservation) => reservation.createdAt!.isAfter(
+                      DateTime(
+                        currentDate.year,
+                        currentDate.month,
+                        currentDate.day - 7,
+                      ),
+                    ),
+                  )
+                  .toList();
+
+              for (var reservation in pastWeekReservation) {
+                String status = reservation.status!;
+                if (reservationStat.containsKey(status)) {
+                  reservationStat[status] = reservationStat[status]! + 1;
+                } else {
+                  reservationStat.addEntries({status: 1}.entries);
+                }
+              }
+
+              return reservationStat.entries
+                  .map((stat) =>
+                      DashboardDataPoints(value: stat.value, label: stat.key))
+                  .toList();
+            }
+
             List<Reservation> paidReservations = reservations
-                .where((reservation) =>
-                    (reservation.status == 'Paid' ||
-                        reservation.status == 'Completed' ||
-                        reservation.status == 'Ongoing') &&
-                    reservation.createdAt!.isBefore(DateTime.now()))
+                .where(
+                  (reservation) =>
+                      (reservation.status == 'Paid' ||
+                          reservation.status == 'Completed' ||
+                          reservation.status == 'Ongoing') &&
+                      reservation.createdAt!.isBefore(currentDate),
+                )
                 .toList();
 
             List getMostProfitableCars() {
@@ -67,7 +101,7 @@ class _DashboardDataState extends State<DashboardData> {
               topProfitableCars
                   .sort((car1, car2) => car2.value.compareTo(car1.value));
 
-              return topProfitableCars.take(5).toList();
+              return topProfitableCars.take(3).toList();
             }
 
             List<DashboardDataPoints> getMostProfitableCarsDashboardData() {
@@ -81,8 +115,8 @@ class _DashboardDataState extends State<DashboardData> {
               return profitableCarReservations
                   .map(
                     (reservation) => DashboardDataPoints(
-                      points: reservation.price!,
-                      days: reservation.createdAt!,
+                      value: reservation.price!,
+                      label: DateFormat.E().format(reservation.createdAt!),
                     ),
                   )
                   .toList();
@@ -108,7 +142,7 @@ class _DashboardDataState extends State<DashboardData> {
                 (car1, car2) => car2.value.compareTo(car1.value),
               );
 
-              return topReservedCars.take(5).toList();
+              return topReservedCars.take(3).toList();
             }
 
             List<DashboardDataPoints> getMostReservedCarsDashboardData() {
@@ -122,8 +156,8 @@ class _DashboardDataState extends State<DashboardData> {
               return reservedCarReservations
                   .map(
                     (reservation) => DashboardDataPoints(
-                      points: reservedCarReservations.length,
-                      days: reservation.createdAt!,
+                      value: reservedCarReservations.length,
+                      label: DateFormat.E().format(reservation.createdAt!),
                     ),
                   )
                   .toList();
@@ -137,6 +171,11 @@ class _DashboardDataState extends State<DashboardData> {
             }
 
             List<Widget> topStatistics = [
+              buildPieChart(
+                data: getPastWeekReservationStatistics(),
+                title: 'Weekly Reservation Statistic',
+                context: context,
+              ),
               buildTopStatistics(
                 context: context,
                 label: 'Most Profitable Car',
@@ -156,6 +195,10 @@ class _DashboardDataState extends State<DashboardData> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                // ),
                 buildTopStatisticCarousel(
                   context: context,
                   items: topStatistics,
@@ -169,7 +212,7 @@ class _DashboardDataState extends State<DashboardData> {
                 ),
                 Space().height(context, 0.03),
                 const Text(
-                  'Top 5 Profitable Cars',
+                  'Top Profitable Cars',
                   style: heading4Brand,
                 ),
                 Space().height(context, 0.02),
@@ -182,7 +225,7 @@ class _DashboardDataState extends State<DashboardData> {
                     .toList(),
                 Space().height(context, 0.03),
                 const Text(
-                  'Top 5 Reserved Cars',
+                  'Top Reserved Cars',
                   style: heading4Brand,
                 ),
                 Space().height(context, 0.02),
