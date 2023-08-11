@@ -31,6 +31,7 @@ buildTopStatistics({
           context: context,
           noOfReservations: noOfReservations,
         ),
+        Space().height(context, 0.02),
       ],
     ),
   );

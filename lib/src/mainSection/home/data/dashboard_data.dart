@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/backend/reservations/methods/reservations_methods.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/models/dashboard/dashboard_data_model.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
@@ -63,6 +64,24 @@ class _DashboardDataState extends State<DashboardData> {
               return topProfitableCars.take(5).toList();
             }
 
+            List<DashboardDataPoints> getMostProfitableCarsDashboardData() {
+              String mostProfitableCar = getMostProfitableCars()[0].key;
+
+              List<Reservation> profitableCarReservations = paidReservations
+                  .where((reservation) =>
+                      reservation.car!.registrationNumber == mostProfitableCar)
+                  .toList();
+
+              return profitableCarReservations
+                  .map(
+                    (reservation) => DashboardDataPoints(
+                      points: reservation.price!,
+                      days: reservation.createdAt!,
+                    ),
+                  )
+                  .toList();
+            }
+
             List getMostReservedCars() {
               Map<String, num> reservedCars = {};
 
@@ -79,10 +98,29 @@ class _DashboardDataState extends State<DashboardData> {
 
               List topReservedCars = reservedCars.entries.toList();
 
-              topReservedCars
-                  .sort((car1, car2) => car2.value.compareTo(car1.value));
+              topReservedCars.sort(
+                (car1, car2) => car2.value.compareTo(car1.value),
+              );
 
               return topReservedCars.take(5).toList();
+            }
+
+            List<DashboardDataPoints> getMostReservedCarsDashboardData() {
+              String mostReservedCar = getMostReservedCars()[0].key;
+
+              List<Reservation> reservedCarReservations = paidReservations
+                  .where((reservation) =>
+                      reservation.car!.registrationNumber == mostReservedCar)
+                  .toList();
+
+              return reservedCarReservations
+                  .map(
+                    (reservation) => DashboardDataPoints(
+                      points: reservation.price!,
+                      days: reservation.createdAt!,
+                    ),
+                  )
+                  .toList();
             }
 
             Car getCarByRegistration(String registrationNumber) {
