@@ -32,6 +32,7 @@ Widget buildTopStatistics({
           car: car,
           price: price,
           context: context,
+          isLoading: false,
           noOfReservations: noOfReservations,
         ),
         Expanded(child: buildLineChart(data: data, context: context)),

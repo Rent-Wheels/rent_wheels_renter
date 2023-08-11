@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
-import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
 Widget buildIncomeIndicator({
-  required num income,
-  required String label,
+  required num? income,
+  required String? label,
   required BuildContext context,
 }) {
   return Container(
@@ -21,7 +22,7 @@ Widget buildIncomeIndicator({
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          label,
+          label ?? 'null',
           style: heading4Neutral0,
         ),
         Space().height(context, 0.03),

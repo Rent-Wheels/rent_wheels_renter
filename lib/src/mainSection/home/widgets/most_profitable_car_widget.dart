@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
@@ -9,7 +10,8 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 buildMostProfitableCar({
   num? price,
   num? noOfReservations,
-  required Car car,
+  required Car? car,
+  required bool isLoading,
   required BuildContext context,
 }) {
   return Padding(
@@ -26,10 +28,14 @@ buildMostProfitableCar({
               height: Sizes().height(context, 0.07),
               margin: EdgeInsets.only(right: Sizes().width(context, 0.02)),
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider(car.media![0].mediaURL!),
-                  fit: BoxFit.cover,
-                ),
+                image: isLoading
+                    ? null
+                    : DecorationImage(
+                        image: CachedNetworkImageProvider(
+                            car!.media![0].mediaURL!),
+                        fit: BoxFit.cover,
+                      ),
+                color: rentWheelsNeutralLight0,
                 borderRadius: BorderRadius.circular(
                   Sizes().height(context, 0.005),
                 ),
@@ -40,20 +46,49 @@ buildMostProfitableCar({
               children: [
                 SizedBox(
                   width: Sizes().width(context, 0.5),
-                  child: Text(
-                    '${car.yearOfManufacture} ${car.make} ${car.model}',
-                    style: heading5Information,
-                  ),
+                  child: isLoading
+                      ? Container(
+                          width: double.infinity,
+                          height: Sizes().height(context, 0.02),
+                          decoration: BoxDecoration(
+                            color: rentWheelsNeutralLight0,
+                            borderRadius: BorderRadius.circular(
+                                Sizes().height(context, 0.2)),
+                          ),
+                        )
+                      : Text(
+                          '${car!.yearOfManufacture} ${car.make} ${car.model}',
+                          style: heading5Information,
+                        ),
                 ),
                 Space().height(context, 0.005),
-                Text(
-                  car.registrationNumber!,
-                  style: body2Neutral,
-                ),
+                isLoading
+                    ? Container(
+                        width: Sizes().width(context, 0.2),
+                        height: Sizes().height(context, 0.02),
+                        decoration: BoxDecoration(
+                          color: rentWheelsNeutralLight0,
+                          borderRadius: BorderRadius.circular(
+                              Sizes().height(context, 0.2)),
+                        ),
+                      )
+                    : Text(
+                        car!.registrationNumber!,
+                        style: body2Neutral,
+                      ),
               ],
             ),
           ],
         ),
+        if (isLoading)
+          Container(
+            width: Sizes().width(context, 0.2),
+            height: Sizes().height(context, 0.02),
+            decoration: BoxDecoration(
+              color: rentWheelsNeutralLight0,
+              borderRadius: BorderRadius.circular(Sizes().height(context, 0.2)),
+            ),
+          ),
         if (price != null)
           Text(
             'GH¢$price',

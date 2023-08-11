@@ -1,20 +1,23 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:rent_wheels_renter/src/mainSection/home/widgets/income_indicator_widget.dart';
-import 'package:rent_wheels_renter/src/mainSection/home/widgets/pie_chart_widget.dart';
 
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/pie_chart_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/income_indicator_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistic_carousel_widget.dart';
 
+import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
 import 'package:rent_wheels_renter/core/models/dashboard/dashboard_data_model.dart';
 import 'package:rent_wheels_renter/core/backend/reservations/methods/reservations_methods.dart';
+import 'package:rent_wheels_renter/core/widgets/loadingIndicator/shimmer_loading_placeholder.dart';
 
 class DashboardData extends StatefulWidget {
   const DashboardData({super.key});
@@ -239,6 +242,7 @@ class _DashboardDataState extends State<DashboardData> {
                 Space().height(context, 0.03),
                 buildTopStatisticCarousel(
                   context: context,
+                  isLoading: false,
                   items: topStatistics,
                   controller: statistic,
                   index: _topStatisticIndex,
@@ -256,6 +260,7 @@ class _DashboardDataState extends State<DashboardData> {
                 Space().height(context, 0.02),
                 ...getMostProfitableCars()
                     .map((e) => buildMostProfitableCar(
+                          isLoading: false,
                           context: context,
                           price: e.value,
                           car: getCarByRegistration(e.key),
@@ -269,6 +274,7 @@ class _DashboardDataState extends State<DashboardData> {
                 Space().height(context, 0.02),
                 ...getMostReservedCars()
                     .map((e) => buildMostProfitableCar(
+                          isLoading: false,
                           context: context,
                           noOfReservations: e.value,
                           car: getCarByRegistration(e.key),
@@ -278,7 +284,72 @@ class _DashboardDataState extends State<DashboardData> {
             );
           }
 
-          return const Center();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerLoading(
+                isLoading: true,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildIncomeIndicator(
+                      income: null,
+                      label: null,
+                      context: context,
+                    ),
+                    buildIncomeIndicator(
+                      income: null,
+                      label: null,
+                      context: context,
+                    ),
+                  ],
+                ),
+              ),
+              Space().height(context, 0.03),
+              ShimmerLoading(
+                isLoading: true,
+                child: buildTopStatisticCarousel(
+                  isLoading: true,
+                  context: context,
+                  items: null,
+                  controller: statistic,
+                  index: _topStatisticIndex,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      _topStatisticIndex = index;
+                    });
+                  },
+                ),
+              ),
+              Space().height(context, 0.03),
+              const Text(
+                'Top Profitable Cars',
+                style: heading4Brand,
+              ),
+              Space().height(context, 0.02),
+              ShimmerLoading(
+                isLoading: true,
+                child: Container(
+                  color: rentWheelsNeutralLight0,
+                  height: Sizes().height(context, 0.35),
+                ),
+              ),
+              Space().height(context, 0.03),
+              const Text(
+                'Top Reserved Cars',
+                style: heading4Brand,
+              ),
+              Space().height(context, 0.02),
+              ShimmerLoading(
+                isLoading: true,
+                child: Container(
+                  color: rentWheelsNeutralLight0,
+                  height: Sizes().height(context, 0.35),
+                ),
+              ),
+            ],
+          );
         });
   }
 }
