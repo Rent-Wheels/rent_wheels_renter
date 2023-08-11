@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
-buildCarImageCarousel({
+buildTopStatisticCarousel({
   required int index,
   required List<Widget> items,
   required BuildContext context,
   required CarouselController controller,
   required Function(int, CarouselPageChangedReason) onPageChanged,
 }) {
-  return Stack(
-    alignment: Alignment.bottomCenter,
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       CarouselSlider(
         items: items,
         carouselController: controller,
         options: CarouselOptions(
-          height: Sizes().height(context, 0.32),
+          height: Sizes().height(context, 0.35),
           enableInfiniteScroll: items.length == 1 ? false : true,
           viewportFraction: 1,
           onPageChanged: onPageChanged,
@@ -44,7 +45,7 @@ buildCarImageCarousel({
                   : const CircleBorder(),
               color: index == entry.key
                   ? rentWheelsBrandDark900
-                  : rentWheelsNeutralLight0,
+                  : rentWheelsBrandDark900Trans,
             ),
           );
         }).toList(),

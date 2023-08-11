@@ -1,7 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
+import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 
 buildMostProfitableCar({
@@ -14,9 +16,10 @@ buildMostProfitableCar({
     padding: EdgeInsets.only(bottom: Sizes().height(context, 0.02)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: Sizes().width(context, 0.2),
@@ -33,7 +36,6 @@ buildMostProfitableCar({
               ),
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
@@ -43,7 +45,7 @@ buildMostProfitableCar({
                     style: heading5Information,
                   ),
                 ),
-                // Space().height(context, 0.005),
+                Space().height(context, 0.005),
                 Text(
                   car.registrationNumber!,
                   style: body2Neutral,

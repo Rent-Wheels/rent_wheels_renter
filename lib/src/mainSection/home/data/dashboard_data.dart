@@ -1,14 +1,17 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:rent_wheels_renter/core/backend/reservations/methods/reservations_methods.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistic_carousel_widget.dart';
+
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
+
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
-import 'package:rent_wheels_renter/core/models/dashboard/dashboard_data_model.dart';
-import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
-import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
-import 'package:rent_wheels_renter/src/mainSection/home/widgets/most_profitable_car_widget.dart';
-import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
+import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
+import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
+import 'package:rent_wheels_renter/core/models/dashboard/dashboard_data_model.dart';
+import 'package:rent_wheels_renter/core/backend/reservations/methods/reservations_methods.dart';
 
 class DashboardData extends StatefulWidget {
   const DashboardData({super.key});
@@ -18,6 +21,9 @@ class DashboardData extends StatefulWidget {
 }
 
 class _DashboardDataState extends State<DashboardData> {
+  int _topStatisticIndex = 0;
+  CarouselController statistic = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -116,7 +122,7 @@ class _DashboardDataState extends State<DashboardData> {
               return reservedCarReservations
                   .map(
                     (reservation) => DashboardDataPoints(
-                      points: reservation.price!,
+                      points: reservedCarReservations.length,
                       days: reservation.createdAt!,
                     ),
                   )
@@ -130,16 +136,18 @@ class _DashboardDataState extends State<DashboardData> {
                   .car!;
             }
 
-            List topStatistics = [
+            List<Widget> topStatistics = [
               buildTopStatistics(
                 context: context,
                 label: 'Most Profitable Car',
                 price: getMostProfitableCars()[0].value,
+                data: getMostProfitableCarsDashboardData(),
                 car: getCarByRegistration(getMostProfitableCars()[0].key),
               ),
               buildTopStatistics(
                 context: context,
                 label: 'Most Reserved Car',
+                data: getMostReservedCarsDashboardData(),
                 noOfReservations: getMostReservedCars()[0].value,
                 car: getCarByRegistration(getMostReservedCars()[0].key),
               ),
@@ -148,15 +156,18 @@ class _DashboardDataState extends State<DashboardData> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: Sizes().height(context, 0.4),
-                  child: ListView.builder(
-                      itemCount: topStatistics.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return topStatistics[index];
-                      }),
+                buildTopStatisticCarousel(
+                  context: context,
+                  items: topStatistics,
+                  controller: statistic,
+                  index: _topStatisticIndex,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      _topStatisticIndex = index;
+                    });
+                  },
                 ),
+                Space().height(context, 0.03),
                 const Text(
                   'Top 5 Profitable Cars',
                   style: heading4Brand,
@@ -169,7 +180,7 @@ class _DashboardDataState extends State<DashboardData> {
                           car: getCarByRegistration(e.key),
                         ))
                     .toList(),
-                Space().height(context, 0.02),
+                Space().height(context, 0.03),
                 const Text(
                   'Top 5 Reserved Cars',
                   style: heading4Brand,
