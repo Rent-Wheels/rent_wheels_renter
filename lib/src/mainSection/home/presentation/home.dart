@@ -42,30 +42,6 @@ class _HomeState extends State<Home> {
                     child: DashboardData(),
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: () => Navigator.push(
-                //     context,
-                //     CupertinoPageRoute(
-                //       builder: (context) => const AddCarPageOne(
-                //         type: CarReviewType.add,
-                //       ),
-                //     ),
-                //   ),
-                //   child: const ListTile(
-                //     title: Text('Add Car'),
-                //   ),
-                // ),
-                // GestureDetector(
-                //   onTap: () => Navigator.push(
-                //     context,
-                //     CupertinoPageRoute(
-                //       builder: (context) => const AllCars(),
-                //     ),
-                //   ),
-                //   child: const ListTile(
-                //     title: Text('All Cars'),
-                //   ),
-                // ),
                 // buildGenericButtonWidget(
                 //   buttonName: 'Delete Account',
                 //   onPressed: () async {

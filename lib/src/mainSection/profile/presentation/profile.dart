@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:rent_wheels_renter/src/mainSection/profile/widgets/profile_options_widget.dart';
+import 'package:rent_wheels_renter/src/mainSection/profile/presentation/sections/accountProfile/presentation/account_profile.dart';
+import 'package:rent_wheels_renter/src/mainSection/profile/presentation/sections/changePassword/presentation/change_password.dart';
+
 import 'package:rent_wheels_renter/core/auth/auth_service.dart';
-import 'package:rent_wheels_renter/core/widgets/dialogs/confirmation_dialog_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
+import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
+import 'package:rent_wheels_renter/core/widgets/dialogs/confirmation_dialog_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/loadingIndicator/loading_indicator.dart';
-import 'package:rent_wheels_renter/src/mainSection/profile/presentation/sections/accountProfile/presentation/account_profile.dart';
-import 'package:rent_wheels_renter/src/mainSection/profile/presentation/sections/changePassword/presentation/change_password.dart';
-import 'package:rent_wheels_renter/src/mainSection/profile/widgets/profile_options_widget.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -113,6 +115,41 @@ class _ProfileState extends State<Profile> {
                   section: 'Notifications',
                   svg: 'assets/svgs/notifications.svg',
                   onTap: () {},
+                ),
+                const Divider(),
+                buildProfileOptions(
+                  context: context,
+                  section: 'Delete Account',
+                  svg: 'assets/svgs/trash.svg',
+                  style: heading5Error700,
+                  color: rentWheelsErrorDark700,
+                  onTap: () => buildConfirmationDialog(
+                    context: context,
+                    label: 'Delete Account',
+                    buttonName: 'Delete Account',
+                    message:
+                        'Are you sure you want to delete your account? This action is irreversible!',
+                    onAccept: () async {
+                      try {
+                        buildLoadingIndicator(context, 'Deleting Account');
+                        await AuthService.firebase().deleteUser(
+                            user: FirebaseAuth.instance.currentUser!);
+
+                        if (!mounted) return;
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const Login(),
+                          ),
+                          (route) => false,
+                        );
+                      } catch (e) {
+                        if (!mounted) return;
+                        Navigator.pop(context);
+                        showErrorPopUp(e.toString(), context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
