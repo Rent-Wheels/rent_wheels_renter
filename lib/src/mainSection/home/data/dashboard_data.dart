@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:rent_wheels_renter/src/mainSection/home/widgets/income_indicator_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/pie_chart_widget.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
@@ -80,6 +81,33 @@ class _DashboardDataState extends State<DashboardData> {
                       reservation.createdAt!.isBefore(currentDate),
                 )
                 .toList();
+
+            List<DashboardDataPoints> getIncomeStats() {
+              List<Reservation> pastWeekReservation = reservations
+                  .where(
+                    (reservation) => reservation.createdAt!.isAfter(
+                      DateTime(
+                        currentDate.year,
+                        currentDate.month,
+                        currentDate.day - 7,
+                      ),
+                    ),
+                  )
+                  .toList();
+
+              num allIncome = paidReservations
+                  .map((reservation) => reservation.price!)
+                  .reduce((value, element) => value + element);
+              num pastWeekIncome = pastWeekReservation
+                  .map((reservation) => reservation.price!)
+                  .reduce((value, element) => value + element);
+
+              return [
+                DashboardDataPoints(value: allIncome, label: 'Total Income'),
+                DashboardDataPoints(
+                    value: pastWeekIncome, label: 'Past Week Income'),
+              ];
+            }
 
             List getMostProfitableCars() {
               Map<String, num> profitableCars = {};
@@ -195,10 +223,20 @@ class _DashboardDataState extends State<DashboardData> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: getIncomeStats()
+                      .map(
+                        (stat) => buildIncomeIndicator(
+                          income: stat.value,
+                          label: stat.label,
+                          context: context,
+                        ),
+                      )
+                      .toList(),
+                ),
+                Space().height(context, 0.03),
                 buildTopStatisticCarousel(
                   context: context,
                   items: topStatistics,
