@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
+import 'package:rent_wheels_renter/src/mainSection/base.dart';
 import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 import 'package:rent_wheels_renter/src/authentication/upgrade/presentation/upgrade_to_renter.dart';
 
@@ -120,10 +120,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     Navigator.pop(context);
 
                     if (user.role == Roles.renter.id) {
+                      await global.setGlobals(fetchedUserDetails: user);
+                      if (!mounted) return;
                       Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => const Home(),
+                          builder: (context) => const MainSection(),
                         ),
                         (route) => false,
                       );

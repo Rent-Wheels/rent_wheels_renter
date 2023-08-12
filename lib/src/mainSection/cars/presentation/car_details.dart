@@ -271,8 +271,10 @@ class _CarDetailsState extends State<CarDetails> {
                     if (!mounted) return;
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    Navigator.pop(context, widget.car.carId);
                   } catch (e) {
                     if (!mounted) return;
+                    Navigator.pop(context);
                     Navigator.pop(context);
                     showErrorPopUp(e.toString(), context);
                   }

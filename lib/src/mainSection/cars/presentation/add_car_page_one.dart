@@ -156,7 +156,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       if (num.parse(value) >= 1970 &&
-                          num.parse(value) <= 2023) {
+                          num.parse(value) <= DateTime.now().year) {
                         setState(() {
                           isYearValid = true;
                           carDetails.yearOfManufacture = value;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:rent_wheels_renter/core/widgets/search/custom_search_bar.dart';
@@ -404,7 +405,14 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Space().width(context, 0.01),
                       GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                        onTap: widget.onboarding != null && widget.onboarding!
+                            ? () => Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const Login(),
+                                  ),
+                                )
+                            : () => Navigator.pop(context),
                         child: const Text(
                           "Login",
                           style: heading6InformationBold,

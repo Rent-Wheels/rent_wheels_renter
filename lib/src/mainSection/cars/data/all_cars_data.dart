@@ -71,7 +71,7 @@ class _AllCarsDataState extends State<AllCarsData> {
 
                                 if (!mounted) return;
                                 Navigator.pop(context);
-                                Navigator.push(
+                                final carId = await Navigator.push(
                                   context,
                                   CupertinoPageRoute(
                                     builder: (context) => CarDetails(
@@ -80,6 +80,14 @@ class _AllCarsDataState extends State<AllCarsData> {
                                     ),
                                   ),
                                 );
+
+                                if (carId != null) {
+                                  setState(() {
+                                    cars.removeWhere(
+                                      (car) => car.carId == carId,
+                                    );
+                                  });
+                                }
                               } catch (e) {
                                 if (!mounted) return;
                                 Navigator.pop(context);
