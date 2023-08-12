@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/base.dart';
 import 'package:rent_wheels_renter/src/loading/loading_screen.dart';
+import 'package:rent_wheels_renter/src/onboarding/presentation/onboarding.dart';
 import 'package:rent_wheels_renter/src/authentication/login/presentation/login.dart';
 import 'package:rent_wheels_renter/src/authentication/verify/presentation/verify_email.dart';
 import 'package:rent_wheels_renter/src/authentication/upgrade/presentation/upgrade_to_renter.dart';
@@ -38,12 +40,20 @@ class ConnectionPage extends StatefulWidget {
 
 class _ConnectionPageState extends State<ConnectionPage> {
   bool isRenter = false;
+  bool firstTime = true;
+  Future<bool> getOnboardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('firstTime')!;
+  }
+
   userStatus() async {
     await AuthService.firebase().initialize();
 
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
+      firstTime = await getOnboardingStatus();
+      await AuthService.firebase().initialize();
       await global.setGlobals(currentUser: user);
 
       final userDetails = await RentWheelsUserMethods()
@@ -66,7 +76,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            if (global.user != null) {
+            if (firstTime) {
+              return const OnboardingScreen();
+            } else if (global.user != null) {
               if (!isRenter) return const UpgradeUser();
               if (global.user!.emailVerified) {
                 return const MainSection();
