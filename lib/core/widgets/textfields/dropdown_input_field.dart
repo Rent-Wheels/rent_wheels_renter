@@ -7,9 +7,9 @@ import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 buildDropDownInputField({
   required BuildContext context,
   dynamic value,
-  required items,
-  required onChanged,
   String? hintText,
+  required void Function(Object?)? onChanged,
+  required List<DropdownMenuItem<Object>>? items,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,

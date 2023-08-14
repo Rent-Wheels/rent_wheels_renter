@@ -6,14 +6,14 @@ import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 buildRateInputField({
   dynamic value,
   String? prefixText,
-  required items,
-  required planChanged,
   required int textFlex,
   required int dropFlex,
   required String hintText,
   required BuildContext context,
   required TextEditingController controller,
   required void Function(String) rateChanged,
+  required void Function(Object?)? planChanged,
+  required List<DropdownMenuItem<Object>>? items,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,

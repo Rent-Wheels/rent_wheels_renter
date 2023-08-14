@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_key_value.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_reservations_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel_items.dart';
@@ -16,6 +15,7 @@ import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
 import 'package:rent_wheels_renter/core/widgets/popups/error_popup.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 import 'package:rent_wheels_renter/core/widgets/textStyles/text_styles.dart';
 import 'package:rent_wheels_renter/core/backend/cars/methods/car_methods.dart';
 import 'package:rent_wheels_renter/core/models/reservation/reservation_model.dart';
@@ -244,7 +244,7 @@ class _CarDetailsState extends State<CarDetails> {
                 Navigator.push(
                   context,
                   CupertinoPageRoute(
-                    builder: (context) => AddCarPageOne(
+                    builder: (context) => AddCar(
                       type: CarReviewType.update,
                       car: car,
                     ),
@@ -264,8 +264,10 @@ class _CarDetailsState extends State<CarDetails> {
                 onAccept: () async {
                   try {
                     buildLoadingIndicator(context, 'Deleting car');
-                    final response = await RentWheelsCarMethods()
-                        .deleteCar(carId: widget.car.carId!);
+                    final response = await RentWheelsCarMethods().deleteCar(
+                      carId: widget.car.carId!,
+                      registrationNumber: widget.car.registrationNumber!,
+                    );
                     if (response == Status.failed) {
                       throw Exception('Deleting car failed');
                     }

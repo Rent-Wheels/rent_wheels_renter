@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/home/presentation/home.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/all_cars.dart';
@@ -143,8 +143,7 @@ class _MainSectionState extends State<MainSection> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      const AddCarPageOne(type: CarReviewType.add),
+                  builder: (context) => const AddCar(type: CarReviewType.add),
                 ),
               ),
               child: Center(

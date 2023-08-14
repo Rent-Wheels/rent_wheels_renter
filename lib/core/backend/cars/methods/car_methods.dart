@@ -168,14 +168,16 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
   }
 
   @override
-  Future deleteCar({required String carId}) async {
+  Future deleteCar(
+      {required String carId, required String registrationNumber}) async {
     final response = await delete(Uri.parse('${global.baseURL}/cars/$carId'),
         headers: global.headers);
 
     if (response.statusCode != 200) return Status.failed;
 
-    await RentWheelsFilesMethods()
-        .deleteDirectory(directoryPath: 'users/${global.user!.uid}/cars');
+    await RentWheelsFilesMethods().deleteDirectory(
+      directoryPath: 'users/${global.user!.uid}/cars/$registrationNumber',
+    );
 
     return Status.success;
   }

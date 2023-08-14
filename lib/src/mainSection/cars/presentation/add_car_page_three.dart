@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/add_car_top_widget.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_four.dart';
 
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
-import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 import 'package:rent_wheels_renter/core/widgets/spacing/spacing.dart';
-import 'package:rent_wheels_renter/core/widgets/search/custom_search_bar.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/tappable_textfield.dart';
 import 'package:rent_wheels_renter/core/widgets/textfields/generic_textfield_widget.dart';
-import 'package:rent_wheels_renter/core/widgets/buttons/adaptive_back_button_widget.dart';
 
 class AddCarPageThree extends StatefulWidget {
-  final Car carDetails;
   final CarReviewType type;
+
+  final TextEditingController terms;
+  final TextEditingController location;
+  final TextEditingController description;
+
+  final void Function() locationOnTap;
+  final void Function(String) tcOnChanged;
+  final void Function(String) descriptionOnChanged;
 
   const AddCarPageThree({
     super.key,
-    required this.carDetails,
     required this.type,
+    required this.terms,
+    required this.location,
+    required this.description,
+    required this.tcOnChanged,
+    required this.locationOnTap,
+    required this.descriptionOnChanged,
   });
 
   @override
@@ -30,49 +36,10 @@ class AddCarPageThree extends StatefulWidget {
 }
 
 class _AddCarPageThreeState extends State<AddCarPageThree> {
-  late bool isTermsValid;
-  late bool isLocationValid;
-  late bool isDescriptionValid;
-
-  TextEditingController terms = TextEditingController();
-  TextEditingController location = TextEditingController();
-  TextEditingController description = TextEditingController();
-
-  Car carDetails = Car();
-
-  bool isActive() {
-    return isTermsValid && isLocationValid && isDescriptionValid;
-  }
-
-  @override
-  void initState() {
-    terms.text = widget.carDetails.terms ?? '';
-    location.text = widget.carDetails.location ?? '';
-    description.text = widget.carDetails.description ?? '';
-
-    isTermsValid = widget.carDetails.terms == null ? false : true;
-    isLocationValid = widget.carDetails.location == null ? false : true;
-    isDescriptionValid = widget.carDetails.description == null ? false : true;
-
-    carDetails = widget.carDetails;
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
-      appBar: AppBar(
-        elevation: 0,
-        foregroundColor: rentWheelsBrandDark900,
-        backgroundColor: rentWheelsNeutralLight0,
-        leading: buildAdaptiveBackButton(
-          onPressed: () {
-            Navigator.pop(context, carDetails);
-          },
-        ),
-      ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
@@ -94,97 +61,32 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                   buildTappableTextField(
                     hint: 'Car Location',
                     context: context,
-                    controller: location,
-                    onTap: () async {
-                      final result = await Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => CustomSearchScaffold(),
-                        ),
-                      );
-
-                      if (result != null) {
-                        setState(() {
-                          location.text = result;
-                          isLocationValid = true;
-                          carDetails.location = result;
-                        });
-                      }
-                    },
+                    controller: widget.location,
+                    onTap: widget.locationOnTap,
                   ),
                   Space().height(context, 0.02),
                   buildGenericTextfield(
                     context: context,
                     hint: 'Car Description',
-                    controller: description,
+                    controller: widget.description,
                     keyboardType: TextInputType.multiline,
                     textInput: TextInputAction.newline,
                     minLines: 4,
                     maxLines: null,
-                    onChanged: (value) {
-                      final noSpaces = value.replaceAll(" ", "");
-                      if (noSpaces.isNotEmpty && noSpaces.length > 10) {
-                        setState(() {
-                          isDescriptionValid = true;
-                          carDetails.description = value;
-                        });
-                      } else {
-                        setState(() {
-                          isDescriptionValid = false;
-                        });
-                      }
-                    },
+                    onChanged: widget.descriptionOnChanged,
                   ),
                   Space().height(context, 0.02),
                   buildGenericTextfield(
                     hint: 'Rental T&C',
                     context: context,
-                    controller: terms,
+                    controller: widget.terms,
                     keyboardType: TextInputType.multiline,
                     textInput: TextInputAction.newline,
                     minLines: 4,
                     maxLines: null,
-                    onChanged: (value) {
-                      final noSpaces = value.replaceAll(" ", "");
-                      if (noSpaces.isNotEmpty && noSpaces.length > 10) {
-                        setState(() {
-                          isTermsValid = true;
-                          carDetails.terms = value;
-                        });
-                      } else {
-                        setState(() {
-                          isTermsValid = false;
-                        });
-                      }
-                    },
+                    onChanged: widget.tcOnChanged,
                   ),
                 ],
-              ),
-              Space().height(context, 0.05),
-              buildGenericButtonWidget(
-                context: context,
-                width: Sizes().width(context, 0.8),
-                isActive: isActive(),
-                buttonName: "Continue",
-                onPressed: () async {
-                  final car = await Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => AddCarPageFour(
-                        type: widget.type,
-                        carDetails: carDetails,
-                      ),
-                    ),
-                  );
-                  if (car != null) {
-                    carDetails = car;
-                    setState(() {
-                      terms.text = carDetails.terms!;
-                      location.text = carDetails.location!;
-                      description.text = carDetails.description!;
-                    });
-                  }
-                },
               )
             ],
           ),

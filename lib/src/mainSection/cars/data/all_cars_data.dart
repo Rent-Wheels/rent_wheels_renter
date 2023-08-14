@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/widgets/buttons/generic_button_widget.dart';
 import 'package:rent_wheels_renter/core/widgets/error/error_message_widget.dart';
-import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
+import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/car_details.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/all_cars_sections_widget.dart';
@@ -48,7 +48,7 @@ class _AllCarsDataState extends State<AllCarsData> {
                         context,
                         CupertinoPageRoute(
                           builder: (context) =>
-                              const AddCarPageOne(type: CarReviewType.add),
+                              const AddCar(type: CarReviewType.add),
                         ),
                       ),
                     ),
