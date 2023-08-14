@@ -31,7 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         heading: "Unlock Your Car's Potential",
         imagePath: 'assets/images/onboarding_1.JPG',
         description:
-            "Turn your car into extra cash! Join CarShare and start renting out your vehicle with ease.",
+            "Turn your car into extra cash! Join Rent Wheels and start renting out your vehicle with ease.",
       ),
       buildOnboadingSlide(
         context: context,
