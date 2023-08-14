@@ -172,8 +172,11 @@ class RentWheelsCarMethods implements RentWheelsCarEndpoints {
     final response = await delete(Uri.parse('${global.baseURL}/cars/$carId'),
         headers: global.headers);
 
-    if (response.statusCode == 200) return Status.success;
+    if (response.statusCode != 200) return Status.failed;
 
-    return Status.failed;
+    await RentWheelsFilesMethods()
+        .deleteDirectory(directoryPath: 'users/${global.user!.uid}/cars');
+
+    return Status.success;
   }
 }

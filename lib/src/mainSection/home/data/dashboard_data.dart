@@ -101,14 +101,17 @@ class _DashboardDataState extends State<DashboardData> {
               num allIncome = paidReservations
                   .map((reservation) => reservation.price!)
                   .reduce((value, element) => value + element);
-              num pastWeekIncome = pastWeekReservation
+              List<num> pastWeekIncome = pastWeekReservation
                   .map((reservation) => reservation.price!)
-                  .reduce((value, element) => value + element);
+                  .toList();
+
+              num income = pastWeekIncome.isEmpty
+                  ? 0
+                  : pastWeekIncome.reduce((value, element) => value + element);
 
               return [
                 DashboardDataPoints(value: allIncome, label: 'Total Income'),
-                DashboardDataPoints(
-                    value: pastWeekIncome, label: 'Past Week Income'),
+                DashboardDataPoints(value: income, label: 'Past Week Income'),
               ];
             }
 
@@ -202,11 +205,12 @@ class _DashboardDataState extends State<DashboardData> {
             }
 
             List<Widget> topStatistics = [
-              buildPieChart(
-                data: getPastWeekReservationStatistics(),
-                title: 'Weekly Reservation Statistic',
-                context: context,
-              ),
+              if (getPastWeekReservationStatistics().isNotEmpty)
+                buildPieChart(
+                  data: getPastWeekReservationStatistics(),
+                  title: 'Weekly Reservation Statistic',
+                  context: context,
+                ),
               buildTopStatistics(
                 context: context,
                 label: 'Most Profitable Car',

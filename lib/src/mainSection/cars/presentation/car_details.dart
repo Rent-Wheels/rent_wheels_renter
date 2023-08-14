@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:rent_wheels_renter/core/widgets/popups/success_popup.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/cars/widgets/car_details_carousel.dart';
 import 'package:rent_wheels_renter/src/mainSection/cars/presentation/add_car_page_one.dart';
@@ -272,6 +273,7 @@ class _CarDetailsState extends State<CarDetails> {
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context, widget.car.carId);
+                    showSuccessPopUp('Car Deleted!', context);
                   } catch (e) {
                     if (!mounted) return;
                     Navigator.pop(context);
