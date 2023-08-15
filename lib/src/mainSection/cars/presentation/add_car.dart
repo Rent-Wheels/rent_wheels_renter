@@ -459,6 +459,9 @@ class _AddCarState extends State<AddCar> {
     if (widget.car != null) {
       setCarDetails();
     }
+    carDetails.plan = "/hr";
+    carDetails.duration = "days";
+
     super.initState();
   }
 

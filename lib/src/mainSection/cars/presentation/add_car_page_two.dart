@@ -59,6 +59,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
     return Scaffold(
       backgroundColor: rentWheelsNeutralLight0,
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
           padding: EdgeInsets.all(Sizes().height(context, 0.02)),
           child: Column(
@@ -204,6 +205,7 @@ class _AddCarPageTwoState extends State<AddCarPageTwo> {
                   ),
                 ],
               ),
+              Space().height(context, 0.5),
             ],
           ),
         ),

@@ -111,8 +111,8 @@ class _AccountProfileState extends State<AccountProfile> {
             context: context,
             builder: (_) {
               return Container(
-                height: Sizes().height(context, 0.33),
-                color: const Color.fromARGB(255, 255, 255, 255),
+                height: Sizes().height(context, 0.4),
+                color: rentWheelsNeutralLight0,
                 child: Column(
                   children: [
                     LayoutBuilder(

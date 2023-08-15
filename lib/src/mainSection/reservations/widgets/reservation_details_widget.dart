@@ -18,7 +18,7 @@ buildReservationDetails({
   required Car car,
   required String pageTitle,
   required Duration duration,
-  required BackendUser customer,
+  required BackendUser? customer,
   required BuildContext context,
   required Reservation reservation,
 }) {
@@ -103,25 +103,25 @@ buildReservationDetails({
             Space().height(context, 0.02),
             buildDetailsKeyValue(
               label: 'Full Name',
-              value: customer.name!,
+              value: customer?.name ?? '',
               context: context,
             ),
             Space().height(context, 0.01),
             buildDetailsKeyValue(
               label: 'Address Line',
-              value: customer.placeOfResidence!,
+              value: customer?.placeOfResidence ?? '',
               context: context,
             ),
             Space().height(context, 0.01),
             buildDetailsKeyValue(
               label: 'Phone Number',
-              value: customer.phoneNumber!,
+              value: customer?.phoneNumber ?? '',
               context: context,
             ),
             Space().height(context, 0.01),
             buildDetailsKeyValue(
               label: 'Email Address',
-              value: customer.email!,
+              value: customer?.email ?? '',
               context: context,
             ),
           ],

@@ -87,7 +87,8 @@ class _AddCarPageThreeState extends State<AddCarPageThree> {
                     onChanged: widget.tcOnChanged,
                   ),
                 ],
-              )
+              ),
+              Space().height(context, 0.5),
             ],
           ),
         ),

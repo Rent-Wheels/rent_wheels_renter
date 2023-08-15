@@ -17,7 +17,7 @@ import 'package:rent_wheels_renter/core/backend/reservations/methods/reservation
 
 class ReservationDetails extends StatefulWidget {
   final Car car;
-  final BackendUser customer;
+  final BackendUser? customer;
   final Reservation reservation;
 
   const ReservationDetails({
@@ -35,7 +35,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   @override
   Widget build(BuildContext context) {
     Car car = widget.car;
-    BackendUser customer = widget.customer;
+    BackendUser? customer = widget.customer;
     Reservation reservation = widget.reservation;
 
     Duration getDuration() {

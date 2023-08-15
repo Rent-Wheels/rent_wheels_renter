@@ -31,9 +31,11 @@ class Reservation {
   factory Reservation.fromJSON(Map<String, dynamic> json) {
     return Reservation(
       id: json['_id'],
-      customer: json['customer']['id'] is String
-          ? json['customer']['id']
-          : BackendUser.fromJSON(json['customer']['id']),
+      customer: json['customer']['id'] != null
+          ? json['customer']['id'] is String
+              ? json['customer']['id']
+              : BackendUser.fromJSON(json['customer']['id'])
+          : null,
       renter: json['renter'] is String ? json['renter'] : null,
       car: json['car'] is String ? null : Car.fromJSON(json['car']),
       destination: json['destination'],

@@ -106,6 +106,7 @@ class _AddCarPageOneState extends State<AddCarPageOne> {
                   ),
                 ],
               ),
+              Space().height(context, 0.5),
             ],
           ),
         ),

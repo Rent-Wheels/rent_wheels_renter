@@ -206,7 +206,7 @@ class _ReservationsDataState extends State<ReservationsData> {
                                             builder: (context) =>
                                                 ReservationDetails(
                                               car: reservation.car!,
-                                              customer: reservation.customer!,
+                                              customer: reservation.customer,
                                               reservation: reservation,
                                             ),
                                           ),
