@@ -159,7 +159,7 @@ class _AccountProfileState extends State<AccountProfile> {
             initialDate: DateTime(2005),
             firstDate: DateTime(1950),
             lastDate: DateTime(2006),
-            initialEntryMode: DatePickerEntryMode.inputOnly,
+            initialEntryMode: DatePickerEntryMode.input,
             builder: (context, child) {
               return Theme(
                 data: Theme.of(context).copyWith(
