@@ -53,7 +53,6 @@ class _ConnectionPageState extends State<ConnectionPage> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      await AuthService.firebase().initialize();
       await global.setGlobals(currentUser: user);
 
       final userDetails = await RentWheelsUserMethods()
