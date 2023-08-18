@@ -27,6 +27,33 @@ class ReservationsData extends StatefulWidget {
 
 class _ReservationsDataState extends State<ReservationsData> {
   int currentIndex = 0;
+
+  modifyReservation(
+      {required String reservationId,
+      required String reservationStatus}) async {
+    String loadingMessage = reservationStatus == 'Accepted'
+        ? 'Accepting Reservation'
+        : 'Declining Reservation';
+    try {
+      buildLoadingIndicator(context, loadingMessage);
+      await RentWheelsReservationsMethods().updateReservationStatus(
+        reservationId: reservationId,
+        status: reservationStatus,
+      );
+
+      if (!mounted) return;
+      Navigator.pop(context);
+      showSuccessPopUp(
+        'Reservation $reservationStatus!',
+        context,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      showErrorPopUp(e.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -107,76 +134,34 @@ class _ReservationsDataState extends State<ReservationsData> {
                                       context: context,
                                       car: reservation.car!,
                                       reservation: reservation,
-                                      onAccept: () async {
-                                        try {
-                                          buildLoadingIndicator(context, '');
-                                          await RentWheelsReservationsMethods()
-                                              .updateReservationStatus(
-                                            reservationId: reservation.id!,
-                                            status: 'Accepted',
-                                          );
-
-                                          if (!mounted) return;
-                                          Navigator.pop(context);
-                                          showSuccessPopUp(
-                                            'Reservation Accepted!',
-                                            context,
-                                          );
-                                        } catch (e) {
-                                          if (!mounted) return;
-                                          Navigator.pop(context);
-                                          showErrorPopUp(e.toString(), context);
-                                        }
-                                      },
+                                      onAccept: () async =>
+                                          await modifyReservation(
+                                        reservationId: reservation.id!,
+                                        reservationStatus: 'Accepted',
+                                      ),
                                       onDecline: () => buildConfirmationDialog(
                                         context: context,
                                         label: 'Decline Reservation',
                                         buttonName: 'Decline Reservation',
                                         message:
                                             'Are you sure you want to decline this reservation?',
-                                        onAccept: () async {
-                                          try {
-                                            Navigator.pop(context);
-                                            buildLoadingIndicator(context, '');
-                                            await RentWheelsReservationsMethods()
-                                                .updateReservationStatus(
-                                              reservationId: reservation.id!,
-                                              status: 'Declined',
-                                            );
-
-                                            if (!mounted) return;
-                                            Navigator.pop(context);
-                                            showSuccessPopUp(
-                                              'Reservation Declined!',
-                                              context,
-                                            );
-                                          } catch (e) {
-                                            if (!mounted) return;
-                                            Navigator.pop(context);
-                                            showErrorPopUp(
-                                                e.toString(), context);
-                                          }
-                                        },
+                                        onAccept: () async =>
+                                            await modifyReservation(
+                                          reservationId: reservation.id!,
+                                          reservationStatus: 'Declined',
+                                        ),
                                       ),
-                                      onPressed: () async {
-                                        final status = await Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                            builder: (context) =>
-                                                ReservationDetails(
-                                              car: reservation.car!,
-                                              customer: reservation.customer,
-                                              reservation: reservation,
-                                            ),
+                                      onPressed: () => Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              ReservationDetails(
+                                            car: reservation.car!,
+                                            customer: reservation.customer,
+                                            reservation: reservation,
                                           ),
-                                        );
-
-                                        if (status != null) {
-                                          setState(() {
-                                            reservation.status = status;
-                                          });
-                                        }
-                                      },
+                                        ),
+                                      ),
                                     ),
                                   ))
                               .toList(),
