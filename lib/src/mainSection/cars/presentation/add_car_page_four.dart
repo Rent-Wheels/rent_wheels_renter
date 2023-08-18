@@ -178,16 +178,6 @@ class _AddCarPageFourState extends State<AddCarPageFour> {
                   Space().height(context, 0.1),
                 ],
               ),
-              // buildGenericButtonWidget(
-              //   context: context,
-              //   width: double.infinity,
-              //   isActive: isActive(),
-              //   buttonName:
-              //       widget.type == CarReviewType.add ? 'Add Car' : 'Update Car',
-              //   onPressed:
-              //       widget.type == CarReviewType.add ? addCar : updateCar,
-              // ),
-              // Space().height(context, 0.05),
             ],
           ),
         ),
