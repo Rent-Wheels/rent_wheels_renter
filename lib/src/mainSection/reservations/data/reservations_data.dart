@@ -68,7 +68,9 @@ class _ReservationsDataState extends State<ReservationsData> {
           }
 
           Map<String, List<Reservation>> getReservations() {
-            Map<String, List<Reservation>> reservationCategories = {};
+            Map<String, List<Reservation>> reservationCategories = {
+              'All': reservations
+            };
 
             for (var reservation in reservations) {
               String status = reservation.status!;
