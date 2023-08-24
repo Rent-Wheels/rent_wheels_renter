@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rent_wheels_renter/core/auth/auth_exceptions.dart';
+import 'package:rent_wheels_renter/core/widgets/toast/toast_notification_widget.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/profile/widgets/profile_options_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/profile/presentation/sections/accountProfile/presentation/account_profile.dart';
@@ -116,7 +117,7 @@ class _ProfileState extends State<Profile> {
                   context: context,
                   section: 'Notifications',
                   svg: 'assets/svgs/notifications.svg',
-                  onTap: () {},
+                  onTap: buildToastNotification,
                 ),
                 const Divider(),
                 buildProfileOptions(
