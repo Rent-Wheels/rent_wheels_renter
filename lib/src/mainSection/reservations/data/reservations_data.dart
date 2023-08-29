@@ -43,6 +43,7 @@ class _ReservationsDataState extends State<ReservationsData> {
 
       if (!mounted) return;
       Navigator.pop(context);
+      if (reservationStatus == 'Declined') Navigator.pop(context);
       showSuccessPopUp(
         'Reservation $reservationStatus!',
         context,
