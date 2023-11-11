@@ -31,4 +31,15 @@ class UserInfoModel extends UserInfo {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'userId': userId,
+        'name': name,
+        'email': email,
+        'dob': dob,
+        'phoneNumber': phoneNumber,
+        'profilePicture': profilePicture,
+        'placeOfResidence': placeOfResidence,
+      };
 }
