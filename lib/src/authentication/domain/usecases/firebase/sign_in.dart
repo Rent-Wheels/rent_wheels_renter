@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rent_wheels_renter/core/usecase/usecase.dart';
-import 'package:rent_wheels_renter/src/authentication/firebase/domain/repository/firebase_auth_repository.dart';
+import 'package:rent_wheels_renter/src/authentication/domain/repository/firebase/firebase_auth_repository.dart';
 
-class CreateUserWithEmailAndPassword
+class SignInWithEmailAndPassword
     extends UseCase<UserCredential, Map<String, dynamic>> {
   final FirebaseAuthenticationRepository repository;
 
-  CreateUserWithEmailAndPassword({required this.repository});
+  SignInWithEmailAndPassword({required this.repository});
   @override
   Future<Either<String, UserCredential>> call(
       Map<String, dynamic> params) async {
-    return await repository.createUserWithEmailAndPassword(params);
+    return await repository.signInWithEmailAndPassword(params);
   }
 }

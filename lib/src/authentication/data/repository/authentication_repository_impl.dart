@@ -1,18 +1,62 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rent_wheels_renter/core/network/network_info.dart';
-import 'package:rent_wheels_renter/src/authentication/firebase/data/datasources/remoteds.dart';
-import 'package:rent_wheels_renter/src/authentication/firebase/domain/repository/firebase_auth_repository.dart';
+import 'package:rent_wheels_renter/src/authentication/data/datasources/localds.dart';
+import 'package:rent_wheels_renter/src/authentication/data/datasources/remoteds.dart';
+import 'package:rent_wheels_renter/src/authentication/domain/repository/backend/backend_authentication_repo.dart';
+import 'package:rent_wheels_renter/src/authentication/domain/repository/firebase/firebase_auth_repository.dart';
+import 'package:rent_wheels_renter/src/user/domain/entity/user_info.dart';
 
-class FirebaseAuthenticationRepositoryImpl
-    implements FirebaseAuthenticationRepository {
+class AuthenticationRepository
+    implements
+        FirebaseAuthenticationRepository,
+        BackendAuthenticationRepository {
   final NetworkInfo networkInfo;
-  final FirebaseAuthenticationRemoteDatasource remoteDatasource;
+  final AuthenticationRemoteDatasource remoteDatasource;
+  final AuthenticationLocalDatasource localDatasource;
 
-  FirebaseAuthenticationRepositoryImpl({
+  AuthenticationRepository({
     required this.networkInfo,
     required this.remoteDatasource,
+    required this.localDatasource,
   });
+
+  // create user
+  @override
+  Future<Either<String, BackendUserInfo>> createOrUpdateUser(
+      Map<String, dynamic> params) async {
+    if (!(await networkInfo.isConnected)) {
+      return Left(networkInfo.noNetworkMessage);
+    }
+    try {
+      final response = await remoteDatasource.createOrUpdateUser(params);
+
+      await localDatasource.cacheUserInfo(response);
+
+      return Right(response);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  // delete user
+  @override
+  Future<Either<String, void>> deleteUserFromBackend(
+      Map<String, dynamic> params) async {
+    if (!(await networkInfo.isConnected)) {
+      return Left(networkInfo.noNetworkMessage);
+    }
+    try {
+      final response = await remoteDatasource.deleteUserFromBackend(params);
+
+      await localDatasource.deleteCachedUserInfo();
+
+      return Right(response);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
   // logout
   @override
   Future<Either<String, UserCredential>> createUserWithEmailAndPassword(
@@ -33,29 +77,15 @@ class FirebaseAuthenticationRepositoryImpl
   // initialize firebase
 
   @override
-  Future<Either<String, void>> deleteUser(Map<String, dynamic> params) async {
+  Future<Either<String, void>> deleteUserFromFirebase(
+      Map<String, dynamic> params) async {
     if (!(await networkInfo.isConnected)) {
       return Left(networkInfo.noNetworkMessage);
     }
 
     try {
-      final response = await remoteDatasource.deleteUser(user: params['user']);
-
-      return Right(response);
-    } catch (e) {
-      return Left(e.toString());
-    }
-  }
-
-  /// create user with email and password
-  @override
-  Future<Either<String, void>> initialize() async {
-    if (!(await networkInfo.isConnected)) {
-      return Left(networkInfo.noNetworkMessage);
-    }
-
-    try {
-      final response = await remoteDatasource.initialize();
+      final response =
+          await remoteDatasource.deleteUserFromFirebase(user: params['user']);
 
       return Right(response);
     } catch (e) {

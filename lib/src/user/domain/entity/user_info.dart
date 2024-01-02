@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:rent_wheels_renter/core/models/car/car_model.dart';
 
-class UserInfo extends Equatable {
+class BackendUserInfo extends Equatable {
   final String? id,
       userId,
       name,
@@ -13,7 +13,7 @@ class UserInfo extends Equatable {
   final num? role;
   final List<Car>? cars;
 
-  const UserInfo({
+  const BackendUserInfo({
     this.cars,
     this.id,
     this.userId,

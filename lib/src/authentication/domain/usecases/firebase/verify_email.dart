@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:rent_wheels_renter/core/usecase/usecase.dart';
-import 'package:rent_wheels_renter/src/authentication/firebase/domain/repository/firebase_auth_repository.dart';
+import 'package:rent_wheels_renter/src/authentication/domain/repository/firebase/firebase_auth_repository.dart';
 
 class VerifyEmail extends UseCase<void, Map<String, dynamic>> {
   final FirebaseAuthenticationRepository repository;

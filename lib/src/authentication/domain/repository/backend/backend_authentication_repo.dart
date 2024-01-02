@@ -11,11 +11,12 @@ abstract class BackendAuthenticationRepository {
   /// 6. dob
   /// 7. residence
 
-  Future<Either<String, UserInfo>> createOrUpdateUser(
+  Future<Either<String, BackendUserInfo>> createOrUpdateUser(
       Map<String, dynamic> params);
 
   /// delete user params
   /// 1. userId
 
-  Future<Either<String, void>> deleteUser(Map<String, dynamic> params);
+  Future<Either<String, void>> deleteUserFromBackend(
+      Map<String, dynamic> params);
 }

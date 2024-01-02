@@ -1,8 +1,8 @@
 import 'package:rent_wheels_renter/src/cars/data/model/car_info_model.dart';
 import 'package:rent_wheels_renter/src/user/domain/entity/user_info.dart';
 
-class UserInfoModel extends UserInfo {
-  const UserInfoModel({
+class BackendUserInfoModel extends BackendUserInfo {
+  const BackendUserInfoModel({
     required super.id,
     required super.userId,
     required super.name,
@@ -15,8 +15,8 @@ class UserInfoModel extends UserInfo {
     required super.cars,
   });
 
-  factory UserInfoModel.fromJSON(Map<String, dynamic> json) {
-    return UserInfoModel(
+  factory BackendUserInfoModel.fromJSON(Map<String, dynamic> json) {
+    return BackendUserInfoModel(
       id: json['_id'],
       userId: json['userId'],
       name: json['name'],
