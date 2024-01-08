@@ -63,6 +63,28 @@ class CarInfo extends Equatable {
         duration,
         media,
       ];
+
+  Map<String, dynamic> toJson() => {
+        'carId': carId,
+        'owner': owner,
+        'make': make,
+        'model': model,
+        'capacity': capacity,
+        'color': color,
+        'yearOfManufacture': yearOfManufacture,
+        'registrationNumber': registrationNumber,
+        'condition': condition,
+        'rate': rate,
+        'plan': plan,
+        'type': type,
+        'availability': availability,
+        'location': location,
+        'maxDuration': maxDuration,
+        'description': description,
+        'terms': terms,
+        'duration': duration,
+        'media': media?.map<Map<String, dynamic>>((e) => e.toJson()).toList(),
+      };
 }
 
 class Media extends Equatable {
@@ -72,4 +94,8 @@ class Media extends Equatable {
 
   @override
   List<Object?> get props => [mediaURL];
+
+  Map<String, dynamic> toJson() => {
+        'mediaURL': mediaURL,
+      };
 }
