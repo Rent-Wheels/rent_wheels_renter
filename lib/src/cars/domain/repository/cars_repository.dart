@@ -18,8 +18,5 @@ abstract class CarsRepository {
   Future<Either<String, CarInfo>> changeCarAvailability(
       Map<String, dynamic> params);
 
-  // Future<Either<String, List<Reservation>>> getCarRentalHistory(
-  //     Map<String, dynamic> params);
-
   Future<Either<String, Status>> deleteCar(Map<String, dynamic> params);
 }

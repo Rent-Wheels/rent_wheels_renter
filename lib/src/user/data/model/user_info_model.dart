@@ -15,31 +15,20 @@ class BackendUserInfoModel extends BackendUserInfo {
     required super.cars,
   });
 
-  factory BackendUserInfoModel.fromJSON(Map<String, dynamic> json) {
+  factory BackendUserInfoModel.fromJSON(Map<String, dynamic>? json) {
     return BackendUserInfoModel(
-      id: json['_id'],
-      userId: json['userId'],
-      name: json['name'],
-      email: json['email'],
-      dob: json['dob'],
-      phoneNumber: json['phoneNumber'],
-      role: json['role'],
-      profilePicture: json['profilePicture'],
-      placeOfResidence: json['placeOfResidence'],
-      cars: json['cars']
+      id: json?['id'],
+      userId: json?['userId'],
+      name: json?['name'],
+      email: json?['email'],
+      dob: json?['dob'],
+      phoneNumber: json?['phoneNumber'],
+      role: json?['role'],
+      profilePicture: json?['profilePicture'],
+      placeOfResidence: json?['placeOfResidence'],
+      cars: json?['cars']
           .map<CarInfoModel>((car) => CarInfoModel.fromJSON(car))
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        '_id': id,
-        'userId': userId,
-        'name': name,
-        'email': email,
-        'dob': dob,
-        'phoneNumber': phoneNumber,
-        'profilePicture': profilePicture,
-        'placeOfResidence': placeOfResidence,
-      };
 }

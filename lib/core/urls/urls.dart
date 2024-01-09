@@ -8,12 +8,13 @@ class Urls {
   returnUri({
     required Endpoints endpoint,
     Map<String, dynamic>? urlParameters,
+    Map<String, dynamic>? queryParameters,
   }) {
     String lastRoute = endpoint.value;
 
     String parsedRoute = _urlParser.urlPasser(urlParameters, lastRoute);
 
-    return Uri.https(_baseURL, parsedRoute);
+    return Uri.https(_baseURL, parsedRoute, queryParameters);
   }
 }
 

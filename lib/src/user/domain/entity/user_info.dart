@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:rent_wheels_renter/core/models/car/car_model.dart';
+import 'package:rent_wheels_renter/src/cars/domain/entity/car_info.dart';
 
 class BackendUserInfo extends Equatable {
   final String? id,
@@ -11,7 +11,7 @@ class BackendUserInfo extends Equatable {
       profilePicture,
       placeOfResidence;
   final num? role;
-  final List<Car>? cars;
+  final List<CarInfo>? cars;
 
   const BackendUserInfo({
     this.cars,
@@ -39,4 +39,17 @@ class BackendUserInfo extends Equatable {
         placeOfResidence,
         cars
       ];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'userId': userId,
+        'name': name,
+        'email': email,
+        'dob': dob,
+        'phoneNumber': phoneNumber,
+        'profilePicture': profilePicture,
+        'placeOfResidence': placeOfResidence,
+        'role': role,
+        'cars': cars?.map((e) => e.toJson()).toList()
+      };
 }
