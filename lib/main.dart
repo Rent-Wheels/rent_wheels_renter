@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rent_wheels_renter/firebase_options.dart';
+import 'package:rent_wheels_renter/injection.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:rent_wheels_renter/src/mainSection/base.dart';
@@ -14,22 +17,20 @@ import 'package:rent_wheels_renter/core/models/enums/enums.dart';
 import 'package:rent_wheels_renter/core/global/globals.dart' as global;
 import 'package:rent_wheels_renter/core/backend/users/methods/user_methods.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
-}
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
+  di.init();
+  runApp(
+    const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rent Wheels Renter',
       home: ConnectionPage(),
-    );
-  }
+    ),
+  );
 }
 
 class ConnectionPage extends StatefulWidget {
