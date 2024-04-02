@@ -1,6 +1,7 @@
 # Rent Wheels Renter
 
 This is the rent wheels renter application. This app allows a user to upload their car and rent it out to other users to earn money.
+**Currently under refactoring to use clean architecture and Bloc/Provider as state management**
 
 ## Images
 
