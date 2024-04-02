@@ -1,8 +1,8 @@
 import 'package:rent_wheels_renter/src/cars/data/model/car_info_model.dart';
 import 'package:rent_wheels_renter/src/user/domain/entity/user_info.dart';
 
-class UserInfoModel extends UserInfo {
-  const UserInfoModel({
+class BackendUserInfoModel extends BackendUserInfo {
+  const BackendUserInfoModel({
     required super.id,
     required super.userId,
     required super.name,
@@ -15,31 +15,20 @@ class UserInfoModel extends UserInfo {
     required super.cars,
   });
 
-  factory UserInfoModel.fromJSON(Map<String, dynamic> json) {
-    return UserInfoModel(
-      id: json['_id'],
-      userId: json['userId'],
-      name: json['name'],
-      email: json['email'],
-      dob: json['dob'],
-      phoneNumber: json['phoneNumber'],
-      role: json['role'],
-      profilePicture: json['profilePicture'],
-      placeOfResidence: json['placeOfResidence'],
-      cars: json['cars']
+  factory BackendUserInfoModel.fromJSON(Map<String, dynamic>? json) {
+    return BackendUserInfoModel(
+      id: json?['id'],
+      userId: json?['userId'],
+      name: json?['name'],
+      email: json?['email'],
+      dob: json?['dob'],
+      phoneNumber: json?['phoneNumber'],
+      role: json?['role'],
+      profilePicture: json?['profilePicture'],
+      placeOfResidence: json?['placeOfResidence'],
+      cars: json?['cars']
           .map<CarInfoModel>((car) => CarInfoModel.fromJSON(car))
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        '_id': id,
-        'userId': userId,
-        'name': name,
-        'email': email,
-        'dob': dob,
-        'phoneNumber': phoneNumber,
-        'profilePicture': profilePicture,
-        'placeOfResidence': placeOfResidence,
-      };
 }
