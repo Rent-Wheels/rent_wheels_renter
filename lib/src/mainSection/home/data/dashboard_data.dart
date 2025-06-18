@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/pie_chart_widget.dart';
 import 'package:rent_wheels_renter/src/mainSection/home/widgets/top_statistics_widget.dart';
@@ -248,7 +248,7 @@ class _DashboardDataState extends State<DashboardData> {
                   context: context,
                   isLoading: false,
                   items: topStatistics,
-                  controller: statistic,
+                  //controller: statistic,
                   index: _topStatisticIndex,
                   onPageChanged: (index, _) {
                     setState(() {
@@ -317,7 +317,7 @@ class _DashboardDataState extends State<DashboardData> {
                   isLoading: true,
                   context: context,
                   items: null,
-                  controller: statistic,
+                  //controller: statistic,
                   index: _topStatisticIndex,
                   onPageChanged: (index, _) {
                     setState(() {
