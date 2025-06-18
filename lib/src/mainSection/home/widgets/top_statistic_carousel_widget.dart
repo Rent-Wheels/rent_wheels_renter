@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:flutter/material.dart';
 import 'package:rent_wheels_renter/core/widgets/sizes/sizes.dart';
 import 'package:rent_wheels_renter/core/widgets/theme/colors.dart';
 
@@ -9,7 +8,7 @@ Widget buildTopStatisticCarousel({
   required bool isLoading,
   required List<Widget>? items,
   required BuildContext context,
-  required CarouselController controller,
+  //required CarouselController controller,
   required Function(int, CarouselPageChangedReason) onPageChanged,
 }) {
   return isLoading
@@ -22,7 +21,6 @@ Widget buildTopStatisticCarousel({
           children: [
             CarouselSlider(
               items: items,
-              carouselController: controller,
               options: CarouselOptions(
                 autoPlay: true,
                 height: Sizes().height(context, 0.35),

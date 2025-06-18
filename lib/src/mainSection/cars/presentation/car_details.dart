@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -47,7 +46,7 @@ class _CarDetailsState extends State<CarDetails> {
   bool changeColor = false;
 
   final ScrollController scroll = ScrollController();
-  final CarouselController _carImage = CarouselController();
+ // final CarouselController _carImage = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +112,7 @@ class _CarDetailsState extends State<CarDetails> {
                         index: _carImageIndex,
                         items: carouselItems,
                         context: context,
-                        controller: _carImage,
+                       // controller: _carImage,
                         onPageChanged: (index, _) {
                           setState(() {
                             _carImageIndex = index;
